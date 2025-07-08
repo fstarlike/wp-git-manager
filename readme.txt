@@ -3,7 +3,7 @@ Contributors: farzad-hoseinzadeh
 Tags: git, repository, admin, version control, developer
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -37,6 +37,13 @@ All inputs are sanitized and only allowed users can run commands. However، enab
 3. Commit log with avatars
 
 == Changelog ==
+= 1.1.0 =
+- Real-time git change detection with beep and alert when new commits are detected (AJAX polling).
+- Plugin logo (logo.svg) for admin menu and header.
+- Custom modal and UI components with modern CSS (no Bootstrap dependency).
+- Professional loading overlay and improved button/overlay logic.
+- Status auto-display on page load.
+- All user-facing messages are now translatable and in English.
 
 == Upgrade Notice ==
 = 1.1.0 =

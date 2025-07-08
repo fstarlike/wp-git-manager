@@ -52,7 +52,29 @@ class Git_Manager_Ajax {
 		wp_send_json_success( nl2br( esc_html( $output ) ) );
 	}
 
-		/**
+	/**
+	 * AJAX: Check for git changes (using git whatchanged or git log)
+	 */
+	public function check_git_changes() {
+		check_ajax_referer( 'git_manager_action', '_git_manager_nonce' );
+		$path = $this->get_repo_path();
+		if ( ! is_dir( $path ) ) {
+			wp_send_json_error( __( 'Invalid repository path.', 'git-manager' ) );
+		}
+		// Use git log --pretty=format:"%H|%ad" -n 1 for last commit hash and date
+		$output = $this->run_git_command('log --pretty=format:"%H|%ad" -n 1', $path);
+		$output = trim($output);
+		if (!$output) {
+			wp_send_json_error('No commit found.');
+		}
+		list($hash, $date) = explode('|', $output, 2);
+		wp_send_json_success([
+			'hash' => trim($hash),
+			'date' => trim($date),
+		]);
+	}
+
+	/**
 	 * AJAX: Troubleshooting - run all checks/fixes and log
 	 */
 	public function troubleshoot() {
@@ -241,17 +263,23 @@ class Git_Manager_Ajax {
 		$this->run_git_command('fetch', $path);
 		$branch = trim($this->run_git_command('rev-parse --abbrev-ref HEAD', $path));
 		$local_hash = trim($this->run_git_command('rev-parse ' . escapeshellarg($branch), $path));
-		// Try to get remote tracking branch (e.g. origin/main)
 		$remote_branch = trim($this->run_git_command('rev-parse --abbrev-ref --symbolic-full-name @{u}', $path));
 		$remote_hash = '';
 		if ($remote_branch && strpos($remote_branch, '/') !== false) {
 			$remote_hash = trim($this->run_git_command('rev-parse ' . escapeshellarg($remote_branch), $path));
 		}
+
+		$subject = '';
+		$author = '';
+		$debug = [];
 		wp_send_json_success([
 			'branch' => $branch,
 			'hash' => $local_hash,
 			'remote_branch' => $remote_branch,
-			'remote_hash' => $remote_hash
+			'remote_hash' => $remote_hash,
+			'subject' => $subject,
+			'author' => $author,
+			'debug' => $debug,
 		]);
 	}
 
@@ -419,7 +447,7 @@ class Git_Manager_Ajax {
 
 	private function get_repo_path() {
 		$path = get_option( 'git_manager_repo_path', '' );
-		return trailingslashit( $path );
+		return $path;
 	}
 
 	public function save_path() {
@@ -428,7 +456,7 @@ class Git_Manager_Ajax {
 		// Remove trailing slashes (both / and \\)
 		$path = rtrim($path, "\\/");
 		if ( ! empty( $path ) && is_dir( $path ) ) {
-			update_option( 'git_manager_repo_path', $path );
+			update_option( 'git_manager_repo_path', realpath( $path ) ?: $path );
 			wp_send_json_success( __( 'Path saved.', 'git-manager' ) );
 		} else {
 			wp_send_json_error( __( 'Invalid path.', 'git-manager' ) );

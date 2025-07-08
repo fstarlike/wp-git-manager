@@ -2,7 +2,7 @@
 A free and user-friendly WordPress plugin to manage your Git repositories directly from the WordPress admin panel.
 
 ## Version
-**v1.0.0 (Stable)**
+**v1.1.0 (Stable)**
 
 ## Features
 - View and switch branches (with dropdown, sorted by last commit)

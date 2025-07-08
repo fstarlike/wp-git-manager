@@ -1,4 +1,132 @@
 jQuery(document).ready(function ($) {
+    // --- Git Change Watcher (beep and alert on new commit) ---
+    let lastGitChangeHash = null;
+    function checkGitChanges() {
+        $.post(
+            ajaxurl,
+            {
+                action: "git_manager_check_git_changes",
+                _git_manager_nonce: $("#git_manager_nonce").val(),
+            },
+            function (response) {
+                if (response.success && response.data && response.data.hash) {
+                    if (
+                        lastGitChangeHash &&
+                        lastGitChangeHash !== response.data.hash
+                    ) {
+                        if ($("#git-change-alert").length === 0) {
+                            $("#git-manager-output").prepend(
+                                '<div id="git-change-alert" style="background:#ffeaea;color:#b00;padding:10px 15px;margin-bottom:10px;border:1px solid #b00;font-weight:bold;">' +
+                                    __(
+                                        "New change detected in the repository!",
+                                        "git-manager"
+                                    ) +
+                                    "</div>"
+                            );
+                        }
+                        var audio = new Audio("admin/beep.mp3");
+                        audio.play();
+                    }
+                    lastGitChangeHash = response.data.hash;
+                }
+            }
+        );
+    }
+    setInterval(checkGitChanges, 20000);
+    checkGitChanges();
+    setTimeout(function () {
+        if (document.getElementById("git-status")) {
+            $("#git-status").trigger("click");
+        }
+    }, 200);
+    // --- Output Handler for 3 Main States ---
+    function renderGitManagerOutput(response, context) {
+        // context: 'status', 'log', 'default', etc.
+        let html = "";
+        // Special case: hide output if status is OK (repo exists, no errors)
+        if (context === "status" && response && typeof response === "string") {
+            // Check for ".git exists: yes" and absence of error phrases
+            const isOk =
+                response.includes(".git exists:</b> yes") &&
+                !response.includes("not found") &&
+                !response.includes("disabled") &&
+                !response.includes("was not found") &&
+                !response.includes("color:red");
+            if (isOk) {
+                $("#git-manager-output-content").html("");
+                return;
+            } else {
+                html = response;
+            }
+        } else if (typeof response === "string") {
+            if (
+                response.includes("Invalid repository path") ||
+                response.includes(
+                    "Repository path or .git folder was not found"
+                )
+            ) {
+                html = `<div class="git-manager-instruction-box">
+                    <b>${__(
+                        "Repository path is not set or invalid.",
+                        "git-manager"
+                    )}</b><br>
+                    ${__(
+                        "Please enter and save a valid git repository path.",
+                        "git-manager"
+                    )}<br>
+                    <span style="color:#888;font-size:13px;">(${__(
+                        "Use the settings button above.",
+                        "git-manager"
+                    )})</span>
+                </div>`;
+            } else if (
+                response.includes("This directory is not a git repository") ||
+                response.includes(".git directory not found")
+            ) {
+                html = `<div class="git-manager-instruction-box">
+                    <b>${__(
+                        "The selected path is not a git repository.",
+                        "git-manager"
+                    )}</b><br>
+                    ${__(
+                        "Please create a git repository or change the path.",
+                        "git-manager"
+                    )}<br>
+                    <span style="color:#888;font-size:13px;">(${__(
+                        "Run git init in the target folder.",
+                        "git-manager"
+                    )})</span>
+                </div>`;
+            } else {
+                html = `<div class="git-manager-instruction-box">${response}</div>`;
+            }
+        } else if (response && response.success === false && response.data) {
+            // AJAX error
+            html = `<div class="git-manager-instruction-box">${response.data}</div>`;
+        } else if (context === "log" && Array.isArray(response)) {
+            // Render log as before (should not hit this branch, handled in log click)
+            html = response;
+        } else if (response && response.data) {
+            html = response.data;
+        } else {
+            html = `<div class="git-manager-instruction-box">${__(
+                "Unknown output!",
+                "git-manager"
+            )}</div>`;
+        }
+        $("#git-manager-output-content").html(html);
+    }
+
+    // --- Loading Overlay Functions ---
+    function showGitManagerLoading(msg) {
+        $("#git-manager-loading-overlay .loading-text").text(
+            msg || "Loading, please wait..."
+        );
+        $("#git-manager-loading-overlay").addClass("active");
+    }
+    function hideGitManagerLoading() {
+        $("#git-manager-loading-overlay").removeClass("active");
+    }
     const { __ } = wp.i18n;
     // Minimal MD5 implementation for gravatar
     function md5cycle(x, k) {
@@ -161,6 +289,25 @@ jQuery(document).ready(function ($) {
                 response.data.branch &&
                 response.data.remote_hash
             ) {
+                // --- Render Last Commit Box ---
+                var html = "";
+                html += '<span class="commit-label">Last Commit:</span>';
+                html +=
+                    '<span class="commit-branch">' +
+                    response.data.branch +
+                    "</span>";
+                html +=
+                    '<span class="commit-hash">' +
+                    response.data.hash.substring(0, 8) +
+                    "</span>";
+                if (
+                    response.data.remote_hash &&
+                    response.data.remote_hash !== response.data.hash
+                ) {
+                    html += '<span class="commit-remote">Remote ahead!</span>';
+                }
+                $("#git-last-commit").html(html).fadeIn(200);
+
                 var selectedBranch = $("#git-branch-list").val();
                 // Only show alert if current branch matches selected branch and remote is ahead
                 if (
@@ -178,16 +325,15 @@ jQuery(document).ready(function ($) {
                                 "</div>"
                         );
                     }
+
                     // Play a short valid beep (local file)
-                    var audio = new Audio("beep.mp3");
-                    audio.play();
+                    var audio = new Audio(WPGitManager.beepUrl);
+                    audio.play().catch(function (error) {
+                        console.error("Playback failed:", error);
+                    });
                 } else {
                     $("#git-new-commit-alert").remove();
                 }
-
-                // Play a short valid beep (local file)
-                var audio = new Audio("beep.mp3");
-                audio.play();
 
                 lastCommitHash = response.data.hash;
                 lastCommitBranch = response.data.branch;
@@ -202,8 +348,11 @@ jQuery(document).ready(function ($) {
             action: "git_manager_status",
             _git_manager_nonce: $("#git_manager_nonce").val(),
         };
+        showGitManagerLoading();
         $.post(ajaxurl, data, function (response) {
-            $("#git-manager-output").html(response.data);
+            renderGitManagerOutput(response, "status");
+        }).always(function () {
+            hideGitManagerLoading();
         });
     });
 
@@ -224,10 +373,6 @@ jQuery(document).ready(function ($) {
         });
     });
 
-    $("#git-settings").on("click", function () {
-        $("#git-manager-settings-panel").slideToggle();
-    });
-
     $("#git-manager-form").on("submit", function (e) {
         e.preventDefault();
         var data = {
@@ -235,8 +380,11 @@ jQuery(document).ready(function ($) {
             git_repo_path: $("#git_repo_path").val(),
             _git_manager_nonce: $("#git_manager_nonce").val(),
         };
+        showGitManagerLoading();
         $.post(ajaxurl, data, function (response) {
-            $("#git-manager-output").html(response.data);
+            renderGitManagerOutput(response, "default");
+        }).always(function () {
+            hideGitManagerLoading();
         });
     });
 
@@ -246,12 +394,15 @@ jQuery(document).ready(function ($) {
             action: "git_manager_" + action,
             _git_manager_nonce: $("#git_manager_nonce").val(),
         };
+        showGitManagerLoading();
         $.post(ajaxurl, data, function (response) {
-            $("#git-manager-output").html(response.data);
+            renderGitManagerOutput(response, "default");
             // If this was a pull, also refresh the log to show latest commits
             if (action === "pull" && $("#git-log").length) {
                 $("#git-log").trigger("click");
             }
+        }).always(function () {
+            hideGitManagerLoading();
         });
     });
 
@@ -260,6 +411,7 @@ jQuery(document).ready(function ($) {
             action: "git_manager_log",
             _git_manager_nonce: $("#git_manager_nonce").val(),
         };
+        showGitManagerLoading();
         $.post(ajaxurl, data, function (response) {
             if (response.success && Array.isArray(response.data)) {
                 var html = '<div class="git-commits-list">';
@@ -306,10 +458,12 @@ jQuery(document).ready(function ($) {
                     html += "</div></div>";
                 });
                 html += "</div>";
-                $("#git-manager-output").html(html);
+                $("#git-manager-output-content").html(html);
             } else {
-                $("#git-manager-output").html(response.data);
+                renderGitManagerOutput(response.data, "log");
             }
+        }).always(function () {
+            hideGitManagerLoading();
         });
     });
 
@@ -319,13 +473,26 @@ jQuery(document).ready(function ($) {
             action: "git_manager_troubleshoot",
             _git_manager_nonce: $("#git_manager_nonce").val(),
         };
-        $("#git-manager-output").html(
-            '<div style="color:#888">' +
-                __("Running troubleshooting, please wait...", "git-manager") +
-                "</div>"
+        showGitManagerLoading(
+            __("Running troubleshooting, please wait...", "git-manager")
         );
         $.post(ajaxurl, data, function (response) {
-            $("#git-manager-output").html(response.data);
+            // Add troubleshoot-mode class and wrap output for better display
+            $("#git-manager-output").addClass("troubleshoot-mode");
+            $("#git-manager-output-content").html(
+                '<div class="troubleshoot-content">' + response.data + "</div>"
+            );
+        }).always(function () {
+            hideGitManagerLoading();
         });
+        // Remove troubleshoot-mode class on next action (any other button click)
+        $(document).one(
+            "click",
+            "#git-status, #git-fetch, #git-pull, #git-branch, #git-log, #git-checkout",
+            function () {
+                $("#git-manager-output").removeClass("troubleshoot-mode");
+                $("#git-manager-output-content").html("");
+            }
+        );
     });
 });
