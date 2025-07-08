@@ -1,0 +1,471 @@
+/* Output instruction box */
+.git-instruction-box {
+    background: #f8fafc;
+    border: 1.5px solid #e0e7ef;
+    border-radius: 10px;
+    padding: 22px 18px 18px 18px;
+    margin-bottom: 18px;
+    color: #3730a3;
+    font-size: 1.04rem;
+    line-height: 1.7;
+    box-shadow: 0 2px 8px rgba(80, 80, 180, 0.04);
+}
+.git-instruction-box h2 {
+    color: #6366f1;
+    font-size: 1.18rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.git-instruction-box ul {
+    margin: 10px 0 0 20px;
+    padding: 0;
+    color: #444;
+    font-size: 1.01rem;
+}
+.git-instruction-box code {
+    background: #e0e7ef;
+    color: #22223b;
+    border-radius: 5px;
+    padding: 2px 6px;
+    font-size: 0.98em;
+}
+.git-commits-list {
+    background: #fff;
+    padding: 14px 16px 10px 16px;
+    font-size: 0.99rem;
+    color: #3730a3;
+}
+.git-commits-list .git-commit-item {
+    border-bottom: 1px solid #eee;
+    padding: 7px 0 5px 0;
+    margin-bottom: 2px;
+    font-family: "Fira Mono", "Consolas", monospace;
+    font-size: 0.97em;
+    color: #22223b;
+}
+.git-commits-list .git-commit-item:last-child {
+    border-bottom: none !important;
+}
+.git-commits-list .git-commit-hash {
+    color: #6366f1;
+    font-weight: 600;
+    margin-right: 8px;
+}
+.git-commits-list .git-commit-date {
+    color: #888;
+    font-size: 0.96em;
+    margin-left: 8px;
+}
+.git-commits-list .git-commit-subject {
+    color: #3730a3;
+    font-weight: 500;
+    margin-left: 8px;
+}
+.git-last-commit .commit-message {
+    color: #22223b;
+    font-size: 1.01em;
+    font-weight: 500;
+    margin-right: 10px;
+    margin-left: 8px;
+    letter-spacing: 0.1px;
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.git-last-commit .commit-author {
+    color: #888;
+    font-size: 0.97em;
+    margin-right: 6px;
+    font-style: italic;
+}
+/* Git Repo Path Box */
+#git-manager-form {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(80, 80, 180, 0.06);
+    padding: 22px 18px 16px 18px;
+    margin-bottom: 18px;
+    border: none;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#git-manager-form label {
+    font-weight: 600;
+    color: #3730a3;
+    margin-bottom: 2px;
+    font-size: 1.01rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+#git_repo_path {
+    border-radius: 6px;
+    border: 1.5px solid #e0e7ef;
+    padding: 8px 12px;
+    font-size: 1.01rem;
+    background: #f8fafc;
+    transition: border 0.15s;
+    margin-bottom: 0;
+}
+#git_repo_path:focus {
+    border: 1.5px solid #6366f1;
+    outline: none;
+}
+#git-manager-form button[type="submit"] {
+    background: #6366f1;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 9px 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 8px;
+    box-shadow: 0 1px 4px rgba(80, 80, 180, 0.07);
+    transition: background 0.13s, color 0.13s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+#git-manager-form button[type="submit"]:hover {
+    background: #3730a3;
+    color: #fff;
+}
+/* Custom Modal Styles for Settings */
+#gitManagerSettingsModal {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(60, 60, 100, 0.18);
+    backdrop-filter: blur(2px);
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+#gitManagerSettingsModal.active {
+    display: flex;
+    opacity: 1;
+}
+#gitManagerSettingsModal .modal-dialog {
+    margin: 0 auto;
+    max-width: 420px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+}
+#gitManagerSettingsModal .modal-content {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(80, 80, 180, 0.13);
+    padding: 0;
+    width: 100%;
+    border: none;
+}
+#gitManagerSettingsModal .modal-header {
+    border-bottom: 1px solid #e0e7ef;
+    padding: 18px 24px 12px 24px;
+    background: #f3f4f6;
+    border-radius: 14px 14px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#gitManagerSettingsModal .modal-title {
+    color: #3730a3;
+    font-weight: 700;
+    font-size: 1.13rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+#gitManagerSettingsModal .btn-close {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    color: #6366f1;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+}
+#gitManagerSettingsModal .btn-close:hover {
+    opacity: 1;
+}
+#gitManagerSettingsModal .modal-body {
+    padding: 22px 24px 18px 24px;
+}
+#gitManagerSettingsModal form {
+    margin: 0;
+}
+#gitManagerSettingsModal select.form-select {
+    border-radius: 6px;
+    border: 1px solid #e0e7ef;
+    padding: 7px 10px;
+    font-size: 0.97rem;
+    margin-bottom: 10px;
+    width: 100%;
+    background: #f8fafc;
+    transition: border 0.15s;
+}
+#gitManagerSettingsModal select.form-select:focus {
+    border: 1.5px solid #6366f1;
+    outline: none;
+}
+#gitManagerSettingsModal button[type="submit"] {
+    background: #6366f1;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 8px 0;
+    font-size: 1.01rem;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 10px;
+    transition: background 0.13s, color 0.13s;
+}
+#gitManagerSettingsModal button[type="submit"]:hover {
+    background: #3730a3;
+    color: #fff;
+}
+/* Last Commit Info Box */
+.git-last-commit {
+    background: #f3f4f6;
+    border: 1.5px solid #e0e7ef;
+    border-radius: 8px;
+    padding: 12px 18px 10px 18px;
+    margin: 0 0 16px 0;
+    font-family: "Fira Mono", "Consolas", monospace;
+    font-size: 1.01rem;
+    color: #3730a3;
+    box-shadow: 0 2px 8px rgba(80, 80, 180, 0.04);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+.git-last-commit .commit-branch {
+    background: #6366f1;
+    color: #fff;
+    border-radius: 5px;
+    padding: 2px 10px;
+    font-size: 0.98em;
+    margin-right: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.git-last-commit .commit-hash {
+    background: #e0e7ef;
+    color: #22223b;
+    border-radius: 5px;
+    padding: 2px 8px;
+    font-size: 0.97em;
+    font-weight: 500;
+    margin-right: 8px;
+    letter-spacing: 0.5px;
+}
+.wp-git-manager-version-text {
+    color: #c7c7c7;
+    font-size: 0.97em;
+    font-weight: 500;
+    margin-left: 12px;
+    font-family: "Fira Mono", "Consolas", monospace;
+    position: absolute;
+    right: 18px;
+    top: 12px;
+}
+.git-last-commit .commit-remote {
+    color: #b00;
+    font-size: 0.97em;
+    margin-left: 8px;
+    font-weight: 500;
+}
+.git-last-commit .commit-label {
+    color: #888;
+    font-size: 0.97em;
+    margin-right: 8px;
+}
+#git-manager-output.troubleshoot-mode {
+    background: #fff7e6;
+    border: 1.5px solid #ffd580;
+    color: #7c4700;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    min-height: 60px;
+}
+#git-manager-output .troubleshoot-content {
+    font-family: "Fira Mono", "Consolas", monospace;
+    font-size: 0.97rem;
+    background: #fffbe6;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin: 6px 0 0 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: auto;
+    max-height: 340px;
+}
+/* Modern, beautiful, responsive UI for Git Manager */
+
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
+
+body,
+.wrap {
+    background: #f8fafc;
+    font-family: "Vazirmatn", "IRANSans", "Segoe UI", sans-serif;
+}
+
+#git-manager-form,
+#git-manager-settings-panel {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(80, 80, 180, 0.06);
+    padding: 18px 16px 12px 16px;
+    margin-bottom: 25px;
+    border: none;
+    margin-top: 15px;
+}
+
+#git-manager-operations {
+    margin: 12px 0 8px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#git-manager-operations button {
+    background: #f3f4f6;
+    color: #3730a3;
+    border: 1px solid #e0e7ef;
+    border-radius: 7px;
+    padding: 6px 16px;
+    font-size: 0.98rem;
+    font-weight: 500;
+    box-shadow: none;
+    transition: background 0.13s, color 0.13s, border 0.13s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+#git-manager-operations button:hover {
+    background: #6366f1;
+    color: #fff;
+    border: 1px solid #6366f1;
+}
+
+#git-manager-output {
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e0e7ef;
+    padding: 14px;
+    min-height: 36px;
+    font-size: 0.98rem;
+    color: #22223b;
+    margin-bottom: 18px;
+    box-shadow: none;
+    position: relative;
+}
+
+/* Modern loading overlay */
+#git-manager-loading-overlay {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(60, 60, 100, 0.18);
+    backdrop-filter: blur(2px);
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+#git-manager-loading-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+#git-manager-loading-box {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(80, 80, 180, 0.13);
+    padding: 38px 36px 28px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 220px;
+}
+#git-manager-loading-box .spinner-border {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: #6366f1;
+    margin-bottom: 18px;
+}
+#git-manager-loading-box .loading-text {
+    font-size: 1.08rem;
+    color: #3730a3;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+}
+
+input[type="text"],
+select {
+    border-radius: 6px !important;
+    border: 1px solid #e0e7ef !important;
+    padding: 7px 10px !important;
+    font-size: 0.97rem;
+    margin-bottom: 10px;
+    width: 100%;
+    background: #f8fafc;
+    transition: border 0.15s;
+}
+input[type="text"]:focus,
+select:focus {
+    border: 1.5px solid #6366f1 !important;
+    outline: none;
+}
+
+label {
+    font-weight: 500;
+    color: #3730a3;
+    margin-bottom: 4px;
+    font-size: 0.97rem;
+}
+
+h1,
+h3 {
+    color: #3730a3;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    font-size: 1.25rem;
+}
+
+.fa-solid {
+    font-size: 1em !important;
+    margin-right: 4px;
+}
+
+@media (max-width: 600px) {
+    #git-manager-form,
+    #git-manager-settings-panel {
+        padding: 8px 4px 6px 4px;
+        max-width: 100%;
+    }
+    #git-manager-operations {
+        flex-direction: column;
+        gap: 6px;
+    }
+    #git-manager-operations button {
+        width: 100%;
+        justify-content: center;
+    }
+}

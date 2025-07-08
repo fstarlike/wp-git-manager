@@ -7,7 +7,7 @@
         var lastRemoteHash = null;
         var lastBranch = null;
         var polling = false;
-        var beepUrl = "beep.mp3"; // must be in same folder as this JS
+        var beepUrl = WPGitManagerGlobal.beepUrl; // must be in same folder as this JS
 
         function showMaterialSnackbar(message) {
             if (document.getElementById("git-commit-snackbar")) return;
