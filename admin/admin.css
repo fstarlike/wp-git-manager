@@ -1,0 +1,10 @@
+/* Basic admin styles for Git Manager */
+#git-manager-operations button {
+    margin-right: 10px;
+}
+#git-manager-output {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    min-height: 50px;
+}
