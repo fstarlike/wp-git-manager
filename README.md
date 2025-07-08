@@ -1,5 +1,5 @@
 # WP Git Manager
-A powerful and user-friendly WordPress plugin to manage your Git repositories directly from the WordPress admin panel.
+A free and user-friendly WordPress plugin to manage your Git repositories directly from the WordPress admin panel.
 
 ## Version
 **v1.0.0 (Stable)**
