@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Git Manager
  * Description: Professional Git repository management from WordPress admin panel with features like displaying commits, pull, fetch, branch switching and ...
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Farzad Hoseinzadeh
  * Author URI: https://github.com/fstarlike
  * Text Domain: git-manager
@@ -17,7 +17,7 @@ define( 'GIT_MANAGER_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GIT_MANAGER_URL', plugin_dir_url( __FILE__ ) );
 
 
-define( 'GIT_MANAGER_VERSION', '1.1.0' );
+define( 'GIT_MANAGER_VERSION', '1.2.0' );
 
 // Enqueue modern admin styles and FontAwesome for plugin admin pages
 
@@ -73,3 +73,40 @@ function git_manager_init() {
 	return Git_Manager::get_instance();
 }
 git_manager_init();
+
+// Add Git Manager dropdown to WP admin bar
+add_action('admin_bar_menu', function($wp_admin_bar) {
+	if (!current_user_can('manage_options')) return;
+	$wp_admin_bar->add_node([
+		'id' => 'git_manager_bar',
+		'title' => '<span id="git-manager-bar-title"><i class="fa fa-code-branch"></i> Git <span id="git-manager-bar-badge" style="display:none;background:#d00;color:#fff;border-radius:10px;padding:2px 7px;font-size:11px;margin-left:6px;">New</span></span>',
+		'href' => '#',
+		'meta' => ['title' => __('Git Manager', 'git-manager'), 'html' => '', 'class' => 'git-manager-bar-root']
+	]);
+	$wp_admin_bar->add_node([
+		'id' => 'git_manager_bar_fetch',
+		'parent' => 'git_manager_bar',
+		'title' => '<i class="fa fa-download"></i> ' . __('Fetch', 'git-manager'),
+		'href' => '#',
+		'meta' => ['class' => 'git-manager-bar-fetch']
+	]);
+	$wp_admin_bar->add_node([
+		'id' => 'git_manager_bar_pull',
+		'parent' => 'git_manager_bar',
+		'title' => '<i class="fa fa-arrow-down"></i> ' . __('Pull', 'git-manager'),
+		'href' => '#',
+		'meta' => ['class' => 'git-manager-bar-pull']
+	]);
+}, 100);
+
+// Enqueue admin bar script and style
+add_action('admin_enqueue_scripts', function() {
+	if (!is_admin_bar_showing()) return;
+	wp_enqueue_script('git-manager-bar', GIT_MANAGER_URL . 'admin/git-manager-bar.js', ['jquery'], GIT_MANAGER_VERSION, true);
+	wp_localize_script('git-manager-bar', 'WPGitManagerBar', [
+		'ajaxurl' => admin_url('admin-ajax.php'),
+		'nonce'   => wp_create_nonce('git_manager_action'),
+		'pullText'=> __('Repository pulled successfully.', 'git-manager'),
+	]);
+	wp_enqueue_style('git-manager-bar', GIT_MANAGER_URL . 'admin/git-manager-bar.css', [], GIT_MANAGER_VERSION);
+});

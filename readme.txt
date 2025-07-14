@@ -3,7 +3,7 @@ Contributors: farzad-hoseinzadeh
 Tags: git, repository, admin, version control, developer
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -31,12 +31,10 @@ This plugin uses shell_exec to run git commands on your server. This is required
 = Is it safe to use shell_exec? =
 All inputs are sanitized and only allowed users can run commands. However، enabling shell_exec can have security implications. Use at your own risk and only on trusted servers.
 
-== Screenshots ==
-1. Git Manager admin panel
-2. Branches dropdown
-3. Commit log with avatars
-
 == Changelog ==
+= 1.2.0 =
+- Added "Fetch" and "Pull" actions to the WordPress admin dashboard top bar for quick repository updates.
+
 = 1.1.0 =
 - Real-time git change detection with beep and alert when new commits are detected (AJAX polling).
 - Plugin logo (logo.svg) for admin menu and header.
@@ -56,4 +54,4 @@ MIT License
 Farzad Hoseinzadeh
 
 == GitHub ==
-https://github.com/farzad-hoseinzadeh/wp-git-manager
+https://github.com/fstarlike/wp-git-manager

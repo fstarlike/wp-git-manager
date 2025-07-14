@@ -1,4 +1,7 @@
 # Changelog
+## [1.2.0] - 2025-07-14
+### Added
+- "Fetch" and "Pull" actions to the WordPress admin dashboard top bar for quick repository updates.
 
 ## [1.1.0] - 2025-07-09
 ### Added
