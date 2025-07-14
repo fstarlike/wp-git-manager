@@ -1,0 +1,23 @@
+#git-manager-bar-badge {
+    display: none;
+    vertical-align: middle;
+}
+.git-manager-bar-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #fff;
+    border-top: 2px solid #0073aa;
+    border-radius: 50%;
+    animation: git-spin 0.7s linear infinite;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+@keyframes git-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

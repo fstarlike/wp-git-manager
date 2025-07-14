@@ -268,18 +268,11 @@ class Git_Manager_Ajax {
 		if ($remote_branch && strpos($remote_branch, '/') !== false) {
 			$remote_hash = trim($this->run_git_command('rev-parse ' . escapeshellarg($remote_branch), $path));
 		}
-
-		$subject = '';
-		$author = '';
-		$debug = [];
 		wp_send_json_success([
 			'branch' => $branch,
 			'hash' => $local_hash,
 			'remote_branch' => $remote_branch,
 			'remote_hash' => $remote_hash,
-			'subject' => $subject,
-			'author' => $author,
-			'debug' => $debug,
 		]);
 	}
 
