@@ -39,7 +39,7 @@ MIT License
 
 ## Author
 
-Farzad Hoseinzadeh
+[Farzad Hoseinzadeh](https://www.linkedin.com/in/fstarlike/)
 
 ## GitHub Repository
 https://github.com/fstarlike/wp-git-manager
