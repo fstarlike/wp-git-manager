@@ -3,7 +3,7 @@ A free and user-friendly WordPress plugin to manage your Git repositories direct
 
 ## Version
 
-**1.2.0 (Stable)**
+**1.3.0 (Stable)**
 
 ## Features
 
@@ -29,7 +29,7 @@ A free and user-friendly WordPress plugin to manage your Git repositories direct
 
 ## Requirements
 
-- PHP 7.2 or higher
+- PHP 7.4 or higher
 - WordPress 5.0 or higher
 - `shell_exec` enabled and `git` installed on the server
 

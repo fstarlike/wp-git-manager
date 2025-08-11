@@ -1,4 +1,13 @@
 # Changelog
+
+## [1.3.0] - 2025-08-11
+### Fixed
+- Reformatted PHP files to follow PSR-12 and modern array syntax.
+- Improved code readability and consistency across plugin files.
+- Enhanced admin UI markup and styles for better maintainability.
+- Updated AJAX logic for more robust commit and branch handling.
+- Fixed minor issues in admin bar integration and asset loading.
+
 ## [1.2.0] - 2025-07-14
 ### Added
 - "Fetch" and "Pull" actions to the WordPress admin dashboard top bar for quick repository updates.
