@@ -3,7 +3,7 @@
 /**
  * Plugin Name: WP Git Manager
  * Description: Professional Git repository management from WordPress admin panel with features like displaying commits, pull, fetch, branch switching and ...
- * Version: 1.2.0
+ * Version: 1.3.0
  * Author: Farzad Hoseinzadeh
  * Author URI: https://github.com/fstarlike
  * Text Domain: git-manager
@@ -16,7 +16,7 @@ if (! defined('ABSPATH')) {
 
 define('GIT_MANAGER_PATH', plugin_dir_path(__FILE__));
 define('GIT_MANAGER_URL', plugin_dir_url(__FILE__));
-define('GIT_MANAGER_VERSION', '1.2.0');
+define('GIT_MANAGER_VERSION', '1.3.0');
 
 // Enqueue modern admin styles and FontAwesome for plugin admin pages
 

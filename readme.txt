@@ -3,7 +3,7 @@ Contributors: farzad-hoseinzadeh
 Tags: git, repository, admin, version control, developer
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -32,7 +32,7 @@ This plugin uses shell_exec to run git commands on your server. This is required
 All inputs are sanitized and only allowed users can run commands. However، enabling shell_exec can have security implications. Use at your own risk and only on trusted servers.
 
 == Changelog ==
-= 1.2.0 =
+= 1.3.0 =
 - Added "Fetch" and "Pull" actions to the WordPress admin dashboard top bar for quick repository updates.
 
 = 1.1.0 =
