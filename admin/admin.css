@@ -8,3 +8,11 @@
     padding: 15px;
     min-height: 50px;
 }
+.fa-classic,
+.fa-regular,
+.fa-solid,
+.far,
+.fas {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+}
