@@ -80,7 +80,10 @@ jQuery(document).ready(function ($) {
                             );
                         }
                         try {
-                            new Audio("admin/beep.mp3").play();
+                            if (!beepPlayedThisPage) {
+                                new Audio(WPGitManager.beepUrl).play();
+                                beepPlayedThisPage = true;
+                            }
                         } catch (e) {}
                     }
                     lastGitChangeByBranch[branch] = hash;
@@ -96,7 +99,10 @@ jQuery(document).ready(function ($) {
                             );
                         }
                         try {
-                            new Audio("admin/beep.mp3").play();
+                            if (!beepPlayedThisPage) {
+                                new Audio(WPGitManager.beepUrl).play();
+                                beepPlayedThisPage = true;
+                            }
                         } catch (e) {}
                     }
                     lastGitChangeByBranch._default = hash;
@@ -351,6 +357,8 @@ jQuery(document).ready(function ($) {
     var lastCommitHash = null;
     var lastCommitBranch = null;
     var lastLocalNotification = 0;
+    // Ensure beep plays only once per page load
+    var beepPlayedThisPage = false;
     function checkForNewCommits() {
         gmPost("git_manager_latest_commit")
             .then(function (response) {
@@ -415,10 +423,19 @@ jQuery(document).ready(function ($) {
 
                             // try shared beep or local fallback
                             if (window.gitManagerPlayBeep) {
-                                window.gitManagerPlayBeep();
+                                // If a shared beep function exists, prefer it but still ensure single-play
+                                if (!beepPlayedThisPage) {
+                                    try {
+                                        window.gitManagerPlayBeep();
+                                    } catch (e) {}
+                                    beepPlayedThisPage = true;
+                                }
                             } else {
                                 try {
-                                    new Audio(WPGitManager.beepUrl).play();
+                                    if (!beepPlayedThisPage) {
+                                        new Audio(WPGitManager.beepUrl).play();
+                                        beepPlayedThisPage = true;
+                                    }
                                 } catch (e) {}
                             }
                         }
