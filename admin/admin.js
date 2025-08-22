@@ -1,36 +1,116 @@
 jQuery(document).ready(function ($) {
-    // --- Git Change Watcher (beep and alert on new commit) ---
-    let lastGitChangeHash = null;
-    function checkGitChanges() {
-        $.post(
-            ajaxurl,
-            {
-                action: "git_manager_check_git_changes",
-                _git_manager_nonce: $("#git_manager_nonce").val(),
+    // small fetch-based POST helper to replace $.post
+    function gmPost(action, data) {
+        data = data || {};
+        data.action = action;
+        var nonceEl = document.getElementById("git_manager_nonce");
+        if (nonceEl && !data._git_manager_nonce)
+            data._git_manager_nonce = nonceEl.value;
+        // attach per-action nonce if provided via localized script
+        try {
+            var actionNonces =
+                (typeof WPGitManagerBar !== "undefined" &&
+                    WPGitManagerBar.action_nonces) ||
+                (typeof WPGitManager !== "undefined" &&
+                    WPGitManager.action_nonces) ||
+                null;
+            if (
+                actionNonces &&
+                actionNonces[action] &&
+                !data._git_manager_action_nonce
+            ) {
+                data._git_manager_action_nonce = actionNonces[action];
+            }
+        } catch (e) {
+            // ignore
+        }
+        var body = new URLSearchParams();
+        Object.keys(data).forEach(function (k) {
+            if (Array.isArray(data[k])) {
+                data[k].forEach(function (v) {
+                    body.append(k + "[]", v);
+                });
+            } else if (data[k] !== undefined && data[k] !== null) {
+                body.append(k, data[k]);
+            }
+        });
+        return fetch(ajaxurl, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded; charset=UTF-8",
             },
-            function (response) {
-                if (response.success && response.data && response.data.hash) {
-                    if (
-                        lastGitChangeHash &&
-                        lastGitChangeHash !== response.data.hash
-                    ) {
-                        if ($("#git-change-alert").length === 0) {
-                            $("#git-manager-output").prepend(
+            body: body.toString(),
+        }).then(function (res) {
+            return res.json();
+        });
+    }
+
+    // --- Git Change Watcher (beep and alert on new commit) ---
+    // Track last seen commit hash per branch to avoid cross-branch notifications
+    const lastGitChangeByBranch = {};
+    function checkGitChanges() {
+        gmPost("git_manager_check_git_changes")
+            .then(function (response) {
+                if (
+                    !(
+                        response &&
+                        response.success &&
+                        response.data &&
+                        response.data.hash
+                    )
+                )
+                    return;
+                const hash = response.data.hash;
+                const branch = response.data.branch || null; // server may send branch
+                if (branch) {
+                    const last = lastGitChangeByBranch[branch] || null;
+                    if (last && last !== hash) {
+                        if (jQuery("#git-change-alert").length === 0) {
+                            jQuery("#git-manager-output").prepend(
                                 '<div id="git-change-alert" style="background:#ffeaea;color:#b00;padding:10px 15px;margin-bottom:10px;border:1px solid #b00;font-weight:bold;">' +
-                                    __(
-                                        "New change detected in the repository!",
-                                        "git-manager"
-                                    ) +
+                                    jQuery.fn.init.wp
+                                    ? __(
+                                          "New change detected in the repository!",
+                                          "git-manager"
+                                      )
+                                    : "New change detected in the repository!" +
+                                          "</div>"
+                            );
+                        }
+                        try {
+                            if (!beepPlayedThisPage) {
+                                new Audio(WPGitManager.beepUrl).play();
+                                beepPlayedThisPage = true;
+                            }
+                        } catch (e) {}
+                    }
+                    lastGitChangeByBranch[branch] = hash;
+                } else {
+                    // Fallback: single hash when branch not provided
+                    const last = lastGitChangeByBranch._default || null;
+                    if (last && last !== hash) {
+                        if (jQuery("#git-change-alert").length === 0) {
+                            jQuery("#git-manager-output").prepend(
+                                '<div id="git-change-alert" style="background:#ffeaea;color:#b00;padding:10px 15px;margin-bottom:10px;border:1px solid #b00;font-weight:bold;">' +
+                                    "New change detected in the repository!" +
                                     "</div>"
                             );
                         }
-                        var audio = new Audio("admin/beep.mp3");
-                        audio.play();
+                        try {
+                            if (!beepPlayedThisPage) {
+                                new Audio(WPGitManager.beepUrl).play();
+                                beepPlayedThisPage = true;
+                            }
+                        } catch (e) {}
                     }
-                    lastGitChangeHash = response.data.hash;
+                    lastGitChangeByBranch._default = hash;
                 }
-            }
-        );
+            })
+            .catch(function (err) {
+                console.error("checkGitChanges failed", err);
+            });
     }
     setInterval(checkGitChanges, 20000);
     checkGitChanges();
@@ -276,215 +356,259 @@ jQuery(document).ready(function ($) {
     // --- Auto check for new commits every 10 seconds ---
     var lastCommitHash = null;
     var lastCommitBranch = null;
+    var lastLocalNotification = 0;
+    // Ensure beep plays only once per page load
+    var beepPlayedThisPage = false;
     function checkForNewCommits() {
-        var data = {
-            action: "git_manager_latest_commit",
-            _git_manager_nonce: $("#git_manager_nonce").val(),
-        };
-        $.post(ajaxurl, data, function (response) {
-            if (
-                response.success &&
-                response.data &&
-                response.data.hash &&
-                response.data.branch &&
-                response.data.remote_hash
-            ) {
-                // --- Render Last Commit Box ---
-                var html = "";
-                html += '<span class="commit-label">Last Commit:</span>';
-                html +=
-                    '<span class="commit-branch">' +
-                    response.data.branch +
-                    "</span>";
-                html +=
-                    '<span class="commit-hash">' +
-                    response.data.hash.substring(0, 8) +
-                    "</span>";
+        gmPost("git_manager_latest_commit")
+            .then(function (response) {
                 if (
-                    response.data.remote_hash &&
-                    response.data.remote_hash !== response.data.hash
+                    response.success &&
+                    response.data &&
+                    response.data.hash &&
+                    response.data.branch &&
+                    response.data.remote_hash
                 ) {
-                    html += '<span class="commit-remote">Remote ahead!</span>';
-                }
-                $("#git-last-commit").html(html).fadeIn(200);
+                    // --- Render Last Commit Box ---
+                    var html = "";
+                    html += '<span class="commit-label">Last Commit:</span>';
+                    html +=
+                        '<span class="commit-branch">' +
+                        response.data.branch +
+                        "</span>";
+                    html +=
+                        '<span class="commit-hash">' +
+                        response.data.hash.substring(0, 8) +
+                        "</span>";
+                    if (
+                        response.data.remote_hash &&
+                        response.data.remote_hash !== response.data.hash
+                    ) {
+                        html +=
+                            '<span class="commit-remote">Remote ahead!</span>';
+                    }
+                    $("#git-last-commit").html(html).fadeIn(200);
 
-                var selectedBranch = $("#git-branch-list").val();
-                // Only show alert if current branch matches selected branch and remote is ahead
-                if (
-                    response.data.branch === selectedBranch &&
-                    response.data.remote_hash &&
-                    response.data.remote_hash !== response.data.hash
-                ) {
-                    if ($("#git-new-commit-alert").length === 0) {
-                        $("#git-manager-output").prepend(
-                            '<div id="git-new-commit-alert" style="background:#ffeaea;color:#b00;padding:10px 15px;margin-bottom:10px;border:1px solid #b00;font-weight:bold;">' +
-                                __(
-                                    "New commits detected on remote! Please <b>Pull</b> to update your local repository.",
-                                    "git-manager"
-                                ) +
-                                "</div>"
-                        );
+                    var selectedBranch = $("#git-branch-list").val();
+                    // Only show alert if current branch matches selected branch and remote is ahead
+                    if (
+                        response.data.branch === selectedBranch &&
+                        response.data.remote_hash &&
+                        response.data.remote_hash !== response.data.hash
+                    ) {
+                        var now = Date.now();
+                        if (now - lastLocalNotification >= 60000) {
+                            lastLocalNotification = now;
+                            // use the shared snackbar (if provided by global script) to show a modern notification
+                            if (window.gitManagerShowSnackbar) {
+                                window.gitManagerShowSnackbar(
+                                    __(
+                                        "New commits detected on remote! Please Pull to update your local repository.",
+                                        "git-manager"
+                                    )
+                                );
+                            } else {
+                                // fallback: insert a single alert div (kept minimal)
+                                if ($("#git-new-commit-alert").length === 0) {
+                                    $("#git-manager-output").prepend(
+                                        '<div id="git-new-commit-alert" style="background:#ffeaea;color:#b00;padding:10px 15px;margin-bottom:10px;border:1px solid #b00;font-weight:bold;">' +
+                                            __(
+                                                "New commits detected on remote! Please <b>Pull</b> to update your local repository.",
+                                                "git-manager"
+                                            ) +
+                                            "</div>"
+                                    );
+                                }
+                            }
+
+                            // try shared beep or local fallback
+                            if (window.gitManagerPlayBeep) {
+                                // If a shared beep function exists, prefer it but still ensure single-play
+                                if (!beepPlayedThisPage) {
+                                    try {
+                                        window.gitManagerPlayBeep();
+                                    } catch (e) {}
+                                    beepPlayedThisPage = true;
+                                }
+                            } else {
+                                try {
+                                    if (!beepPlayedThisPage) {
+                                        new Audio(WPGitManager.beepUrl).play();
+                                        beepPlayedThisPage = true;
+                                    }
+                                } catch (e) {}
+                            }
+                        }
+                    } else {
+                        // remove legacy alert if present
+                        $("#git-new-commit-alert").remove();
                     }
 
-                    // Play a short valid beep (local file)
-                    var audio = new Audio(WPGitManager.beepUrl);
-                    audio.play().catch(function (error) {
-                        console.error("Playback failed:", error);
-                    });
-                } else {
-                    $("#git-new-commit-alert").remove();
+                    lastCommitHash = response.data.hash;
+                    lastCommitBranch = response.data.branch;
                 }
-
-                lastCommitHash = response.data.hash;
-                lastCommitBranch = response.data.branch;
-            }
-        });
+            })
+            .catch(function (err) {
+                console.error("checkForNewCommits failed", err);
+            });
     }
     setInterval(checkForNewCommits, 20000);
     checkForNewCommits();
 
     $("#git-status").on("click", function () {
-        var data = {
-            action: "git_manager_status",
-            _git_manager_nonce: $("#git_manager_nonce").val(),
-        };
         showGitManagerLoading();
-        $.post(ajaxurl, data, function (response) {
-            renderGitManagerOutput(response, "status");
-        }).always(function () {
-            hideGitManagerLoading();
-        });
+        gmPost("git_manager_status")
+            .then(function (response) {
+                renderGitManagerOutput(response, "status");
+            })
+            .finally(function () {
+                hideGitManagerLoading();
+            })
+            .catch(function (err) {
+                console.error("git-status failed", err);
+            });
     });
 
     $("#git-manager-roles-form").on("submit", function (e) {
         e.preventDefault();
         var data = $(this).serializeArray();
-        data.push({ name: "action", value: "git_manager_save_roles" });
-        data.push({
-            name: "_git_manager_nonce",
-            value: $("#git_manager_nonce").val(),
+        // convert to key/value object expected by gmPost
+        var obj = {};
+        data.forEach(function (pair) {
+            obj[pair.name] = pair.value;
         });
-        $.post(ajaxurl, data, function (response) {
-            alert(
-                typeof response.data === "string"
-                    ? __(response.data, "git-manager")
-                    : response.data
-            );
-        });
+        gmPost("git_manager_save_roles", obj)
+            .then(function (response) {
+                alert(
+                    typeof response.data === "string"
+                        ? __(response.data, "git-manager")
+                        : response.data
+                );
+            })
+            .catch(function (err) {
+                console.error("save_roles failed", err);
+            });
     });
 
     $("#git-manager-form").on("submit", function (e) {
         e.preventDefault();
         var data = {
-            action: "git_manager_save_path",
             git_repo_path: $("#git_repo_path").val(),
-            _git_manager_nonce: $("#git_manager_nonce").val(),
         };
         showGitManagerLoading();
-        $.post(ajaxurl, data, function (response) {
-            renderGitManagerOutput(response, "default");
-        }).always(function () {
-            hideGitManagerLoading();
-        });
+        gmPost("git_manager_save_path", data)
+            .then(function (response) {
+                renderGitManagerOutput(response, "default");
+            })
+            .finally(function () {
+                hideGitManagerLoading();
+            })
+            .catch(function (err) {
+                console.error("save_path failed", err);
+            });
     });
 
-    $("#git-fetch, #git-pull, #git-branch").on("click", function () {
+    $("#git-fetch, #git-pull").on("click", function () {
         var action = $(this).attr("id").replace("git-", "");
-        var data = {
-            action: "git_manager_" + action,
-            _git_manager_nonce: $("#git_manager_nonce").val(),
-        };
         showGitManagerLoading();
-        $.post(ajaxurl, data, function (response) {
-            renderGitManagerOutput(response, "default");
-            // If this was a pull, also refresh the log to show latest commits
-            if (action === "pull" && $("#git-log").length) {
-                $("#git-log").trigger("click");
-            }
-        }).always(function () {
-            hideGitManagerLoading();
-        });
+        gmPost("git_manager_" + action)
+            .then(function (response) {
+                renderGitManagerOutput(response, "default");
+                // If this was a pull, also refresh the log to show latest commits
+                if (action === "pull" && $("#git-log").length) {
+                    $("#git-log").trigger("click");
+                }
+            })
+            .finally(function () {
+                hideGitManagerLoading();
+            })
+            .catch(function (err) {
+                console.error(action + " failed", err);
+            });
     });
 
     $("#git-log").on("click", function () {
-        var data = {
-            action: "git_manager_log",
-            _git_manager_nonce: $("#git_manager_nonce").val(),
-        };
         showGitManagerLoading();
-        $.post(ajaxurl, data, function (response) {
-            if (response.success && Array.isArray(response.data)) {
-                var html = '<div class="git-commits-list">';
-                response.data.forEach(function (commit) {
-                    var avatar =
-                        "https://www.gravatar.com/avatar/" +
-                        md5(commit.email.trim().toLowerCase()) +
-                        "?s=40&d=identicon";
-                    html +=
-                        '<div class="git-commit-item" style="border-bottom:1px solid #eee;padding:10px 0;display:flex;align-items:flex-start;">';
-                    html +=
-                        '<img src="' +
-                        avatar +
-                        '" style="border-radius:50%;margin-right:10px;" width="40" height="40">';
-                    html += '<div style="flex:1;">';
-                    html +=
-                        '<div style="font-weight:bold;">' +
-                        commit.subject +
-                        "</div>";
-                    html +=
-                        '<div style="font-size:12px;color:#666;">' +
-                        commit.author +
-                        " &lt;" +
-                        commit.email +
-                        "&gt; | " +
-                        commit.date +
-                        "</div>";
-                    html +=
-                        '<div style="font-size:12px;color:#888;margin:5px 0;">' +
-                        __("Commit:", "git-manager") +
-                        ' <span style="font-family:monospace;">' +
-                        commit.hash.substring(0, 7) +
-                        "</span></div>";
-                    if (commit.files && commit.files.length) {
+        gmPost("git_manager_log")
+            .then(function (response) {
+                if (response.success && Array.isArray(response.data)) {
+                    var html = '<div class="git-commits-list">';
+                    response.data.forEach(function (commit) {
+                        var avatar =
+                            "https://www.gravatar.com/avatar/" +
+                            md5(commit.email.trim().toLowerCase()) +
+                            "?s=40&d=identicon";
                         html +=
-                            '<div style="margin-top:5px;"><b>' +
-                            __("Files:", "git-manager") +
-                            '</b><ul style="margin:0 0 0 15px;padding:0;font-size:12px;">';
-                        commit.files.forEach(function (f) {
-                            html += "<li>" + f + "</li>";
-                        });
-                        html += "</ul></div>";
-                    }
-                    html += "</div></div>";
-                });
-                html += "</div>";
-                $("#git-manager-output-content").html(html);
-            } else {
-                renderGitManagerOutput(response.data, "log");
-            }
-        }).always(function () {
-            hideGitManagerLoading();
-        });
+                            '<div class="git-commit-item" style="border-bottom:1px solid #eee;padding:10px 0;display:flex;align-items:flex-start;">';
+                        html +=
+                            '<img src="' +
+                            avatar +
+                            '" style="border-radius:50%;margin-right:10px;" width="40" height="40">';
+                        html += '<div style="flex:1;">';
+                        html +=
+                            '<div style="font-weight:bold;">' +
+                            commit.subject +
+                            "</div>";
+                        html +=
+                            '<div style="font-size:12px;color:#666;">' +
+                            commit.author +
+                            " &lt;" +
+                            commit.email +
+                            "&gt; | " +
+                            commit.date +
+                            "</div>";
+                        html +=
+                            '<div style="font-size:12px;color:#888;margin:5px 0;">' +
+                            __("Commit:", "git-manager") +
+                            ' <span style="font-family:monospace;">' +
+                            commit.hash.substring(0, 7) +
+                            "</span></div>";
+                        if (commit.files && commit.files.length) {
+                            html +=
+                                '<div style="margin-top:5px;"><b>' +
+                                __("Files:", "git-manager") +
+                                '</b><ul style="margin:0 0 0 15px;padding:0;font-size:12px;">';
+                            commit.files.forEach(function (f) {
+                                html += "<li>" + f + "</li>";
+                            });
+                            html += "</ul></div>";
+                        }
+                        html += "</div></div>";
+                    });
+                    html += "</div>";
+                    $("#git-manager-output-content").html(html);
+                } else {
+                    renderGitManagerOutput(response.data, "log");
+                }
+            })
+            .finally(function () {
+                hideGitManagerLoading();
+            })
+            .catch(function (err) {
+                console.error("git_log failed", err);
+            });
     });
 
     // Troubleshooting button
     $("#git-troubleshoot").on("click", function () {
-        var data = {
-            action: "git_manager_troubleshoot",
-            _git_manager_nonce: $("#git_manager_nonce").val(),
-        };
         showGitManagerLoading(
             __("Running troubleshooting, please wait...", "git-manager")
         );
-        $.post(ajaxurl, data, function (response) {
-            // Add troubleshoot-mode class and wrap output for better display
-            $("#git-manager-output").addClass("troubleshoot-mode");
-            $("#git-manager-output-content").html(
-                '<div class="troubleshoot-content">' + response.data + "</div>"
-            );
-        }).always(function () {
-            hideGitManagerLoading();
-        });
+        gmPost("git_manager_troubleshoot")
+            .then(function (response) {
+                $("#git-manager-output").addClass("troubleshoot-mode");
+                $("#git-manager-output-content").html(
+                    '<div class="troubleshoot-content">' +
+                        response.data +
+                        "</div>"
+                );
+            })
+            .finally(function () {
+                hideGitManagerLoading();
+            })
+            .catch(function (err) {
+                console.error("troubleshoot failed", err);
+            });
         // Remove troubleshoot-mode class on next action (any other button click)
         $(document).one(
             "click",

@@ -3,7 +3,7 @@ A free and user-friendly WordPress plugin to manage your Git repositories direct
 
 ## Version
 
-**1.3.0 (Stable)**
+**1.4.0 (Stable)**
 
 ## Features
 

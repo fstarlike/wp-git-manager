@@ -12,7 +12,9 @@ class Git_Manager_Ajax
      */
     public function safe_directory()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_safe_directory');
         $path = $this->get_repo_path();
         if (! is_dir($path)) {
             wp_send_json_error(__('Invalid repository path.', 'git-manager'));
@@ -60,7 +62,9 @@ class Git_Manager_Ajax
      */
     public function check_git_changes()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_check_git_changes');
         $path = $this->get_repo_path();
         if (! is_dir($path)) {
             wp_send_json_error(__('Invalid repository path.', 'git-manager'));
@@ -83,7 +87,9 @@ class Git_Manager_Ajax
      */
     public function troubleshoot()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_troubleshoot');
         $log    = '';
         $path   = $this->get_repo_path();
         $whoami = trim(shell_exec('whoami'));
@@ -245,7 +251,9 @@ class Git_Manager_Ajax
      */
     public function fix_permission()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_fix_permission');
         $path = $this->get_repo_path();
         if (! is_dir($path)) {
             wp_send_json_error(__('Invalid repository path.', 'git-manager'));
@@ -267,7 +275,9 @@ class Git_Manager_Ajax
      */
     public function latest_commit()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_latest_commit');
         $path = $this->get_repo_path();
         if (! is_dir($path)) {
             wp_send_json_error(__('Invalid repository path.', 'git-manager'));
@@ -308,7 +318,9 @@ class Git_Manager_Ajax
      */
     public function status()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_status');
         $status = array();
         // Check shell_exec
         $status['shell_exec'] = function_exists('shell_exec') ? 'enabled' : 'disabled';
@@ -367,11 +379,62 @@ class Git_Manager_Ajax
     }
 
     /**
+     * Check if current user has one of allowed roles or is admin
+     * @return bool
+     */
+    private function require_allowed_role()
+    {
+        if (current_user_can('manage_options')) {
+            return true;
+        }
+        $allowed = get_option('git_manager_allowed_roles', array('administrator'));
+        $user    = wp_get_current_user();
+        if (! empty($user->roles) && is_array($user->roles)) {
+            foreach ($user->roles as $r) {
+                if (in_array($r, $allowed, true)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Send access denied JSON and exit if user is not allowed
+     */
+    private function ensure_allowed()
+    {
+        if (! $this->require_allowed_role()) {
+            wp_send_json_error(__('Access denied.', 'git-manager'));
+        }
+    }
+
+    /**
+     * Verify per-action nonce if provided, fallback to default nonce check already performed by caller
+     * @param string $action
+     */
+    private function verify_action_nonce($action)
+    {
+        // If a per-action nonce is provided, validate it. If it's not provided,
+        // fall back to the generic nonce already checked by check_ajax_referer
+        // in the caller. This keeps backward compatibility while encouraging
+        // clients to send per-action nonces.
+        if (isset($_POST['_git_manager_action_nonce']) && ! empty($_POST['_git_manager_action_nonce'])) {
+            $nonce = sanitize_text_field($_POST['_git_manager_action_nonce']);
+            if (! wp_verify_nonce($nonce, $action)) {
+                wp_send_json_error(__('Invalid action nonce.', 'git-manager'));
+            }
+        }
+    }
+
+    /**
      * AJAX: Fix SSH/Host Key issues (create .ssh, add known_hosts)
      */
     public function fix_ssh()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_fix_ssh');
         $path   = $this->get_repo_path();
         $output = '';
         $whoami = trim(shell_exec('whoami'));
@@ -434,6 +497,7 @@ class Git_Manager_Ajax
     public function save_roles()
     {
         check_ajax_referer('git_manager_action', '_git_manager_nonce');
+        // saving roles requires manage_options intentionally; keep original check
         if (! current_user_can('manage_options')) {
             wp_send_json_error('Access denied.');
         }
@@ -447,7 +511,9 @@ class Git_Manager_Ajax
      */
     public function get_branches()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_get_branches');
         $path = $this->get_repo_path();
         if (! is_dir($path)) {
             wp_send_json_error(__('Invalid repository path.', 'git-manager'));
@@ -484,7 +550,9 @@ class Git_Manager_Ajax
 
     public function save_path()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_save_path');
         $path = isset($_POST['git_repo_path']) ? sanitize_text_field($_POST['git_repo_path']) : '';
         // Remove trailing slashes (both / and \\)
         $path = rtrim($path, "\\/");
@@ -498,7 +566,9 @@ class Git_Manager_Ajax
 
     public function fetch()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_fetch');
         $path = $this->get_repo_path();
         if (! is_dir($path)) {
             wp_send_json_error(__('Invalid repository path.', 'git-manager'));
@@ -512,7 +582,9 @@ class Git_Manager_Ajax
 
     public function pull()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_pull');
         $path = $this->get_repo_path();
         if (! is_dir($path)) {
             wp_send_json_error(__('Invalid repository path.', 'git-manager'));
@@ -550,7 +622,9 @@ class Git_Manager_Ajax
 
     public function branch()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_branch');
         $path = $this->get_repo_path();
         if (! is_dir($path)) {
             wp_send_json_error(__('Invalid repository path.', 'git-manager'));
@@ -561,7 +635,9 @@ class Git_Manager_Ajax
 
     public function log()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_log');
         $path = $this->get_repo_path();
         if (! is_dir($path)) {
             wp_send_json_error(__('Invalid repository path.', 'git-manager'));
@@ -598,6 +674,7 @@ class Git_Manager_Ajax
 
     private function run_git_command($command, $path)
     {
+    // No user input check here: callers must enforce permissions
         $home = getenv('USERPROFILE');
         if (!$home) {
             $home = getenv('HOMEPATH');
@@ -628,8 +705,10 @@ class Git_Manager_Ajax
 
     public function checkout()
     {
-        check_ajax_referer('git_manager_action', '_git_manager_nonce');
-        $path = $this->get_repo_path();
+    check_ajax_referer('git_manager_action', '_git_manager_nonce');
+    $this->ensure_allowed();
+    $this->verify_action_nonce('git_manager_checkout');
+    $path = $this->get_repo_path();
         if (! is_dir($path)) {
             wp_send_json_error(__('Invalid repository path.', 'git-manager'));
         }
