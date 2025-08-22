@@ -61,6 +61,118 @@
     font-weight: 500;
     margin-left: 8px;
 }
+
+/* Branch searchable list styles */
+.git-branch-search-wrapper {
+    font-family: inherit;
+}
+.git-branch-search-input {
+    width: 320px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e6eef7;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(20, 30, 60, 0.04);
+}
+.git-branch-search-list {
+    width: 320px;
+    max-height: 260px;
+    overflow: auto;
+    border-radius: 8px;
+    padding: 6px;
+}
+.git-branch-item {
+    padding: 10px 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.12s, transform 0.06s;
+    color: #0f172a;
+}
+.git-branch-item:hover {
+    background: #f3f6ff;
+    transform: translateY(-1px);
+}
+.git-branch-item.active,
+.git-branch-item.selected {
+    background: linear-gradient(90deg, #eef2ff, #eef6ff);
+    border-left: 3px solid #6366f1;
+}
+.git-branch-item .branch-date {
+    color: #7b8794;
+    font-size: 0.92rem;
+    margin-left: 10px;
+}
+
+/* Branch panel displayed in main output area */
+.git-branch-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 12px;
+}
+.git-branch-panel .git-branch-item {
+    background: #fff;
+    border: 1px solid #eef3ff;
+    box-shadow: 0 2px 8px rgba(20, 30, 60, 0.04);
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.git-branch-panel .git-branch-item:has(.branch-badge) {
+    background: #e1e2ff;
+}
+
+.git-branch-panel .branch-name {
+    font-weight: 700;
+    color: #0f172a;
+}
+.git-branch-panel .branch-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.git-branch-panel .branch-badge {
+    background: #eef2ff;
+    color: #3730a3;
+    padding: 3px 8px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+.git-branch-panel-empty {
+    color: #7b8794;
+    padding: 12px;
+}
+
+/* Highlight the selected option in the native branch select (best-effort: some browsers limit option styling) */
+#git-branch-list {
+    border-radius: 8px;
+    padding: 6px 10px;
+    min-width: 340px;
+    background: #fff;
+    border: 1px solid #e6eef7;
+}
+#git-branch-list:focus {
+    outline: none;
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+}
+#git-branch-list option[selected],
+#git-branch-list option:checked {
+    background-color: #f3efff; /* very light purple */
+    color: #5b21b6; /* purple text */
+    font-weight: 700;
+}
+
+/* Fallback visual for browsers that don't style native options: make selected text visible in the select itself */
+#git-branch-list option[selected]::before {
+    content: "";
+}
 .git-last-commit .commit-message {
     color: #22223b;
     font-size: 1.01em;

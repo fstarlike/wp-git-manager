@@ -6,6 +6,18 @@ jQuery(function ($) {
         data.action = action;
         if (!data._git_manager_nonce)
             data._git_manager_nonce = WPGitManagerBar.nonce;
+        // attach per-action nonce if provided
+        try {
+            if (
+                WPGitManagerBar &&
+                WPGitManagerBar.action_nonces &&
+                WPGitManagerBar.action_nonces[action] &&
+                !data._git_manager_action_nonce
+            ) {
+                data._git_manager_action_nonce =
+                    WPGitManagerBar.action_nonces[action];
+            }
+        } catch (e) {}
         var body = new URLSearchParams();
         Object.keys(data).forEach(function (k) {
             if (Array.isArray(data[k])) {
@@ -28,8 +40,9 @@ jQuery(function ($) {
             return res.json();
         });
     }
-    // Track last seen remote hashes per branch to avoid cross-branch noise
+    // Track notification state per branch to avoid cross-branch noise and preserve badge until pull
     const lastSeenByBranch = {};
+    const notifiedRemoteByBranch = {};
     function checkCommits() {
         gmPostBar("git_manager_latest_commit")
             .then(function (resp) {
@@ -54,19 +67,27 @@ jQuery(function ($) {
                 lastLocalHash = data.hash;
                 const remoteHash = data.remote_hash || null;
                 const lastSeen = lastSeenByBranch[currentBranch] || null;
-                // If remoteHash is present and different from local, and it wasn't the same as lastSeen,
-                // show notification and update lastSeen to prevent repeated alerts
-                if (
-                    remoteHash &&
-                    remoteHash !== data.hash &&
-                    remoteHash !== lastSeen
-                ) {
+                // If remoteHash is present and different from local, show badge and info.
+                // Play beep/notify only the first time we see this specific remoteHash for this branch.
+                if (remoteHash && remoteHash !== data.hash) {
                     let info = "";
                     if (data.author && data.subject) {
-                        info =
-                            `<div style="font-size:12px;color:#fff;padding:4px 0 0 0;">` +
-                            `<b>${data.author}</b> &ndash; ${data.subject}` +
-                            `</div>`;
+                        // truncate subject to keep bar compact; full subject stored in title for tooltip
+                        var maxLen = 60; // assume 60 chars is reasonable
+                        var subj = data.subject.toString();
+                        var shortSubj =
+                            subj.length > maxLen
+                                ? subj.slice(0, maxLen - 1) + "\u2026"
+                                : subj;
+                        var safeAuthor = data.author.toString();
+                        info = `<span class="bar-commit-meta" title="${(
+                            safeAuthor +
+                            " - " +
+                            subj
+                        ).replace(
+                            /"/g,
+                            "&quot;"
+                        )}"><b>${safeAuthor}</b> &ndash; ${shortSubj}</span>`;
                     }
                     $("#git-manager-bar-badge")
                         .show()
@@ -83,13 +104,22 @@ jQuery(function ($) {
                     } else {
                         $("#git-manager-bar-commit-info").html(info);
                     }
-                    lastSeenByBranch[currentBranch] = remoteHash;
+                    // mark that we've seen this remoteHash (but don't treat it as acknowledgement)
+                    lastSeenByBranch[currentBranch] =
+                        lastSeenByBranch[currentBranch] || null;
+                    if (notifiedRemoteByBranch[currentBranch] !== remoteHash) {
+                        // first time notifying for this remote hash on this branch
+                        notifiedRemoteByBranch[currentBranch] = remoteHash;
+                        // optionally could play a sound or trigger additional UI here (global snackbar handles site-wide)
+                    }
                 } else {
+                    // If remote no longer ahead (remoteHash missing or equal to local), clear badge and notification state
                     $("#git-manager-bar-badge").hide();
                     $("#git-manager-bar-commit-info").remove();
-                    // update lastSeen to current remote to avoid future repeated alerts
-                    if (remoteHash)
-                        lastSeenByBranch[currentBranch] = remoteHash;
+                    if (!remoteHash || remoteHash === data.hash) {
+                        notifiedRemoteByBranch[currentBranch] = null;
+                        lastSeenByBranch[currentBranch] = remoteHash || null;
+                    }
                 }
             })
             .catch(function (err) {
@@ -133,7 +163,18 @@ jQuery(function ($) {
                 $(".git-manager-bar-spinner").remove();
                 alert(WPGitManagerBar.pullText);
                 $("#git-manager-bar-badge").hide();
-                checkCommits();
+                // clear notified state for current branch so badge won't reappear for the same remote until next remote change
+                try {
+                    var current = WPGitManagerBar.currentBranch || null;
+                    if (
+                        current &&
+                        typeof notifiedRemoteByBranch !== "undefined"
+                    ) {
+                        notifiedRemoteByBranch[current] = null;
+                    }
+                } catch (e) {}
+                // Do not automatically reload status or check commits after pull
+                // User can manually refresh or the periodic checker will run on its own
             })
             .catch(function (err) {
                 console.error("bar pull failed", err);

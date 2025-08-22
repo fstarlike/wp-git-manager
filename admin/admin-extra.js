@@ -8,6 +8,24 @@ jQuery(document).ready(function ($) {
         var nonceEl = document.getElementById("git_manager_nonce");
         if (nonceEl && !data._git_manager_nonce)
             data._git_manager_nonce = nonceEl.value;
+        // attach per-action nonce if provided via localized script
+        try {
+            var actionNonces =
+                (typeof WPGitManagerBar !== "undefined" &&
+                    WPGitManagerBar.action_nonces) ||
+                (typeof WPGitManager !== "undefined" &&
+                    WPGitManager.action_nonces) ||
+                null;
+            if (
+                actionNonces &&
+                actionNonces[action] &&
+                !data._git_manager_action_nonce
+            ) {
+                data._git_manager_action_nonce = actionNonces[action];
+            }
+        } catch (e) {
+            // ignore
+        }
         var body = new URLSearchParams();
         Object.keys(data).forEach(function (k) {
             if (Array.isArray(data[k])) {
@@ -44,6 +62,61 @@ jQuery(document).ready(function ($) {
             __("Checkout", "git-manager") +
             "</button>"
     );
+
+    // --- Branch helpers: normalize and dedupe ---
+    function normalizeBranchName(name) {
+        if (!name) return name;
+        name = name.toString();
+        // remove common refs/remotes prefixes
+        name = name.replace(/^refs\/heads\//, "");
+        name = name.replace(/^refs\/remotes\//, "");
+        name = name.replace(/^remotes\//, "");
+        var parts = name.split("/");
+        return parts[parts.length - 1];
+    }
+
+    function isRemoteBranchName(name) {
+        if (!name) return false;
+        return (
+            /(^origin\/)|(^remotes\/)|(^refs\/remotes\/)/.test(name) ||
+            /\borigin\//.test(name)
+        );
+    }
+
+    function dedupeBranches(branches) {
+        // prefer non-remote branch when duplicate short name exists; otherwise prefer newest by date
+        var map = {};
+        branches.forEach(function (branch) {
+            var key = normalizeBranchName(branch.name);
+            if (!key) return;
+            if (!map[key]) {
+                map[key] = branch;
+            } else {
+                var existing = map[key];
+                var existingRemote = isRemoteBranchName(existing.name);
+                var newRemote = isRemoteBranchName(branch.name);
+                if (existingRemote && !newRemote) {
+                    // prefer the non-remote branch
+                    map[key] = branch;
+                } else if (existingRemote === newRemote) {
+                    // both remote or both non-remote: prefer newer date if available
+                    var ed = Date.parse(existing.date || 0) || 0;
+                    var nd = Date.parse(branch.date || 0) || 0;
+                    if (nd > ed) map[key] = branch;
+                }
+            }
+        });
+        // return in original-ish order: iterate input and collect unique normalized keys
+        var seen = {};
+        var out = [];
+        branches.forEach(function (branch) {
+            var key = normalizeBranchName(branch.name);
+            if (!key || seen[key]) return;
+            seen[key] = true;
+            out.push(map[key]);
+        });
+        return out;
+    }
 
     // --- Loading Overlay Functions ---
     function showGitManagerLoading(msg) {
@@ -101,55 +174,78 @@ jQuery(document).ready(function ($) {
                 __("Loading...", "git-manager") +
                 "</option>"
         );
-        gmPost("git_manager_get_branches", data)
-            .then(function (response) {
-                if (response.success && response.data.length) {
-                    // Get current branch
-                    gmPost("git_manager_latest_commit")
-                        .then(function (branchResp) {
-                            var currentBranch =
-                                branchResp.success && branchResp.data.branch
-                                    ? branchResp.data.branch
-                                    : null;
-                            var html = "";
-                            var searchHtml = "";
-                            response.data.forEach(function (branch) {
-                                html +=
-                                    '<option value="' +
-                                    branch.name +
-                                    '"' +
-                                    (branch.name === currentBranch
-                                        ? " selected"
-                                        : "") +
-                                    ">" +
-                                    branch.name +
-                                    " (" +
-                                    branch.date.split("T")[0] +
-                                    ")</option>";
-                                searchHtml +=
-                                    '<div class="git-branch-item" data-branch="' +
-                                    branch.name +
-                                    '">' +
-                                    branch.name +
-                                    ' <span class="branch-date">' +
-                                    branch.date.split("T")[0] +
-                                    "</span></div>";
-                            });
-                            $("#git-branch-list").html(html);
-                            $("#git-branch-search-list")
-                                .html(searchHtml)
-                                .hide();
-                            // enable search input now that branches are loaded
-                            $("#git-branch-search")
-                                .prop("disabled", false)
-                                .attr(
-                                    "placeholder",
-                                    __("Search branch...", "git-manager")
-                                );
-                        })
-                        .catch(function (err) {
-                            console.error("latest_commit failed", err);
-                        });
+        // Fetch branches and latest commit in parallel to avoid sequential delay
+        Promise.all([
+            gmPost("git_manager_get_branches", data),
+            gmPost("git_manager_latest_commit"),
+        ])
+            .then(function (results) {
+                var response = results[0];
+                var branchResp = results[1];
+                if (response.success && response.data && response.data.length) {
+                    var currentBranch =
+                        branchResp &&
+                        branchResp.success &&
+                        branchResp.data.branch
+                            ? branchResp.data.branch
+                            : null;
+                    var html = "";
+                    var searchHtml = "";
+                    // normalize function to compare branch names (strip refs/heads/ and remote prefixes)
+                    function normalize(name) {
+                        if (!name) return name;
+                        name = name.toString();
+                        name = name.replace(/^refs\/heads\//, "");
+                        var parts = name.split("/");
+                        return parts[parts.length - 1];
+                    }
+                    var normalizedCurrent = normalize(currentBranch);
+                    // dedupe branches by short name (prefer local over remote)
+                    var branches = dedupeBranches(response.data);
+                    branches.forEach(function (branch) {
+                        var normalizedBranch = normalize(branch.name);
+                        var label =
+                            branch.name +
+                            " (" +
+                            (branch.date ? branch.date.split("T")[0] : "") +
+                            ")";
+                        if (normalizedBranch === normalizedCurrent) {
+                            label += " - " + __("Current", "git-manager");
+                        }
+                        html +=
+                            '<option value="' +
+                            branch.name +
+                            '"' +
+                            (normalizedBranch === normalizedCurrent
+                                ? " selected"
+                                : "") +
+                            ">" +
+                            label +
+                            "</option>";
+                        searchHtml +=
+                            '<div class="git-branch-item' +
+                            (normalizedBranch === normalizedCurrent
+                                ? " selected"
+                                : "") +
+                            '" data-branch="' +
+                            branch.name +
+                            '">' +
+                            branch.name +
+                            "</div>";
+                    });
+                    $("#git-branch-list").html(html);
+                    $("#git-branch-search-list").html(searchHtml).hide();
+                    // set search input to current branch short name
+                    if (normalizedCurrent) {
+                        $("#git-branch-search").val(normalizedCurrent);
+                    }
+                    // enable search input now that branches are loaded
+                    $("#git-branch-search")
+                        .prop("disabled", false)
+                        .attr(
+                            "placeholder",
+                            __("Search branch...", "git-manager")
+                        );
                 } else {
                     $("#git-branch-list").html(
                         "<option>" +
@@ -174,6 +270,85 @@ jQuery(document).ready(function ($) {
             });
     }
     loadBranches();
+    // When top-level Branches button is clicked, load and render the branch panel in the output area
+    $(document).on("click", "#git-branch", function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation(); // prevent generic handler in admin.js
+        showGitManagerLoading(__("Loading branches...", "git-manager"));
+        // Fetch branches + current branch in parallel to minimize UI flash
+        Promise.all([
+            gmPost("git_manager_get_branches"),
+            gmPost("git_manager_latest_commit"),
+        ])
+            .then(function (results) {
+                var response = results[0];
+                var branchResp = results[1];
+                if (response.success && response.data && response.data.length) {
+                    var currentBranch =
+                        branchResp &&
+                        branchResp.success &&
+                        branchResp.data.branch
+                            ? branchResp.data.branch
+                            : null;
+                    var html = '<div class="git-branch-panel">';
+                    function normalize(name) {
+                        if (!name) return name;
+                        name = name.toString();
+                        name = name.replace(/^refs\/heads\//, "");
+                        var parts = name.split("/");
+                        return parts[parts.length - 1];
+                    }
+                    var normalizedCurrent = normalize(currentBranch);
+                    // dedupe branches before rendering
+                    var branches = dedupeBranches(response.data);
+                    branches.forEach(function (branch) {
+                        var normalizedBranch = normalize(branch.name);
+                        html +=
+                            '<div class="git-branch-item' +
+                            (normalizedBranch === normalizedCurrent
+                                ? " selected"
+                                : "") +
+                            '" data-branch="' +
+                            branch.name +
+                            '">' +
+                            '<div class="branch-name">' +
+                            branch.name +
+                            "</div>" +
+                            '<div class="branch-meta"><span class="branch-date">' +
+                            (branch.date ? branch.date.split("T")[0] : "") +
+                            "</span>" +
+                            (normalizedBranch === normalizedCurrent
+                                ? '<span class="branch-badge">Current</span>'
+                                : "") +
+                            "</div>" +
+                            "</div>";
+                    });
+                    // set the search input to current branch short name for convenience
+                    if (normalizedCurrent) {
+                        $("#git-branch-search").val(normalizedCurrent);
+                    }
+                    html += "</div>";
+                    $("#git-manager-output-content").html(html);
+                } else {
+                    $("#git-manager-output-content").html(
+                        '<div class="git-branch-panel-empty">' +
+                            __("No branches found.", "git-manager") +
+                            "</div>"
+                    );
+                }
+            })
+            .catch(function (err) {
+                console.error("get_branches failed", err);
+                $("#git-manager-output-content").html(
+                    '<div class="git-branch-panel-empty">' +
+                        __("Failed to load branches.", "git-manager") +
+                        "</div>"
+                );
+            })
+            .finally(function () {
+                hideGitManagerLoading();
+            });
+    });
     // --- Checkout Handler ---
     $(document).on("click", "#git-checkout", function () {
         var branch = $("#git-branch-list").val();
@@ -263,14 +438,35 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    // click on branch item selects it
+    // click on branch item selects it and immediately checks it out
     $(document).on("click", ".git-branch-item", function () {
         var b = $(this).data("branch");
         if (!b) return;
         $("#git-branch-list").val(b).trigger("change");
-        $("#git-branch-search").val(b).focus();
+        $("#git-branch-search").val(b);
         $("#git-branch-search-list").hide();
         $("#git-branch-search").attr("aria-expanded", "false");
+        // perform checkout immediately for better UX
+        try {
+            showGitManagerLoading(__("Switching branch...", "git-manager"));
+            gmPost("git_manager_checkout", { branch: b })
+                .then(function (response) {
+                    // show result and refresh branches/log like the manual checkout
+                    $("#git-manager-output").html(response.data);
+                    loadBranches(); // reload after checkout
+                    if (window.jQuery && $("#git-log").length) {
+                        $("#git-log").trigger("click");
+                    }
+                })
+                .catch(function (err) {
+                    console.error("checkout failed", err);
+                })
+                .finally(function () {
+                    hideGitManagerLoading();
+                });
+        } catch (e) {
+            console.error(e);
+        }
     });
 
     // Keyboard navigation for branch list

@@ -74,6 +74,14 @@ class Git_Manager
             wp_enqueue_script('git-manager-global', GIT_MANAGER_URL . 'admin/git-manager-global.js', array('wp-i18n'), GIT_MANAGER_VERSION, true);
             wp_localize_script('git-manager-global', 'WPGitManagerGlobal', array(
                 'beepUrl' => GIT_MANAGER_URL . 'admin/beep.mp3',
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'action_nonces' => array(
+                    'git_manager_latest_commit' => wp_create_nonce('git_manager_latest_commit'),
+                    'git_manager_fetch' => wp_create_nonce('git_manager_fetch'),
+                    'git_manager_pull' => wp_create_nonce('git_manager_pull'),
+                    'git_manager_get_branches' => wp_create_nonce('git_manager_get_branches'),
+                    'git_manager_status' => wp_create_nonce('git_manager_status'),
+                ),
             ));
             wp_localize_script('git-manager-global', 'gitManagerNonce', array('nonce' => wp_create_nonce('git_manager_action')));
             if (function_exists('wp_set_script_translations')) {
@@ -91,6 +99,25 @@ class Git_Manager
             'nonce'   => wp_create_nonce('git_manager_action'),
             'ajaxurl' => admin_url('admin-ajax.php'),
             'beepUrl' => GIT_MANAGER_URL . 'admin/beep.mp3',
+            'action_nonces' => array(
+                'git_manager_latest_commit' => wp_create_nonce('git_manager_latest_commit'),
+                'git_manager_fetch' => wp_create_nonce('git_manager_fetch'),
+                'git_manager_pull' => wp_create_nonce('git_manager_pull'),
+                'git_manager_checkout' => wp_create_nonce('git_manager_checkout'),
+                'git_manager_get_branches' => wp_create_nonce('git_manager_get_branches'),
+                'git_manager_troubleshoot' => wp_create_nonce('git_manager_troubleshoot'),
+                'git_manager_save_path' => wp_create_nonce('git_manager_save_path'),
+                'git_manager_fetch' => wp_create_nonce('git_manager_fetch'),
+                'git_manager_status' => wp_create_nonce('git_manager_status'),
+                // additional nonces for other AJAX endpoints
+                'git_manager_log' => wp_create_nonce('git_manager_log'),
+                'git_manager_branch' => wp_create_nonce('git_manager_branch'),
+                'git_manager_check_git_changes' => wp_create_nonce('git_manager_check_git_changes'),
+                'git_manager_fix_permission' => wp_create_nonce('git_manager_fix_permission'),
+                'git_manager_fix_ssh' => wp_create_nonce('git_manager_fix_ssh'),
+                'git_manager_save_roles' => wp_create_nonce('git_manager_save_roles'),
+                'git_manager_safe_directory' => wp_create_nonce('git_manager_safe_directory'),
+            ),
         ));
 
         if (function_exists('wp_set_script_translations')) {

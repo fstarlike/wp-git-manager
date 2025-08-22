@@ -20,6 +20,12 @@
 #git-manager-bar-title {
     color: rgba(255, 255, 255, 0.95);
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* allow children to shrink properly inside the flex container */
+    min-width: 0;
+    flex-wrap: nowrap;
 }
 
 #git-manager-bar-badge {
@@ -56,7 +62,22 @@
 #git-manager-bar-commit-info {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.9);
-    margin-top: 2px;
+    margin-top: 0;
+    /* keep commit info on one line and truncate if too long */
+    flex: 1 1 auto;
+    min-width: 0; /* allow flex child to shrink */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* show only the first character visually (user requested) */
+    max-width: 20ch;
+}
+
+/* ensure inner elements don't force wrapping */
+#git-manager-bar-commit-info > * {
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
 }
 
 /* responsive */
@@ -64,5 +85,10 @@
     #git-manager-bar {
         font-size: 13px;
         padding: 6px 8px;
+    }
+
+    /* on very small screens hide the commit info to keep the bar compact */
+    #git-manager-bar-commit-info {
+        display: none;
     }
 }

@@ -6,6 +6,24 @@ jQuery(document).ready(function ($) {
         var nonceEl = document.getElementById("git_manager_nonce");
         if (nonceEl && !data._git_manager_nonce)
             data._git_manager_nonce = nonceEl.value;
+        // attach per-action nonce if provided via localized script
+        try {
+            var actionNonces =
+                (typeof WPGitManagerBar !== "undefined" &&
+                    WPGitManagerBar.action_nonces) ||
+                (typeof WPGitManager !== "undefined" &&
+                    WPGitManager.action_nonces) ||
+                null;
+            if (
+                actionNonces &&
+                actionNonces[action] &&
+                !data._git_manager_action_nonce
+            ) {
+                data._git_manager_action_nonce = actionNonces[action];
+            }
+        } catch (e) {
+            // ignore
+        }
         var body = new URLSearchParams();
         Object.keys(data).forEach(function (k) {
             if (Array.isArray(data[k])) {
@@ -332,6 +350,7 @@ jQuery(document).ready(function ($) {
     // --- Auto check for new commits every 10 seconds ---
     var lastCommitHash = null;
     var lastCommitBranch = null;
+    var lastLocalNotification = 0;
     function checkForNewCommits() {
         gmPost("git_manager_latest_commit")
             .then(function (response) {
@@ -369,24 +388,42 @@ jQuery(document).ready(function ($) {
                         response.data.remote_hash &&
                         response.data.remote_hash !== response.data.hash
                     ) {
-                        if ($("#git-new-commit-alert").length === 0) {
-                            $("#git-manager-output").prepend(
-                                '<div id="git-new-commit-alert" style="background:#ffeaea;color:#b00;padding:10px 15px;margin-bottom:10px;border:1px solid #b00;font-weight:bold;">' +
+                        var now = Date.now();
+                        if (now - lastLocalNotification >= 60000) {
+                            lastLocalNotification = now;
+                            // use the shared snackbar (if provided by global script) to show a modern notification
+                            if (window.gitManagerShowSnackbar) {
+                                window.gitManagerShowSnackbar(
                                     __(
-                                        "New commits detected on remote! Please <b>Pull</b> to update your local repository.",
+                                        "New commits detected on remote! Please Pull to update your local repository.",
                                         "git-manager"
-                                    ) +
-                                    "</div>"
-                            );
-                        }
+                                    )
+                                );
+                            } else {
+                                // fallback: insert a single alert div (kept minimal)
+                                if ($("#git-new-commit-alert").length === 0) {
+                                    $("#git-manager-output").prepend(
+                                        '<div id="git-new-commit-alert" style="background:#ffeaea;color:#b00;padding:10px 15px;margin-bottom:10px;border:1px solid #b00;font-weight:bold;">' +
+                                            __(
+                                                "New commits detected on remote! Please <b>Pull</b> to update your local repository.",
+                                                "git-manager"
+                                            ) +
+                                            "</div>"
+                                    );
+                                }
+                            }
 
-                        // Play a short valid beep (local file)
-                        try {
-                            new Audio(WPGitManager.beepUrl).play();
-                        } catch (e) {
-                            console.error("Playback failed", e);
+                            // try shared beep or local fallback
+                            if (window.gitManagerPlayBeep) {
+                                window.gitManagerPlayBeep();
+                            } else {
+                                try {
+                                    new Audio(WPGitManager.beepUrl).play();
+                                } catch (e) {}
+                            }
                         }
                     } else {
+                        // remove legacy alert if present
                         $("#git-new-commit-alert").remove();
                     }
 
@@ -454,7 +491,7 @@ jQuery(document).ready(function ($) {
             });
     });
 
-    $("#git-fetch, #git-pull, #git-branch").on("click", function () {
+    $("#git-fetch, #git-pull").on("click", function () {
         var action = $(this).attr("id").replace("git-", "");
         showGitManagerLoading();
         gmPost("git_manager_" + action)
