@@ -1,4 +1,12 @@
 /* Basic admin styles for Git Manager */
+:root {
+    --gm-accent: #0f4b7d;
+    --gm-text: #0f1720;
+}
+html, body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 #git-manager-operations button {
     margin-right: 10px;
 }
