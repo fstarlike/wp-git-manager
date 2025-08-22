@@ -30,9 +30,16 @@ jQuery(document).ready(function ($) {
             return res.json();
         });
     }
-    // Replace branch input with a styled dropdown and button
+    // Replace branch input with a searchable dropdown + hidden select (keeps compatibility)
     $("#git-branch").after(
-        '<select id="git-branch-list" class="form-select d-inline-block" style="width:220px;margin-left:10px;vertical-align:middle;margin: 0;padding-right: 22px !important;"></select>' +
+        '<select id="git-branch-list" class="form-select d-inline-block" style="display:none;"></select>' +
+            '<div class="git-branch-search-wrapper d-inline-block" style="vertical-align:middle;margin-left:10px;position:relative;">' +
+            '<input id="git-branch-search" class="git-branch-search-input" placeholder="' +
+            __("Loading...", "git-manager") +
+            '" autocomplete="off" disabled />' +
+            '<div id="git-branch-search-list" class="git-branch-search-list" style="display:none;position:absolute;z-index:50;max-height:220px;overflow:auto;background:#fff;border:1px solid #e0e7ef;border-radius:6px;box-shadow:0 6px 18px rgba(20,30,60,0.08);width:320px;margin-top:6px;left:0;">' +
+            "</div>" +
+            "</div>" +
             '<button class="btn btn-outline-primary ms-2" id="git-checkout"><i class="fa-solid fa-right-left"></i> ' +
             __("Checkout", "git-manager") +
             "</button>"
@@ -105,6 +112,7 @@ jQuery(document).ready(function ($) {
                                     ? branchResp.data.branch
                                     : null;
                             var html = "";
+                            var searchHtml = "";
                             response.data.forEach(function (branch) {
                                 html +=
                                     '<option value="' +
@@ -118,8 +126,26 @@ jQuery(document).ready(function ($) {
                                     " (" +
                                     branch.date.split("T")[0] +
                                     ")</option>";
+                                searchHtml +=
+                                    '<div class="git-branch-item" data-branch="' +
+                                    branch.name +
+                                    '">' +
+                                    branch.name +
+                                    ' <span class="branch-date">' +
+                                    branch.date.split("T")[0] +
+                                    "</span></div>";
                             });
                             $("#git-branch-list").html(html);
+                            $("#git-branch-search-list")
+                                .html(searchHtml)
+                                .hide();
+                            // enable search input now that branches are loaded
+                            $("#git-branch-search")
+                                .prop("disabled", false)
+                                .attr(
+                                    "placeholder",
+                                    __("Search branch...", "git-manager")
+                                );
                         })
                         .catch(function (err) {
                             console.error("latest_commit failed", err);
@@ -130,10 +156,21 @@ jQuery(document).ready(function ($) {
                             __("no branch", "git-manager") +
                             "</option>"
                     );
+                    // ensure input is enabled even if no branches
+                    $("#git-branch-search")
+                        .prop("disabled", false)
+                        .attr(
+                            "placeholder",
+                            __("Search branch...", "git-manager")
+                        );
                 }
             })
             .catch(function (err) {
                 console.error("get_branches failed", err);
+                // on error, re-enable input so user can try again
+                $("#git-branch-search")
+                    .prop("disabled", false)
+                    .attr("placeholder", __("Search branch...", "git-manager"));
             });
     }
     loadBranches();
@@ -196,6 +233,99 @@ jQuery(document).ready(function ($) {
             !$(e.target).closest(".modal-content, #git-settings").length
         ) {
             modal.removeClass("active");
+        }
+    });
+    // Search input interactions: filter, show on focus/click, keyboard nav
+    $(document).on("input", "#git-branch-search", function () {
+        var q = $(this).val().toLowerCase();
+        var $list = $("#git-branch-search-list");
+        if (!q) {
+            $list.find(".git-branch-item").show().removeClass("active");
+        } else {
+            $list.find(".git-branch-item").each(function () {
+                var name = $(this).data("branch") || "";
+                $(this)
+                    .toggle(name.toLowerCase().indexOf(q) !== -1)
+                    .removeClass("active");
+            });
+        }
+        // show list when typing
+        if ($list.children().length) $list.show();
+        $(this).attr("aria-expanded", "true");
+    });
+
+    // Show the list when the input is focused or clicked
+    $(document).on("focus click", "#git-branch-search", function (e) {
+        var $list = $("#git-branch-search-list");
+        if ($list.children().length) {
+            $list.show();
+            $(this).attr("aria-expanded", "true");
+        }
+    });
+
+    // click on branch item selects it
+    $(document).on("click", ".git-branch-item", function () {
+        var b = $(this).data("branch");
+        if (!b) return;
+        $("#git-branch-list").val(b).trigger("change");
+        $("#git-branch-search").val(b).focus();
+        $("#git-branch-search-list").hide();
+        $("#git-branch-search").attr("aria-expanded", "false");
+    });
+
+    // Keyboard navigation for branch list
+    $(document).on("keydown", "#git-branch-search", function (e) {
+        var $list = $("#git-branch-search-list");
+        var $items = $list.find(".git-branch-item:visible");
+        if ($items.length === 0) return;
+
+        var $active = $items.filter(".active").first();
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+            if ($active.length === 0) {
+                $items.removeClass("active");
+                $items.first().addClass("active");
+            } else {
+                var $next = $active.nextAll(".git-branch-item:visible").first();
+                if ($next.length) {
+                    $active.removeClass("active");
+                    $next.addClass("active");
+                }
+            }
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            if ($active.length === 0) {
+                $items.removeClass("active");
+                $items.last().addClass("active");
+            } else {
+                var $prev = $active.prevAll(".git-branch-item:visible").first();
+                if ($prev.length) {
+                    $active.removeClass("active");
+                    $prev.addClass("active");
+                }
+            }
+        } else if (e.key === "Enter") {
+            e.preventDefault();
+            var $sel = $items.filter(".active").first();
+            if ($sel.length === 0) $sel = $items.first();
+            if ($sel.length) {
+                var b = $sel.data("branch");
+                $("#git-branch-list").val(b).trigger("change");
+                $("#git-branch-search").val(b);
+                $list.hide();
+                $("#git-branch-search").attr("aria-expanded", "false");
+            }
+        } else if (e.key === "Escape") {
+            $list.hide();
+            $("#git-branch-search").attr("aria-expanded", "false");
+        }
+    });
+
+    // hide dropdown when clicking outside
+    $(document).on("click", function (e) {
+        if ($(e.target).closest(".git-branch-search-wrapper").length === 0) {
+            $("#git-branch-search-list").hide();
+            $("#git-branch-search").attr("aria-expanded", "false");
         }
     });
 });

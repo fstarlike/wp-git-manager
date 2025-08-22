@@ -404,6 +404,36 @@ body,
     align-items: center;
     min-width: 220px;
 }
+
+/* Searchable branch control */
+.git-branch-search-wrapper {
+    display: inline-block;
+}
+.git-branch-search-input {
+    width: 320px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e0e7ef;
+    background: #fff;
+    font-size: 0.98rem;
+}
+.git-branch-search-list {
+    padding: 6px;
+}
+.git-branch-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    color: #22223b;
+}
+.git-branch-item:hover {
+    background: #f3f4f6;
+}
+.git-branch-item .branch-date {
+    color: #888;
+    font-size: 0.86rem;
+    margin-left: 8px;
+}
 #git-manager-loading-box .spinner-border {
     width: 2.5rem;
     height: 2.5rem;
