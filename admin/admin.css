@@ -3,7 +3,8 @@
     --gm-accent: #0f4b7d;
     --gm-text: #0f1720;
 }
-html, body {
+html,
+body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
