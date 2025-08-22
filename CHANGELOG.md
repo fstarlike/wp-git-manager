@@ -1,4 +1,12 @@
 # Changelog
+## [1.4.0] - 2025-08-22
+### Added
+- Modernized admin AJAX calls: replaced deprecated jQuery shorthand with a small fetch-based helper for more reliable, promise-based requests.
+### Changed
+- Branch-aware change detection: the plugin now tracks the last seen commit per-branch and only notifies when the currently active branch has remote changes.
+- Admin top-bar visual redesign: refined styling for the admin bar badge, spinner and commit info for a cleaner, professional look.
+### Fixed
+- Reduced false-positive "new commit" alerts that previously appeared when switching branches or when other branches updated.
 
 ## [1.3.0] - 2025-08-11
 ### Fixed

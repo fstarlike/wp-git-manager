@@ -1,6 +1,35 @@
 // Custom submit for repo path with loading and trailing slash fix
 jQuery(document).ready(function ($) {
     const { __ } = wp.i18n;
+    // small fetch-based POST helper (local to this file)
+    function gmPost(action, data) {
+        data = data || {};
+        data.action = action;
+        var nonceEl = document.getElementById("git_manager_nonce");
+        if (nonceEl && !data._git_manager_nonce)
+            data._git_manager_nonce = nonceEl.value;
+        var body = new URLSearchParams();
+        Object.keys(data).forEach(function (k) {
+            if (Array.isArray(data[k])) {
+                data[k].forEach(function (v) {
+                    body.append(k + "[]", v);
+                });
+            } else if (data[k] !== undefined && data[k] !== null) {
+                body.append(k, data[k]);
+            }
+        });
+        return fetch(ajaxurl, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded; charset=UTF-8",
+            },
+            body: body.toString(),
+        }).then(function (res) {
+            return res.json();
+        });
+    }
     // Replace branch input with a styled dropdown and button
     $("#git-branch").after(
         '<select id="git-branch-list" class="form-select d-inline-block" style="width:220px;margin-left:10px;vertical-align:middle;margin: 0;padding-right: 22px !important;"></select>' +
@@ -31,14 +60,8 @@ jQuery(document).ready(function ($) {
         $("#git_repo_path").val(path);
         showGitManagerLoading(__("Saving path...", "git-manager"));
         $btn.prop("disabled", true);
-        $.post(
-            ajaxurl,
-            {
-                action: "git_manager_save_path",
-                git_repo_path: path,
-                _git_manager_nonce: $("#git_manager_nonce").val(),
-            },
-            function (response) {
+        gmPost("git_manager_save_path", { git_repo_path: path })
+            .then(function (response) {
                 if (response.success) {
                     $("#git-manager-output-content").html(
                         '<span class="text-success">' +
@@ -50,65 +73,68 @@ jQuery(document).ready(function ($) {
                         '<span class="text-danger">' + response.data + "</span>"
                     );
                 }
-            }
-        ).always(function () {
-            $btn.prop("disabled", false).html(
-                '<i class="fa-solid fa-floppy-disk"></i> ' +
-                    __("Save Path", "git-manager")
-            );
-            hideGitManagerLoading();
-        });
+            })
+            .finally(function () {
+                $btn.prop("disabled", false).html(
+                    '<i class="fa-solid fa-floppy-disk"></i> ' +
+                        __("Save Path", "git-manager")
+                );
+                hideGitManagerLoading();
+            })
+            .catch(function (err) {
+                console.error("save_path failed", err);
+            });
     });
 
     // --- Branches Loader ---
     function loadBranches() {
-        var data = {
-            action: "git_manager_get_branches",
-            _git_manager_nonce: $("#git_manager_nonce").val(),
-        };
+        var data = {};
         $("#git-branch-list").html(
             "<option disabled selected>" +
                 __("Loading...", "git-manager") +
                 "</option>"
         );
-        $.post(ajaxurl, data, function (response) {
-            if (response.success && response.data.length) {
-                // Get current branch
-                $.post(
-                    ajaxurl,
-                    {
-                        action: "git_manager_latest_commit",
-                        _git_manager_nonce: $("#git_manager_nonce").val(),
-                    },
-                    function (branchResp) {
-                        var currentBranch =
-                            branchResp.success && branchResp.data.branch
-                                ? branchResp.data.branch
-                                : null;
-                        var html = "";
-                        response.data.forEach(function (branch) {
-                            html +=
-                                '<option value="' +
-                                branch.name +
-                                '"' +
-                                (branch.name === currentBranch
-                                    ? " selected"
-                                    : "") +
-                                ">" +
-                                branch.name +
-                                " (" +
-                                branch.date.split("T")[0] +
-                                ")</option>";
+        gmPost("git_manager_get_branches", data)
+            .then(function (response) {
+                if (response.success && response.data.length) {
+                    // Get current branch
+                    gmPost("git_manager_latest_commit")
+                        .then(function (branchResp) {
+                            var currentBranch =
+                                branchResp.success && branchResp.data.branch
+                                    ? branchResp.data.branch
+                                    : null;
+                            var html = "";
+                            response.data.forEach(function (branch) {
+                                html +=
+                                    '<option value="' +
+                                    branch.name +
+                                    '"' +
+                                    (branch.name === currentBranch
+                                        ? " selected"
+                                        : "") +
+                                    ">" +
+                                    branch.name +
+                                    " (" +
+                                    branch.date.split("T")[0] +
+                                    ")</option>";
+                            });
+                            $("#git-branch-list").html(html);
+                        })
+                        .catch(function (err) {
+                            console.error("latest_commit failed", err);
                         });
-                        $("#git-branch-list").html(html);
-                    }
-                );
-            } else {
-                $("#git-branch-list").html(
-                    "<option>" + __("no branch", "git-manager") + "</option>"
-                );
-            }
-        });
+                } else {
+                    $("#git-branch-list").html(
+                        "<option>" +
+                            __("no branch", "git-manager") +
+                            "</option>"
+                    );
+                }
+            })
+            .catch(function (err) {
+                console.error("get_branches failed", err);
+            });
     }
     loadBranches();
     // --- Checkout Handler ---
@@ -123,19 +149,24 @@ jQuery(document).ready(function ($) {
         var $btn = $(this);
         showGitManagerLoading(__("Switching branch...", "git-manager"));
         $btn.prop("disabled", true);
-        $.post(ajaxurl, data, function (response) {
-            $("#git-manager-output").html(response.data);
-            loadBranches(); // reload after checkout
-            if (window.jQuery && $("#git-log").length) {
-                $("#git-log").trigger("click");
-            }
-        }).always(function () {
-            $btn.prop("disabled", false).html(
-                '<i class="fa-solid fa-right-left"></i> ' +
-                    __("Checkout", "git-manager")
-            );
-            hideGitManagerLoading();
-        });
+        gmPost("git_manager_checkout", { branch: branch })
+            .then(function (response) {
+                $("#git-manager-output").html(response.data);
+                loadBranches(); // reload after checkout
+                if (window.jQuery && $("#git-log").length) {
+                    $("#git-log").trigger("click");
+                }
+            })
+            .finally(function () {
+                $btn.prop("disabled", false).html(
+                    '<i class="fa-solid fa-right-left"></i> ' +
+                        __("Checkout", "git-manager")
+                );
+                hideGitManagerLoading();
+            })
+            .catch(function (err) {
+                console.error("checkout failed", err);
+            });
     });
     // --- Global AJAX overlay for all main action buttons ---
     $(document).on(

@@ -3,7 +3,7 @@
 /**
  * Plugin Name: WP Git Manager
  * Description: Professional Git repository management from WordPress admin panel with features like displaying commits, pull, fetch, branch switching and ...
- * Version: 1.3.0
+ * Version: 1.4.0
  * Author: Farzad Hoseinzadeh
  * Author URI: https://github.com/fstarlike
  * Text Domain: git-manager
@@ -16,7 +16,7 @@ if (! defined('ABSPATH')) {
 
 define('GIT_MANAGER_PATH', plugin_dir_path(__FILE__));
 define('GIT_MANAGER_URL', plugin_dir_url(__FILE__));
-define('GIT_MANAGER_VERSION', '1.3.0');
+define('GIT_MANAGER_VERSION', '1.4.0');
 
 // Enqueue modern admin styles and FontAwesome for plugin admin pages
 
@@ -84,7 +84,7 @@ add_action('admin_bar_menu', function ($wp_admin_bar) {
     }
     $wp_admin_bar->add_node(array(
         'id'    => 'git_manager_bar',
-        'title' => '<span id="git-manager-bar-title"><i class="fa-solid fa-code-branch"></i> Git <span id="git-manager-bar-badge" style="display:none;background:#d00;color:#fff;border-radius:10px;padding:2px 7px;font-size:11px;margin-left:6px;">New</span></span>',
+        'title' => '<span id="git-manager-bar-title"><i class="fa-solid fa-code-branch"></i> Git-Manager <span id="git-manager-bar-badge" style="display:none;background:#d00;color:#fff;border-radius:10px;padding:2px 7px;font-size:11px;margin-left:6px;">New</span></span>',
         'href'  => '#',
         'meta'  => array('title' => __('Git Manager', 'git-manager'), 'html' => '', 'class' => 'git-manager-bar-root'),
     ));
