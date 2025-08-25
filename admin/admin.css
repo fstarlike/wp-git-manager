@@ -8,8 +8,29 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-#git-manager-operations button {
+#git-manager-operations button,
+#git-manager-operations a.btn {
     margin-right: 10px;
+    background: rgba(15, 23, 42, 0.04);
+    color: var(--gm-text);
+    border: 1px solid rgba(12, 18, 30, 0.06);
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 0.98rem;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(12, 18, 30, 0.02);
+    transition: transform 0.12s ease, background 0.12s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+#git-manager-operations button:hover,
+#git-manager-operations a.btn:hover {
+    background: var(--gm-accent);
+    color: #fff;
+    transform: translateY(-2px);
 }
 #git-manager-output {
     background: #fff;
@@ -25,4 +46,59 @@ body {
 .fas {
     font-family: "Font Awesome 6 Free" !important;
     font-weight: 900 !important;
+}
+
+/* Branch list enhancements */
+.git-branch-item.default .branch-name {
+    font-weight: 600;
+}
+.git-branch-item.default {
+    border-left: 4px solid #ffb347;
+    background: linear-gradient(90deg, #fff7e6, #ffffff);
+}
+.git-branch-item.selected {
+    border-left: 4px solid #2374e1;
+    background: linear-gradient(90deg, #e6f1ff, #ffffff);
+}
+.git-branch-item.default.selected {
+    border-left-color: #ff8c00;
+    background: linear-gradient(90deg, #ffeccf, #ffffff);
+}
+.branch-badge {
+    display: inline-block;
+    font-size: 11px;
+    line-height: 1;
+    padding: 3px 6px 4px;
+    border-radius: 6px;
+    margin-left: 6px;
+    background: #e0e7ef;
+    color: #213040;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+.badge-default {
+    background: #ffb347;
+    color: #4a2a00;
+}
+.badge-current {
+    background: #2374e1;
+    color: #fff;
+}
+/* Highlight default branch in both compact and panel/list views */
+.git-branch-panel .git-branch-item.default,
+.git-branch-search-list .git-branch-item.default,
+.git-branch-item.default {
+    border-left: 4px solid #ffb347;
+    background: linear-gradient(90deg, #fff7e6, #ffffff);
+}
+.git-branch-panel .git-branch-item.default .branch-name,
+.git-branch-search-list .git-branch-item.default .branch-name,
+.git-branch-item.default .branch-name {
+    color: #4a2a00;
+    font-weight: 700;
+}
+.git-branch-panel .git-branch-item.default .branch-date,
+.git-branch-search-list .git-branch-item.default .branch-date,
+.git-branch-item.default .branch-date {
+    color: #8a5a00;
 }

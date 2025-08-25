@@ -40,43 +40,11 @@ if (! defined('ABSPATH')) {
 		<button class="btn" id="git-pull"><i class="fa-solid fa-arrow-down"></i> Pull</button>
 		<button class="btn" id="git-branch"><i class="fa-solid fa-code-branch"></i> Branches</button>
 		<button class="btn" id="git-log"><i class="fa-solid fa-clock-rotate-left"></i> Show Last Commits</button>
-		<?php if (current_user_can('manage_options')): ?>
-		<button class="btn" id="git-settings"><i class="fa-solid fa-gear"></i> Settings</button>
-		<?php endif; ?>
+	<?php if (current_user_can('manage_options')) { ?>
+	<a class="btn" id="git-settings" href="<?php echo admin_url('admin.php?page=git-manager-settings'); ?>"><i class="fa-solid fa-gear"></i> Settings</a>
+
 	</div>
-	<?php if (current_user_can('manage_options')): ?>
-	<!-- Settings Modal -->
-	<div class="modal" id="gitManagerSettingsModal" tabindex="-1" aria-labelledby="gitManagerSettingsLabel"
-		aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="gitManagerSettingsLabel"><i class="fa-solid fa-users-gear"></i>
-						<?php _e('Allowed User Roles', 'git-manager'); ?>
-					</h5>
-					<button type="button" class="btn-close" id="gitManagerSettingsClose" aria-label="Close">×</button>
-				</div>
-				<div class="modal-body">
-					<form method="post" id="git-manager-roles-form">
-						<select name="git_manager_allowed_roles[]" class="form-select" multiple
-							style="min-height:100px;">
-							<?php
-            global $wp_roles;
-	    $roles   = $wp_roles->roles;
-	    $allowed = get_option('git_manager_allowed_roles', array('administrator'));
-	    foreach ($roles as $role_key => $role) {
-	        echo '<option value="' . esc_attr($role_key) . '"' . (in_array($role_key, $allowed) ? ' selected' : '') . '>' . esc_html($role['name']) . '</option>';
-	    }
-	    ?>
-						</select>
-						<button type="submit" class="btn-save-roles"><i class="fa-solid fa-floppy-disk"></i>
-							<?php _e('Save Roles', 'git-manager'); ?></button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	<?php endif; ?>
+	<?php } ?>
 	<div id="git-manager-output" class="alert alert-info d-flex justify-content-between align-items-center"
 		style="margin-top:20px;">
 		<span id="git-manager-output-content"></span>

@@ -112,6 +112,8 @@
             }
             fetch(WPGitManagerGlobal.ajaxurl || ajaxurl, {
                 method: "POST",
+                // Ensure cookies/session are sent so WP recognizes the current user
+                credentials: "same-origin",
                 body: data,
             })
                 .then(function (r) {

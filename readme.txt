@@ -3,7 +3,7 @@ Contributors: farzad-hoseinzadeh
 Tags: git, repository, admin, version control, developer
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -62,3 +62,17 @@ Farzad Hoseinzadeh
 
 == GitHub ==
 https://github.com/fstarlike/wp-git-manager
+
+== Security / Automatic Fixes ==
+
+WP Git Manager can perform certain automatic fixes to help configure git on the server (for example: adding a repository to Git's `safe.directory`, adding host keys to `~/.ssh/known_hosts`, and adjusting file/directory permissions). These operations are potentially dangerous when run on multi-tenant or untrusted servers.
+
+- Default behavior: Automatic fixes are disabled by default.
+- Enable via Settings: Admins may enable automatic fixes from the plugin Settings page (Git Manager → Settings). This sets the option `git_manager_allow_auto_fix`.
+- Enable via wp-config: Advanced users may enable auto-fix globally by adding the following to `wp-config.php` (not recommended on shared servers):
+
+	define('GIT_MANAGER_ALLOW_AUTO_FIX', true);
+
+When automatic fixes are disabled, the plugin will not modify files or change permissions; instead it will display clear, copyable shell commands and instructions for the site administrator to run manually.
+
+Use this feature only on servers you trust and where you have console access or a secure way to run the suggested commands.

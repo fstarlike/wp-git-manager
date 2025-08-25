@@ -169,6 +169,37 @@
     font-weight: 600;
     font-size: 0.85rem;
 }
+.git-branch-item.default {
+    border-left: 3px solid #ffb347;
+    background: linear-gradient(90deg, #fff7e6, #ffffff);
+}
+.git-branch-item.default .branch-name {
+    font-weight: 700;
+}
+.git-branch-item.default.selected {
+    border-left-color: #ff8c00;
+    background: linear-gradient(90deg, #ffeccf, #ffffff);
+}
+.branch-badge.badge-default {
+    background: #ffb347;
+    color: #4a2a00;
+}
+/* Ensure default branch is highlighted both in panel and searchable list (covers the provided snippet) */
+.git-branch-panel .git-branch-item.default,
+.git-branch-search-list .git-branch-item.default {
+    border-left: 3px solid #ffb347;
+    background: linear-gradient(90deg, #fff7e6, #ffffff);
+}
+.git-branch-panel .git-branch-item.default .branch-name,
+.git-branch-search-list .git-branch-item.default .branch-name {
+    color: #4a2a00;
+    font-weight: 700;
+}
+.git-branch-panel .git-branch-item.default .branch-date,
+.git-branch-search-list .git-branch-item.default .branch-date {
+    color: #8a5a00;
+    font-weight: 600;
+}
 .git-branch-panel-empty {
     color: #7b8794;
     padding: 12px;
@@ -465,6 +496,25 @@ body,
     font-family: "Vazirmatn", "IRANSans", "Segoe UI", sans-serif;
 }
 
+.gm-topbar {
+    padding: 10px 14px;
+    background: linear-gradient(
+        90deg,
+        rgba(11, 95, 171, 0.03),
+        rgba(15, 179, 166, 0.02)
+    );
+    border-radius: 12px;
+    align-items: center;
+}
+
+.gm-topbar img {
+    border-radius: 8px;
+}
+
+#git-manager-layout {
+    gap: 18px;
+}
+
 #git-manager-form,
 #git-manager-settings-panel {
     background: var(--gm-surface);
@@ -483,7 +533,9 @@ body,
     gap: 10px;
 }
 
-#git-manager-operations button {
+/* Operation controls: buttons and anchor-buttons share identical styles */
+#git-manager-operations button,
+#git-manager-operations a.btn {
     background: rgba(15, 23, 42, 0.04);
     color: var(--gm-text);
     border: 1px solid rgba(12, 18, 30, 0.06);
@@ -493,11 +545,14 @@ body,
     font-weight: 600;
     box-shadow: 0 2px 6px rgba(12, 18, 30, 0.02);
     transition: transform 0.12s ease, background 0.12s;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
+    text-decoration: none;
 }
-#git-manager-operations button:hover {
+
+#git-manager-operations button:hover,
+#git-manager-operations a.btn:hover {
     background: var(--gm-accent);
     color: #fff;
     transform: translateY(-2px);
@@ -721,5 +776,8 @@ h3 {
     #git-manager-operations button {
         width: 100%;
         justify-content: center;
+    }
+    #git-manager-layout {
+        grid-template-columns: 1fr;
     }
 }

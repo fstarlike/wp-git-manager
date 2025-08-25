@@ -1,4 +1,16 @@
 # Changelog
+## [1.4.1] - 2025-08-25
+### Added
+- Cross-platform git command builder and safer HOME resolution for Windows and POSIX environments.
+- Settings page to control "automatic fixes" and a persisted admin option to enable safe auto-fixes.
+### Changed
+- Hardened troubleshooting and auto-fix behavior: clearer guidance, safer write attempts to .git/config, and Windows-specific instructions when auto-fix is disabled.
+- Modernized AJAX/JS behavior (fetch helpers, credentials binding, per-action nonces) and refined admin UI styles.
+- Improved branch detection and default branch identification when listing branches.
+### Fixed
+- Detect and attempt to auto-resolve common git errors (dubious ownership, missing committer identity) and provide actionable manual commands when auto-fix is disabled.
+- Various permission/ownership handling improvements and safer file writes.
+
 ## [1.4.0] - 2025-08-23
 ### Added
 - Improved admin styles and refined UI behavior and component spacing

@@ -166,6 +166,47 @@ jQuery(document).ready(function ($) {
             });
     });
 
+    // Validate path without saving: show status and update sidebar info
+    $(document).on("click", "#gm-test-path", function (e) {
+        e.preventDefault();
+        var path = $("#git_repo_path").val();
+        if (!path)
+            return alert(__("Repository path is required", "git-manager"));
+        showGitManagerLoading(
+            __("Validating repository path...", "git-manager")
+        );
+        gmPost("git_manager_validate_path", { git_repo_path: path })
+            .then(function (res) {
+                if (res && res.success) {
+                    $("#gm-path-feedback").text(
+                        res.data.message ||
+                            __("Valid repository", "git-manager")
+                    );
+                    // populate sidebar values if returned
+                    if (res.data.repo) $("#gm-repo-path").text(res.data.repo);
+                    if (res.data.branch)
+                        $("#gm-current-branch").text(res.data.branch);
+                    if (res.data.last_commit)
+                        $("#gm-last-commit").text(res.data.last_commit);
+                } else {
+                    $("#gm-path-feedback").text(
+                        res && res.data
+                            ? res.data
+                            : __("Invalid repository", "git-manager")
+                    );
+                }
+            })
+            .catch(function (err) {
+                console.error("validate_path failed", err);
+                $("#gm-path-feedback").text(
+                    __("Failed to validate path", "git-manager")
+                );
+            })
+            .finally(function () {
+                hideGitManagerLoading();
+            });
+    });
+
     // --- Branches Loader ---
     function loadBranches() {
         var data = {};
@@ -204,33 +245,33 @@ jQuery(document).ready(function ($) {
                     var branches = dedupeBranches(response.data);
                     branches.forEach(function (branch) {
                         var normalizedBranch = normalize(branch.name);
-                        var label =
-                            branch.name +
-                            " (" +
-                            (branch.date ? branch.date.split("T")[0] : "") +
-                            ")";
-                        if (normalizedBranch === normalizedCurrent) {
-                            label += " - " + __("Current", "git-manager");
-                        }
+                        var isCurrent = normalizedBranch === normalizedCurrent;
+                        var isDefault = !!branch.default;
+                        var label = branch.name;
+                        var datePart = branch.date ? branch.date.split("T")[0] : "";
+                        if (datePart) label += " (" + datePart + ")";
+                        if (isDefault) label += " - " + __("Default", "git-manager");
+                        if (isCurrent) label += " - " + __("Current", "git-manager");
                         html +=
                             '<option value="' +
                             branch.name +
                             '"' +
-                            (normalizedBranch === normalizedCurrent
-                                ? " selected"
-                                : "") +
+                            (isCurrent ? " selected" : "") +
+                            (isDefault ? ' data-default="1"' : '') +
                             ">" +
                             label +
                             "</option>";
                         searchHtml +=
                             '<div class="git-branch-item' +
-                            (normalizedBranch === normalizedCurrent
-                                ? " selected"
-                                : "") +
+                            (isCurrent ? " selected" : "") +
+                            (isDefault ? " default" : "") +
                             '" data-branch="' +
                             branch.name +
-                            '">' +
+                            (isDefault ? '" data-default="1"' : '"') +
+                            '>' +
                             branch.name +
+                            (isDefault ? ' <span class="branch-badge badge-default">' + __("Default","git-manager") + '</span>' : '') +
+                            (isCurrent ? ' <span class="branch-badge badge-current">' + __("Current","git-manager") + '</span>' : '') +
                             "</div>";
                     });
                     $("#git-branch-list").html(html);
@@ -303,24 +344,24 @@ jQuery(document).ready(function ($) {
                     var branches = dedupeBranches(response.data);
                     branches.forEach(function (branch) {
                         var normalizedBranch = normalize(branch.name);
+                        var isCurrent = normalizedBranch === normalizedCurrent;
+                        var isDefault = !!branch.default;
                         html +=
                             '<div class="git-branch-item' +
-                            (normalizedBranch === normalizedCurrent
-                                ? " selected"
-                                : "") +
+                            (isCurrent ? " selected" : "") +
+                            (isDefault ? " default" : "") +
                             '" data-branch="' +
                             branch.name +
-                            '">' +
+                            (isDefault ? '" data-default="1"' : '"') +
+                            '>' +
                             '<div class="branch-name">' +
                             branch.name +
+                            (isDefault ? ' <span class="branch-badge badge-default">' + __("Default","git-manager") + '</span>' : '') +
+                            (isCurrent ? ' <span class="branch-badge badge-current">' + __("Current","git-manager") + '</span>' : '') +
                             "</div>" +
                             '<div class="branch-meta"><span class="branch-date">' +
                             (branch.date ? branch.date.split("T")[0] : "") +
-                            "</span>" +
-                            (normalizedBranch === normalizedCurrent
-                                ? '<span class="branch-badge">Current</span>'
-                                : "") +
-                            "</div>" +
+                            "</span></div>" +
                             "</div>";
                     });
                     // set the search input to current branch short name for convenience
@@ -392,24 +433,7 @@ jQuery(document).ready(function ($) {
     $(document).ajaxStop(function () {
         hideGitManagerLoading();
     });
-    // Custom modal logic (no Bootstrap)
-    $(document).on("click", "#git-settings", function (e) {
-        e.preventDefault();
-        $("#gitManagerSettingsModal").addClass("active");
-    });
-    $(document).on("click", "#gitManagerSettingsClose", function () {
-        $("#gitManagerSettingsModal").removeClass("active");
-    });
-    // Close modal on outside click
-    $(document).on("mousedown", function (e) {
-        var modal = $("#gitManagerSettingsModal");
-        if (
-            modal.hasClass("active") &&
-            !$(e.target).closest(".modal-content, #git-settings").length
-        ) {
-            modal.removeClass("active");
-        }
-    });
+    // Settings are on a dedicated page; modal logic removed.
     // Search input interactions: filter, show on focus/click, keyboard nav
     $(document).on("input", "#git-branch-search", function () {
         var q = $(this).val().toLowerCase();

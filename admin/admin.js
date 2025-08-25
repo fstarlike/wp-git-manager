@@ -36,6 +36,7 @@ jQuery(document).ready(function ($) {
         });
         return fetch(ajaxurl, {
             method: "POST",
+            // Ensure cookies/session are sent so WP recognizes the current user
             credentials: "same-origin",
             headers: {
                 "Content-Type":
@@ -469,26 +470,7 @@ jQuery(document).ready(function ($) {
             });
     });
 
-    $("#git-manager-roles-form").on("submit", function (e) {
-        e.preventDefault();
-        var data = $(this).serializeArray();
-        // convert to key/value object expected by gmPost
-        var obj = {};
-        data.forEach(function (pair) {
-            obj[pair.name] = pair.value;
-        });
-        gmPost("git_manager_save_roles", obj)
-            .then(function (response) {
-                alert(
-                    typeof response.data === "string"
-                        ? __(response.data, "git-manager")
-                        : response.data
-                );
-            })
-            .catch(function (err) {
-                console.error("save_roles failed", err);
-            });
-    });
+    // Roles and other settings are now submitted via the native WP options form (no separate AJAX handler)
 
     $("#git-manager-form").on("submit", function (e) {
         e.preventDefault();
