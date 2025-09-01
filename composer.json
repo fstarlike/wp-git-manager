@@ -1,0 +1,56 @@
+{
+    "name": "wp-git-manager/plugin",
+    "description": "Professional Git repository management for WordPress with enhanced security and modern UI",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "keywords": [
+        "wordpress",
+        "plugin",
+        "git",
+        "repository",
+        "version-control",
+        "developer-tools"
+    ],
+    "homepage": "https://github.com/fstarlike/wp-git-manager",
+    "authors": [
+        {
+            "name": "Farzad Hoseinzadeh",
+            "email": "fstarlike@gmail.com",
+            "homepage": "https://github.com/fstarlike",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/fstarlike/wp-git-manager/issues",
+        "source": "https://github.com/fstarlike/wp-git-manager",
+        "docs": "https://github.com/fstarlike/wp-git-manager#readme"
+    },
+    "autoload": {
+        "psr-4": {
+            "WPGitManager\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.4",
+        "wordpress": ">=5.0"
+    },
+    "require-dev": {
+        "wp-cli/wp-cli-bundle": "^2.8"
+    },
+    "config": {
+        "optimize-autoloader": true
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "WPGitManager\\Infrastructure\\Autoloader::register"
+        ],
+        "post-update-cmd": [
+            "WPGitManager\\Infrastructure\\Autoloader::register"
+        ],
+        "make-pot": "wp i18n make-pot . languages/git-manager.pot --domain=git-manager",
+        "make-po": "wp i18n make-pot . languages/git-manager.pot --domain=git-manager && echo 'POT file generated successfully!'",
+        "update-pot": "wp i18n make-pot . languages/git-manager.pot --domain=git-manager --force",
+        "make-mo": "wp i18n make-mo languages/git-manager.pot languages/",
+        "build-languages": "composer make-pot && composer make-mo"
+    }
+}

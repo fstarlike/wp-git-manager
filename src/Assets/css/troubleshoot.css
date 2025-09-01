@@ -1,0 +1,1082 @@
+/**
+ * Enhanced Troubleshooting Styles
+ * Modern, beautiful UI for step-by-step Git troubleshooting
+ * Updated to match Git Manager dashboard design system
+ * Fully compatible with both light and dark themes
+ */
+
+/* Enhanced Troubleshooting Container */
+.troubleshoot-container {
+    background: var(--gm-bg-elevated);
+    border-radius: var(--gm-radius-xl, 12px);
+    box-shadow: var(--gm-shadow-lg);
+    border: 1px solid var(--gm-border);
+    overflow: hidden;
+    font-family: var(--gm-font-sans);
+    margin: 0;
+    animation: fadeInUp 0.3s ease-out;
+    direction: ltr;
+    text-align: left;
+    transition: 0.3s;
+}
+
+.troubleshoot-container:hover {
+    border-color: rgba(59, 130, 246, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.troubleshoot-container:hover::before {
+    opacity: 1;
+}
+
+.troubleshoot-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* RTL Support for troubleshooting container */
+.git-manager-wrap[dir="rtl"] .troubleshoot-container {
+    direction: rtl;
+    text-align: right;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header Section */
+.troubleshoot-header {
+    background: linear-gradient(
+        135deg,
+        var(--git-manager-primary) 0%,
+        var(--git-manager-primary-hover) 100%
+    );
+    color: var(--gm-text);
+    padding: var(--gm-space-6, 24px) var(--gm-space-7, 28px);
+    position: relative;
+}
+
+.troubleshoot-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+}
+
+.troubleshoot-title {
+    display: flex;
+    align-items: center;
+    gap: var(--gm-space-3, 12px);
+    font-size: var(--gm-text-lg, 18px);
+    font-weight: var(--gm-font-semibold, 600);
+    margin-bottom: var(--gm-space-4, 16px);
+    position: relative;
+    z-index: 1;
+    flex-direction: row;
+}
+
+.troubleshoot-title svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.troubleshoot-progress {
+    display: flex;
+    align-items: center;
+    gap: var(--gm-space-4, 16px);
+    position: relative;
+    z-index: 1;
+    flex-direction: row;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4ade80 0%, #22c55e 100%);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+.progress-text {
+    font-size: var(--gm-text-sm, 14px);
+    font-weight: var(--gm-font-medium, 500);
+    white-space: nowrap;
+    min-width: 120px;
+    text-align: left;
+}
+
+/* Steps Container */
+.troubleshoot-steps {
+    padding: var(--gm-space-6, 24px);
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.troubleshoot-step {
+    background: var(--gm-bg);
+    border: 1px solid var(--gm-border);
+    border-radius: var(--gm-radius-lg, 8px);
+    margin-bottom: var(--gm-space-4, 16px);
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.troubleshoot-step:hover {
+    border-color: var(--gm-primary, #007cba);
+    box-shadow: 0 2px 4px rgba(0, 123, 202, 0.1);
+}
+
+.troubleshoot-step.expanded {
+    border-color: var(--gm-primary, #007cba);
+    box-shadow: 0 4px 6px rgba(0, 123, 202, 0.15);
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    padding: var(--gm-space-4, 16px);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    flex-direction: row;
+}
+
+.step-header:hover {
+    background: var(--gm-bg-secondary);
+}
+
+.step-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--gm-primary, #007cba);
+    color: var(--gm-white, #ffffff);
+    border-radius: var(--gm-radius-md, 6px);
+    margin-right: var(--gm-space-4, 16px);
+    flex-shrink: 0;
+}
+
+/* RTL Support for step icon */
+.git-manager-wrap[dir="rtl"] .step-icon {
+    margin-right: 0;
+    margin-left: var(--gm-space-4, 16px);
+}
+
+.step-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.step-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.step-title {
+    font-size: var(--gm-text-base, 16px);
+    font-weight: var(--gm-font-semibold, 600);
+    color: var(--gm-text);
+    margin-bottom: var(--gm-space-1, 4px);
+}
+
+.step-description {
+    font-size: var(--gm-text-sm, 14px);
+    color: var(--gm-text-secondary);
+    line-height: 1.4;
+}
+
+.step-status {
+    margin-left: var(--gm-space-4, 16px);
+}
+
+/* RTL Support for step status */
+.git-manager-wrap[dir="rtl"] .step-status {
+    margin-left: 0;
+    margin-right: var(--gm-space-4, 16px);
+}
+
+.status-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.status-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Status Colors */
+.status-pending {
+    background: var(--gm-gray-100, #f3f4f6);
+    color: var(--gm-gray-500, #6b7280);
+}
+
+.status-running {
+    background: var(--gm-blue-100, #dbeafe);
+    color: var(--gm-blue-600, #2563eb);
+}
+
+.status-running svg {
+    animation: spin 1s linear infinite;
+}
+
+.status-success {
+    background: var(--gm-green-100, #dcfce7);
+    color: var(--gm-green-600, #16a34a);
+}
+
+.status-warning {
+    background: var(--gm-yellow-100, #fef3c7);
+    color: var(--gm-yellow-600, #d97706);
+}
+
+.status-error {
+    background: var(--gm-red-100, #fee2e2);
+    color: var(--gm-red-600, #dc2626);
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Step Content */
+.step-content {
+    border-top: 1px solid var(--gm-border);
+    background: var(--gm-bg-elevated);
+}
+
+.step-log {
+    padding: var(--gm-space-4, 16px);
+}
+
+.step-message {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gm-space-3, 12px);
+    padding: var(--gm-space-3, 12px);
+    border-radius: var(--gm-radius-md, 6px);
+    margin-bottom: var(--gm-space-3, 12px);
+    flex-direction: row;
+}
+
+.step-message.success {
+    background: var(--gm-green-50, #f0fdf4);
+    border: 1px solid var(--gm-green-200, #bbf7d0);
+    color: var(--gm-green-800, #166534);
+}
+
+.step-message.warning {
+    background: var(--gm-yellow-50, #fffbeb);
+    border: 1px solid var(--gm-yellow-200, #fde68a);
+    color: var(--gm-yellow-800, #92400e);
+}
+
+.step-message.error {
+    background: var(--gm-red-50, #fef2f2);
+    border: 1px solid var(--gm-red-200, #fecaca);
+    color: var(--gm-red-800, #991b1b);
+}
+
+.step-message svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* RTL Support for step message icons */
+.git-manager-wrap[dir="rtl"] .step-message svg {
+    transform: scaleX(-1);
+}
+
+.step-details {
+    background: var(--gm-bg-secondary);
+    border: 1px solid var(--gm-border);
+    border-radius: var(--gm-radius-md, 6px);
+    padding: var(--gm-space-3, 12px);
+    font-family: var(--gm-font-mono);
+    font-size: var(--gm-text-sm, 14px);
+    color: var(--gm-text);
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-top: var(--gm-space-3, 12px);
+}
+
+.step-solution {
+    border-top: 1px solid var(--gm-border);
+    padding: var(--gm-space-4, 16px);
+    background: var(--gm-blue-50, #eff6ff);
+}
+
+.solution-content h4 {
+    display: flex;
+    align-items: center;
+    gap: var(--gm-space-2, 8px);
+    font-size: var(--gm-text-sm, 14px);
+    font-weight: var(--gm-font-semibold, 600);
+    color: var(--gm-blue-800, #1e40af);
+    margin: 0 0 var(--gm-space-2, 8px) 0;
+    flex-direction: row;
+}
+
+.solution-content h4 svg {
+    width: 16px;
+    height: 16px;
+}
+
+.solution-text {
+    font-size: var(--gm-text-sm, 14px);
+    color: var(--gm-blue-700, #1d4ed8);
+    line-height: 1.5;
+}
+
+/* Actions */
+.troubleshoot-actions {
+    display: flex;
+    gap: var(--gm-space-3, 12px);
+    padding: var(--gm-space-6, 24px);
+    border-top: 1px solid var(--gm-border);
+    background: var(--gm-bg);
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.troubleshoot-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gm-space-2, 8px);
+    padding: var(--gm-space-3, 12px) var(--gm-space-4, 16px);
+    border-radius: var(--gm-radius-md, 6px);
+    font-size: var(--gm-text-sm, 14px);
+    font-weight: var(--gm-font-medium, 500);
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-direction: row;
+}
+
+.troubleshoot-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.btn-primary {
+    background: var(--gm-primary, #007cba);
+    color: var(--gm-white, #ffffff);
+    border-color: var(--gm-primary, #007cba);
+}
+
+.btn-primary:hover {
+    background: var(--gm-primary-dark, #005a87);
+    border-color: var(--gm-primary-dark, #005a87);
+}
+
+.btn-secondary {
+    background: var(--gm-bg-secondary);
+    color: var(--gm-text);
+    border-color: var(--gm-border);
+}
+
+.btn-secondary:hover {
+    background: var(--gm-bg-tertiary);
+    border-color: var(--gm-border-dark);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--gm-text);
+    border-color: var(--gm-border);
+}
+
+.btn-outline:hover {
+    background: var(--gm-bg-secondary);
+    border-color: var(--gm-border-dark);
+}
+
+/* Summary */
+.troubleshoot-summary {
+    border-top: 1px solid var(--gm-border);
+    background: var(--gm-bg-elevated);
+}
+
+.troubleshoot-summary-content {
+    padding: var(--gm-space-6, 24px);
+}
+
+.troubleshoot-summary-content h3 {
+    display: flex;
+    align-items: center;
+    gap: var(--gm-space-3, 12px);
+    font-size: var(--gm-text-lg, 18px);
+    font-weight: var(--gm-font-semibold, 600);
+    color: var(--gm-text);
+    margin: 0 0 var(--gm-space-4, 16px) 0;
+    flex-direction: row;
+}
+
+.troubleshoot-summary-content h3 svg {
+    width: 20px;
+    height: 20px;
+    color: var(--gm-primary, #007cba);
+}
+
+.summary-stats {
+    display: flex;
+    gap: var(--gm-space-4, 16px);
+    margin-bottom: var(--gm-space-6, 24px);
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: var(--gm-space-2, 8px);
+    padding: var(--gm-space-3, 12px) var(--gm-space-4, 16px);
+    border-radius: var(--gm-radius-md, 6px);
+    font-size: var(--gm-text-sm, 14px);
+    font-weight: var(--gm-font-medium, 500);
+    flex-direction: row;
+}
+
+.stat-item.success {
+    background: var(--gm-green-100, #dcfce7);
+    color: var(--gm-green-700, #15803d);
+}
+
+.stat-item.warning {
+    background: var(--gm-yellow-100, #fef3c7);
+    color: var(--gm-yellow-700, #a16207);
+}
+
+.stat-item.danger {
+    background: var(--gm-red-100, #fee2e2);
+    color: var(--gm-red-700, #b91c1c);
+}
+
+.stat-item svg {
+    width: 16px;
+    height: 16px;
+}
+
+.summary-recommendation {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gm-space-4, 16px);
+    padding: var(--gm-space-4, 16px);
+    border-radius: var(--gm-radius-lg, 8px);
+    margin-bottom: var(--gm-space-4, 16px);
+    flex-direction: row;
+}
+
+.summary-recommendation.success {
+    background: var(--gm-green-50, #f0fdf4);
+    border: 1px solid var(--gm-green-200, #bbf7d0);
+}
+
+.summary-recommendation svg {
+    width: 20px;
+    height: 20px;
+    color: var(--gm-green-600, #16a34a);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.summary-recommendation strong {
+    display: block;
+    font-weight: var(--gm-font-semibold, 600);
+    margin-bottom: var(--gm-space-1, 4px);
+}
+
+.summary-recommendation p {
+    margin: 0;
+    font-size: var(--gm-text-sm, 14px);
+    color: var(--gm-text-secondary);
+    line-height: 1.5;
+}
+
+.summary-recommendations {
+    margin-top: var(--gm-space-6, 24px);
+}
+
+.recommendation-section {
+    margin-bottom: var(--gm-space-6, 24px);
+}
+
+.recommendation-section h4 {
+    display: flex;
+    align-items: center;
+    gap: var(--gm-space-2, 8px);
+    font-size: var(--gm-text-base, 16px);
+    font-weight: var(--gm-font-semibold, 600);
+    color: var(--gm-text);
+    margin: 0 0 var(--gm-space-3, 12px) 0;
+    flex-direction: row;
+}
+
+.recommendation-section h4 svg {
+    width: 16px;
+    height: 16px;
+}
+
+.recommendation-section ul {
+    margin: 0;
+    padding-left: var(--gm-space-6, 24px);
+}
+
+/* RTL Support for recommendation lists */
+.git-manager-wrap[dir="rtl"] .recommendation-section ul {
+    padding-left: 0;
+    padding-right: var(--gm-space-6, 24px);
+}
+
+.recommendation-section li {
+    margin-bottom: var(--gm-space-2, 8px);
+    font-size: var(--gm-text-sm, 14px);
+    color: var(--gm-text-secondary);
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .troubleshoot-header {
+        padding: var(--gm-space-4, 16px) var(--gm-space-5, 20px);
+    }
+
+    .troubleshoot-steps {
+        padding: var(--gm-space-4, 16px) var(--gm-space-5, 20px);
+    }
+
+    .troubleshoot-actions {
+        padding: var(--gm-space-4, 16px) var(--gm-space-5, 20px);
+        flex-direction: column;
+    }
+
+    .troubleshoot-btn {
+        justify-content: center;
+    }
+
+    .summary-stats {
+        flex-direction: column;
+    }
+
+    .step-header {
+        padding: var(--gm-space-3, 12px) var(--gm-space-4, 16px);
+    }
+
+    .step-content {
+        padding: 0 var(--gm-space-4, 16px) var(--gm-space-4, 16px);
+    }
+
+    /* RTL Mobile Responsive */
+    .git-manager-wrap[dir="rtl"] .troubleshoot-title {
+        flex-direction: row;
+    }
+
+    .git-manager-wrap[dir="rtl"] .troubleshoot-progress {
+        flex-direction: column;
+    }
+
+    .git-manager-wrap[dir="rtl"] .step-header {
+        flex-direction: row;
+    }
+
+    .git-manager-wrap[dir="rtl"] .troubleshoot-actions {
+        flex-direction: column;
+    }
+
+    .git-manager-wrap[dir="rtl"] .summary-stats {
+        flex-direction: column;
+    }
+
+    .git-manager-wrap[dir="rtl"] .summary-recommendation {
+        flex-direction: row;
+    }
+}
+
+/* Dark Theme Support - Using data-theme attribute */
+html[data-theme="dark"] .troubleshoot-container {
+    background: var(--gm-bg-elevated);
+    border-color: var(--gm-border);
+}
+
+html[data-theme="dark"] .troubleshoot-step {
+    background: var(--gm-bg);
+    border-color: var(--gm-border);
+}
+
+html[data-theme="dark"] .step-header:hover {
+    background: var(--gm-bg-secondary);
+}
+
+html[data-theme="dark"] .step-content {
+    background: var(--gm-bg-elevated);
+    border-top-color: var(--gm-border);
+}
+
+html[data-theme="dark"] .step-title {
+    color: var(--gm-text);
+}
+
+html[data-theme="dark"] .step-description {
+    color: var(--gm-text-secondary);
+}
+
+html[data-theme="dark"] .troubleshoot-actions {
+    background: var(--gm-bg);
+    border-top-color: var(--gm-border);
+}
+
+html[data-theme="dark"] .troubleshoot-summary {
+    background: var(--gm-bg-elevated);
+    border-top-color: var(--gm-border);
+}
+
+html[data-theme="dark"] .troubleshoot-summary-content h3 {
+    color: var(--gm-text);
+}
+
+html[data-theme="dark"] .recommendation-section h4 {
+    color: var(--gm-text);
+}
+
+html[data-theme="dark"] .recommendation-section li {
+    color: var(--gm-text-secondary);
+}
+
+html[data-theme="dark"] .step-details {
+    background: var(--gm-bg-secondary);
+    border-color: var(--gm-border);
+    color: var(--gm-text);
+}
+
+html[data-theme="dark"] .step-solution {
+    background: #1e3a8a;
+    border-top-color: var(--gm-border);
+}
+
+html[data-theme="dark"] .solution-content h4 {
+    color: #93c5fd;
+}
+
+html[data-theme="dark"] .solution-text {
+    color: #bfdbfe;
+}
+
+html[data-theme="dark"] .step-message.success {
+    background: #064e3b;
+    border-color: #065f46;
+    color: #a7f3d0;
+}
+
+html[data-theme="dark"] .step-message.warning {
+    background: #451a03;
+    border-color: #78350f;
+    color: #fde68a;
+}
+
+html[data-theme="dark"] .step-message.error {
+    background: #450a0a;
+    border-color: #7f1d1d;
+    color: #fca5a5;
+}
+
+html[data-theme="dark"] .summary-recommendation.success {
+    background: #064e3b;
+    border-color: #065f46;
+}
+
+html[data-theme="dark"] .summary-recommendation p {
+    color: var(--gm-text-secondary);
+}
+
+html[data-theme="dark"] .stat-item.success {
+    background: #064e3b;
+    color: #a7f3d0;
+}
+
+html[data-theme="dark"] .stat-item.warning {
+    background: #451a03;
+    color: #fde68a;
+}
+
+html[data-theme="dark"] .stat-item.danger {
+    background: #450a0a;
+    color: #fca5a5;
+}
+
+/* Light Theme Support - Using data-theme attribute */
+html[data-theme="light"] .troubleshoot-container {
+    background: var(--gm-bg-secondary);
+    border-color: var(--gm-border);
+}
+
+html[data-theme="light"] .troubleshoot-step {
+    background: var(--gm-bg);
+    border-color: var(--gm-border);
+}
+
+html[data-theme="light"] .step-header:hover {
+    background: var(--gm-bg-secondary);
+}
+
+html[data-theme="light"] .step-content {
+    background: var(--gm-bg-elevated);
+    border-top-color: var(--gm-border);
+}
+
+html[data-theme="light"] .step-title {
+    color: var(--gm-text);
+}
+
+html[data-theme="light"] .step-description {
+    color: var(--gm-text-secondary);
+}
+
+html[data-theme="light"] .troubleshoot-actions {
+    background: var(--gm-bg);
+    border-top-color: var(--gm-border);
+}
+
+html[data-theme="light"] .troubleshoot-summary {
+    background: var(--gm-bg-elevated);
+    border-top-color: var(--gm-border);
+}
+
+html[data-theme="light"] .troubleshoot-summary-content h3 {
+    color: var(--gm-text);
+}
+
+html[data-theme="light"] .recommendation-section h4 {
+    color: var(--gm-text);
+}
+
+html[data-theme="light"] .recommendation-section li {
+    color: var(--gm-text-secondary);
+}
+
+html[data-theme="light"] .step-details {
+    background: var(--gm-bg-secondary);
+    border-color: var(--gm-border);
+    color: var(--gm-text);
+}
+
+html[data-theme="light"] .step-solution {
+    background: var(--gm-blue-50, #eff6ff);
+    border-top-color: var(--gm-border);
+}
+
+html[data-theme="light"] .solution-content h4 {
+    color: var(--gm-blue-800, #1e40af);
+}
+
+html[data-theme="light"] .solution-text {
+    color: var(--gm-blue-700, #1d4ed8);
+}
+
+html[data-theme="light"] .step-message.success {
+    background: var(--gm-green-50, #f0fdf4);
+    border-color: var(--gm-green-200, #bbf7d0);
+    color: var(--gm-green-800, #166534);
+}
+
+html[data-theme="light"] .step-message.warning {
+    background: var(--gm-yellow-50, #fffbeb);
+    border-color: var(--gm-yellow-200, #fde68a);
+    color: var(--gm-yellow-800, #92400e);
+}
+
+html[data-theme="light"] .step-message.error {
+    background: var(--gm-red-50, #fef2f2);
+    border-color: var(--gm-red-200, #fecaca);
+    color: var(--gm-red-800, #991b1b);
+}
+
+html[data-theme="light"] .summary-recommendation.success {
+    background: var(--gm-green-50, #f0fdf4);
+    border-color: var(--gm-green-200, #bbf7d0);
+}
+
+html[data-theme="light"] .summary-recommendation p {
+    color: var(--gm-text-secondary);
+}
+
+html[data-theme="light"] .stat-item.success {
+    background: var(--gm-green-100, #dcfce7);
+    color: var(--gm-green-700, #15803d);
+}
+
+html[data-theme="light"] .stat-item.warning {
+    background: var(--gm-yellow-100, #fef3c7);
+    color: var(--gm-yellow-700, #a16207);
+}
+
+html[data-theme="light"] .stat-item.danger {
+    background: var(--gm-red-100, #fee2e2);
+    color: var(--gm-red-700, #b91c1c);
+}
+
+/* ========================================
+   Comprehensive RTL Support for Troubleshooting
+   ======================================== */
+
+/* RTL Direction Support */
+.git-manager-wrap[dir="rtl"] .troubleshoot-container {
+    direction: rtl;
+    text-align: right;
+}
+
+/* RTL Header */
+.git-manager-wrap[dir="rtl"] .troubleshoot-header {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .troubleshoot-title {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .troubleshoot-title svg {
+    margin-right: 0;
+    margin-left: var(--gm-space-3, 12px);
+}
+
+.git-manager-wrap[dir="rtl"] .troubleshoot-progress {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .progress-text {
+    text-align: left;
+    margin-right: 0;
+    margin-left: var(--gm-space-4, 16px);
+}
+
+/* RTL Steps */
+.git-manager-wrap[dir="rtl"] .troubleshoot-step {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .step-header {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .step-icon {
+    margin-right: 0;
+    margin-left: var(--gm-space-4, 16px);
+}
+
+.git-manager-wrap[dir="rtl"] .step-status {
+    margin-left: 0;
+    margin-right: var(--gm-space-4, 16px);
+}
+
+.git-manager-wrap[dir="rtl"] .step-info {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .step-title {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .step-description {
+    text-align: right;
+}
+
+/* RTL Step Content */
+.git-manager-wrap[dir="rtl"] .step-content {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .step-log {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .step-message {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .step-message svg {
+    margin-right: 0;
+    margin-left: var(--gm-space-3, 12px);
+}
+
+.git-manager-wrap[dir="rtl"] .step-details {
+    text-align: left; /* Keep technical details left-aligned */
+    direction: ltr;
+}
+
+.git-manager-wrap[dir="rtl"] .step-solution {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .solution-content h4 {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .solution-content h4 svg {
+    margin-right: 0;
+    margin-left: var(--gm-space-2, 8px);
+}
+
+/* RTL Actions */
+.git-manager-wrap[dir="rtl"] .troubleshoot-actions {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .troubleshoot-btn {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .troubleshoot-btn svg {
+    margin-right: 0;
+    margin-left: var(--gm-space-2, 8px);
+}
+
+/* RTL Summary */
+.git-manager-wrap[dir="rtl"] .troubleshoot-summary {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .troubleshoot-summary-content {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .troubleshoot-summary-content h3 {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .troubleshoot-summary-content h3 svg {
+    margin-right: 0;
+    margin-left: var(--gm-space-3, 12px);
+}
+
+.git-manager-wrap[dir="rtl"] .summary-stats {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .stat-item {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .stat-item svg {
+    margin-right: 0;
+    margin-left: var(--gm-space-2, 8px);
+}
+
+.git-manager-wrap[dir="rtl"] .summary-recommendation {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .summary-recommendation svg {
+    margin-right: 0;
+    margin-left: var(--gm-space-4, 16px);
+}
+
+.git-manager-wrap[dir="rtl"] .recommendation-section h4 {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .recommendation-section h4 svg {
+    margin-right: 0;
+    margin-left: var(--gm-space-2, 8px);
+}
+
+.git-manager-wrap[dir="rtl"] .recommendation-section ul {
+    padding-left: 0;
+    padding-right: var(--gm-space-6, 24px);
+}
+
+/* RTL Icons and SVGs */
+.git-manager-wrap[dir="rtl"] .git-back-btn svg {
+    transform: scaleX(-1);
+}
+
+.git-manager-wrap[dir="rtl"] .troubleshoot-btn svg {
+    transform: scaleX(-1);
+}
+
+/* RTL Output Header */
+.git-manager-wrap[dir="rtl"] .output-header {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .output-header h3 {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .output-header button {
+    margin-right: 0;
+    margin-left: var(--gm-space-3, 12px);
+}
+
+/* RTL Output Content */
+.git-manager-wrap[dir="rtl"] .output-content {
+    text-align: right;
+}
+
+/* RTL Animation Support */
+.git-manager-wrap[dir="rtl"] .troubleshoot-container {
+    animation: fadeInUpRTL 0.3s ease-out;
+}
+
+@keyframes fadeInUpRTL {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scaleX(-1);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scaleX(-1);
+    }
+}
+
+/* RTL Print Styles */
+@media print {
+    .git-manager-wrap[dir="rtl"] .troubleshoot-container {
+        direction: rtl;
+    }
+
+    .git-manager-wrap[dir="rtl"] .troubleshoot-step {
+        text-align: right;
+    }
+}

@@ -1,0 +1,571 @@
+# Copyright (C) 2025 Farzad Hoseinzadeh
+# This file is distributed under the same license as the WP Git Manager plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Git Manager 2.3.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git-manager\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-08-30T20:08:48+00:00\n"
+"PO-Revision-Date: 2025-08-30T20:08:48+00:00\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: git-manager\n"
+
+#. Plugin Name of the plugin
+msgid "WP Git Manager"
+msgstr ""
+
+#. Description of the plugin
+msgid "Professional Git repository management from WordPress admin panel with features like displaying commits, pull, fetch, branch switching, and full RTL language support."
+msgstr ""
+
+#. Author of the plugin
+msgid "Farzad Hoseinzadeh"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://github.com/fstarlike"
+msgstr ""
+
+msgid "Git Manager"
+msgstr ""
+
+msgid "Git Manager Settings"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Plugin Configuration & Permissions"
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+msgid "Troubleshooting"
+msgstr ""
+
+msgid "Automatic Fixes"
+msgstr ""
+
+msgid "Enable automatic fixes"
+msgstr ""
+
+msgid "Allow the plugin to automatically fix filesystem and git issues. Use only on trusted servers."
+msgstr ""
+
+msgid "User Access Control"
+msgstr ""
+
+msgid "Allowed User Roles"
+msgstr ""
+
+msgid "Select which WordPress roles are allowed to use the Git Manager interface. Use Ctrl/Cmd+click to select multiple roles."
+msgstr ""
+
+msgid "Ready to Save Changes"
+msgstr ""
+
+msgid "Click the button below to apply your settings"
+msgstr ""
+
+msgid "Save Settings"
+msgstr ""
+
+msgid "Settings will be applied immediately"
+msgstr ""
+
+msgid "Troubleshooting & Monitoring"
+msgstr ""
+
+msgid "Configure troubleshooting features and monitoring behavior"
+msgstr ""
+
+msgid "Enable troubleshooting features"
+msgstr ""
+
+msgid "Allow users to access the troubleshooting interface and run diagnostic checks."
+msgstr ""
+
+msgid "Auto-check Interval (seconds)"
+msgstr ""
+
+msgid "How often to automatically check for new commits and repository status. Set to 0 to disable auto-checking."
+msgstr ""
+
+msgid "Ready to start troubleshooting"
+msgstr ""
+
+msgid "Start Troubleshooting"
+msgstr ""
+
+msgid "Stop"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "Git Manager Troubleshooting"
+msgstr ""
+
+msgid "Ready to start"
+msgstr ""
+
+msgid "Troubleshooting completed"
+msgstr ""
+
+msgid "Repository Path Check"
+msgstr ""
+
+msgid "Verifying repository path exists and is accessible"
+msgstr ""
+
+msgid "Git Binary Check"
+msgstr ""
+
+msgid "Checking if Git is installed and accessible"
+msgstr ""
+
+msgid "Git Directory Check"
+msgstr ""
+
+msgid "Verifying .git directory exists and is valid"
+msgstr ""
+
+msgid "Safe Directory Configuration"
+msgstr ""
+
+msgid "Checking and fixing Git safe.directory settings"
+msgstr ""
+
+msgid "File Permissions"
+msgstr ""
+
+msgid "Checking repository file permissions and ownership"
+msgstr ""
+
+msgid "SSH Directory Setup"
+msgstr ""
+
+msgid "Verifying SSH directory exists and has correct permissions"
+msgstr ""
+
+msgid "SSH Key Detection"
+msgstr ""
+
+msgid "Checking for SSH private keys and their permissions"
+msgstr ""
+
+msgid "Host Key Verification"
+msgstr ""
+
+msgid "Checking known_hosts for GitHub/GitLab host keys"
+msgstr ""
+
+msgid "Git Configuration"
+msgstr ""
+
+msgid "Verifying Git user configuration"
+msgstr ""
+
+msgid "Remote Connection Test"
+msgstr ""
+
+msgid "Testing connection to remote repository"
+msgstr ""
+
+msgid "Failed to check repository path"
+msgstr ""
+
+msgid "Please verify the repository path in settings"
+msgstr ""
+
+msgid "Failed to check Git binary"
+msgstr ""
+
+msgid "Please ensure Git is installed on the server"
+msgstr ""
+
+msgid "Failed to check Git directory"
+msgstr ""
+
+msgid "Please ensure this is a valid Git repository"
+msgstr ""
+
+msgid "Failed to check safe directory"
+msgstr ""
+
+msgid "Please check Git configuration manually"
+msgstr ""
+
+msgid "Failed to check permissions"
+msgstr ""
+
+msgid "Please check file permissions manually"
+msgstr ""
+
+msgid "Failed to check SSH directory"
+msgstr ""
+
+msgid "Please check SSH directory manually"
+msgstr ""
+
+msgid "SSH key imported successfully"
+msgstr ""
+
+msgid "SSH key input field not found"
+msgstr ""
+
+msgid "Theme changed"
+msgstr ""
+
+msgid "Unknown"
+msgstr ""
+
+msgid "Repository"
+msgstr ""
+
+msgid "Current path"
+msgstr ""
+
+msgid "Add Repository"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Browse"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Clear"
+msgstr ""
+
+msgid "Loading..."
+msgstr ""
+
+msgid "Loading repositories..."
+msgstr ""
+
+msgid "Loading commits..."
+msgstr ""
+
+msgid "Loading branches..."
+msgstr ""
+
+msgid "Search branches..."
+msgstr ""
+
+msgid "Overview"
+msgstr ""
+
+msgid "Recent Commits"
+msgstr ""
+
+msgid "Branches"
+msgstr ""
+
+msgid "Repository Status"
+msgstr ""
+
+msgid "Branch Information"
+msgstr ""
+
+msgid "Recent Changes"
+msgstr ""
+
+msgid "Last Commit"
+msgstr ""
+
+msgid "Recommendations"
+msgstr ""
+
+msgid "Loading repository status..."
+msgstr ""
+
+msgid "Loading branch information..."
+msgstr ""
+
+msgid "Loading changes..."
+msgstr ""
+
+msgid "Loading commit information..."
+msgstr ""
+
+msgid "Basic Information"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Repository Name"
+msgstr ""
+
+msgid "Repository Path"
+msgstr ""
+
+msgid "Remote URL"
+msgstr ""
+
+msgid "The display name for this repository"
+msgstr ""
+
+msgid "The local path to this repository"
+msgstr ""
+
+msgid "The remote repository URL (optional)"
+msgstr ""
+
+msgid "Repository name"
+msgstr ""
+
+msgid "Repository path"
+msgstr ""
+
+msgid "https://github.com/user/repo.git"
+msgstr ""
+
+msgid "Pull changes"
+msgstr ""
+
+msgid "Push changes"
+msgstr ""
+
+msgid "Fetch updates"
+msgstr ""
+
+msgid "Check status"
+msgstr ""
+
+msgid "Professional troubleshooting"
+msgstr ""
+
+msgid "Fix permissions"
+msgstr ""
+
+msgid "Pull"
+msgstr ""
+
+msgid "Push"
+msgstr ""
+
+msgid "Fetch"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Troubleshoot"
+msgstr ""
+
+msgid "Fix Permissions"
+msgstr ""
+
+msgid "Current Branch"
+msgstr ""
+
+msgid "Back to Welcome"
+msgstr ""
+
+msgid "Add New Repository"
+msgstr ""
+
+msgid "Repository Information"
+msgstr ""
+
+msgid "Repository URL"
+msgstr ""
+
+msgid "Local Path"
+msgstr ""
+
+msgid "Branch (Optional)"
+msgstr ""
+
+msgid "Enter the Git repository URL (HTTPS or SSH) - fields will auto-populate"
+msgstr ""
+
+msgid "Select the parent directory where the repository will be cloned"
+msgstr ""
+
+msgid "Specify a branch to checkout (defaults to main/master)"
+msgstr ""
+
+msgid "Authentication"
+msgstr ""
+
+msgid "This is a private repository"
+msgstr ""
+
+msgid "Enable if the repository requires authentication"
+msgstr ""
+
+msgid "Authentication Method"
+msgstr ""
+
+msgid "SSH Key"
+msgstr ""
+
+msgid "Use SSH private key for authentication"
+msgstr ""
+
+msgid "HTTPS Token"
+msgstr ""
+
+msgid "Use username and personal access token"
+msgstr ""
+
+msgid "SSH Private Key"
+msgstr ""
+
+msgid "Import SSH key from file"
+msgstr ""
+
+msgid "Clear SSH key"
+msgstr ""
+
+msgid "How to generate SSH key"
+msgstr ""
+
+msgid "Import from file"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Personal Access Token"
+msgstr ""
+
+msgid "Your Git hosting service username"
+msgstr ""
+
+msgid "How to create access token"
+msgstr ""
+
+msgid "Repository Type"
+msgstr ""
+
+msgid "This is an existing Git repository"
+msgstr ""
+
+msgid "Enable if the directory already contains a Git repository"
+msgstr ""
+
+msgid "Welcome to Git Manager"
+msgstr ""
+
+msgid "Manage multiple Git repositories with a professional interface inspired by GitHub Desktop and GitLab."
+msgstr ""
+
+msgid "Add Your First Repository"
+msgstr ""
+
+msgid "Buy me a coffee"
+msgstr ""
+
+msgid "Repositories"
+msgstr ""
+
+msgid "Professional Git troubleshooting tool that will diagnose and fix common issues with your Git setup."
+msgstr ""
+
+msgid "Run Troubleshooting"
+msgstr ""
+
+msgid "Troubleshooting Results"
+msgstr ""
+
+msgid "Copy Results"
+msgstr ""
+
+msgid "You don't have access to this section."
+msgstr ""
+
+msgid "wp-content/plugins"
+msgstr ""
+
+msgid "main"
+msgstr ""
+
+msgid "-----BEGIN OPENSSH PRIVATE KEY-----&#10;Your SSH private key content here...&#10;-----END OPENSSH PRIVATE KEY-----"
+msgstr ""
+
+msgid "your-username"
+msgstr ""
+
+msgid "ghp_xxxxxxxxxxxxxxxxxxxx"
+msgstr ""
+
+msgid "Professional Git repository management"
+msgstr ""
+
+msgid "Add Repository (Ctrl+N)"
+msgstr ""
+
+msgid "Toggle Theme (Ctrl+T)"
+msgstr ""
+
+msgid "Toggle RTL/LTR"
+msgstr ""
+
+msgid "Professional Troubleshooting"
+msgstr ""
+
+msgid "Repository pulled successfully."
+msgstr ""
+
+msgid "New commits detected on remote! Please Pull to update your local repository."
+msgstr ""
+
+msgid "New commits on branch"
+msgstr ""
+
+msgid "Please Pull to update your local repository or open Git Manager to review changes."
+msgstr ""
+
+msgid "[Git Manager] No remote tracking branch or fetch failed. remote_hash is empty."
+msgstr ""
+
+msgid "New commits detected on remote!"
+msgstr ""
+
+msgid "Toggle Theme (Ctrl+T)"
+msgstr ""
+
+msgid "Error saving repository settings: "
+msgstr ""
+
+msgid "Floating Widget Settings"
+msgstr ""
+
+msgid "Control the floating widget and its notifications behavior"
+msgstr ""
+
+msgid "Enable floating widget"
+msgstr ""
+
+msgid "Show the floating Git Manager widget on all admin pages for quick repository access."
+msgstr ""
+
+msgid "Enable floating widget notifications"
+msgstr ""
+
+msgid "Show notifications from the floating widget for repository status updates and actions."
+msgstr ""
+
+msgid "Enable repository status notifications"
+msgstr ""
+
+msgid "Show notifications for repository updates like new commits, branch changes, and status changes."
+msgstr ""
+
+msgid "Configure your Git Manager experience"
+msgstr ""
+
+msgid "Access denied."
+msgstr ""
