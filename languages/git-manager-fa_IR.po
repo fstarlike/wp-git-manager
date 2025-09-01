@@ -1,0 +1,708 @@
+# Copyright (C) 2025 Farzad Hoseinzadeh
+# This file is distributed under the same license as the WP Git Manager plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Git Manager 2.3.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git-manager\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-08-30T20:08:48+00:00\n"
+"PO-Revision-Date: 2025-08-31 00:34+0330\n"
+"X-Generator: Poedit 2.2\n"
+"X-Domain: git-manager\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
+"Language: fa_IR\n"
+
+#. Plugin Name of the plugin
+msgid "WP Git Manager"
+msgstr "مدیر گیت وردپرس"
+
+#. Description of the plugin
+msgid "Professional Git repository management from WordPress admin panel with features like displaying commits, pull, fetch, branch switching, and full RTL language support."
+msgstr "مدیریت حرفه‌ای مخازن گیت از پنل مدیریت وردپرس با قابلیت‌هایی مانند نمایش کامیت‌ها، پول، پوش تغییر برنچ و پشتیبانی کامل از زبان راست به چپ."
+
+#. Author of the plugin
+msgid "Farzad Hoseinzadeh"
+msgstr "فرزاد حسین‌زاده"
+
+#. Author URI of the plugin
+msgid "https://github.com/fstarlike"
+msgstr "https://github.com/fstarlike"
+
+msgid "Git Manager"
+msgstr "مدیر گیت"
+
+msgid "Git Manager Settings"
+msgstr "تنظیمات مدیر گیت"
+
+msgid "Settings"
+msgstr "تنظیمات"
+
+msgid "Plugin Configuration & Permissions"
+msgstr "پیکربندی افزونه و مجوزها"
+
+msgid "Dashboard"
+msgstr "داشبورد"
+
+msgid "Troubleshooting"
+msgstr "عیب‌یابی"
+
+msgid "Automatic Fixes"
+msgstr "رفع خودکار مشکلات"
+
+msgid "Enable automatic fixes"
+msgstr "فعال‌سازی رفع خودکار مشکلات"
+
+msgid "Allow the plugin to automatically fix filesystem and git issues. Use only on trusted servers."
+msgstr "اجازه دهید افزونه به طور خودکار مشکلات فایل سیستم و گیت را برطرف کند. فقط روی سرورهای مورد اعتماد استفاده کنید."
+
+msgid "User Access Control"
+msgstr "کنترل دسترسی کاربران"
+
+msgid "Allowed User Roles"
+msgstr "نقش‌های کاربری مجاز"
+
+msgid "Select which WordPress roles are allowed to use the Git Manager interface. Use Ctrl/Cmd+click to select multiple roles."
+msgstr "انتخاب کنید کدام نقش‌های وردپرس مجاز به استفاده از رابط مدیر گیت هستند. از Ctrl/Cmd+click برای انتخاب چندین نقش استفاده کنید."
+
+msgid "Ready to Save Changes"
+msgstr "آماده برای ذخیره تغییرات"
+
+msgid "Click the button below to apply your settings"
+msgstr "برای اعمال تنظیمات خود روی دکمه زیر کلیک کنید"
+
+msgid "Save Settings"
+msgstr "ذخیره تنظیمات"
+
+msgid "Settings will be applied immediately"
+msgstr "تنظیمات بلافاصله اعمال خواهند شد"
+
+msgid "Ready to start troubleshooting"
+msgstr "آماده برای شروع عیب‌یابی"
+
+msgid "Start Troubleshooting"
+msgstr "شروع عیب‌یابی"
+
+msgid "Stop"
+msgstr "توقف"
+
+msgid "Reset"
+msgstr "بازنشانی"
+
+msgid "Git Manager Troubleshooting"
+msgstr "عیب‌یابی مدیر گیت"
+
+msgid "Ready to start"
+msgstr "آماده برای شروع"
+
+msgid "Troubleshooting completed"
+msgstr "عیب‌یابی تکمیل شد"
+
+msgid "Repository Path Check"
+msgstr "بررسی مسیر مخزن"
+
+msgid "Verifying repository path exists and is accessible"
+msgstr "تأیید وجود و دسترسی مسیر مخزن"
+
+msgid "Git Binary Check"
+msgstr "بررسی باینری گیت"
+
+msgid "Checking if Git is installed and accessible"
+msgstr "بررسی نصب و دسترسی گیت"
+
+msgid "Git Directory Check"
+msgstr "بررسی دایرکتوری گیت"
+
+msgid "Verifying .git directory exists and is valid"
+msgstr "تأیید وجود و اعتبار دایرکتوری .git"
+
+msgid "Safe Directory Configuration"
+msgstr "پیکربندی دایرکتوری امن"
+
+msgid "Checking and fixing Git safe.directory settings"
+msgstr "بررسی و رفع تنظیمات safe.directory گیت"
+
+msgid "File Permissions"
+msgstr "مجوزهای فایل"
+
+msgid "Checking repository file permissions and ownership"
+msgstr "بررسی مجوزها و مالکیت فایل‌های مخزن"
+
+msgid "SSH Directory Setup"
+msgstr "راه‌اندازی دایرکتوری SSH"
+
+msgid "Verifying SSH directory exists and has correct permissions"
+msgstr "تأیید وجود دایرکتوری SSH و مجوزهای صحیح"
+
+msgid "SSH Key Detection"
+msgstr "تشخیص کلید SSH"
+
+msgid "Checking for SSH private keys and their permissions"
+msgstr "بررسی کلیدهای خصوصی SSH و مجوزهای آنها"
+
+msgid "Host Key Verification"
+msgstr "تأیید کلید میزبان"
+
+msgid "Checking known_hosts for GitHub/GitLab host keys"
+msgstr "بررسی known_hosts برای کلیدهای میزبان GitHub/GitLab"
+
+msgid "Git Configuration"
+msgstr "پیکربندی گیت"
+
+msgid "Verifying Git user configuration"
+msgstr "تأیید پیکربندی کاربر گیت"
+
+msgid "Remote Connection Test"
+msgstr "تست اتصال ریموت"
+
+msgid "Testing connection to remote repository"
+msgstr "تست اتصال به مخزن ریموت"
+
+msgid "Failed to check repository path"
+msgstr "بررسی مسیر مخزن ناموفق بود"
+
+msgid "Please verify the repository path in settings"
+msgstr "لطفاً مسیر مخزن را در تنظیمات تأیید کنید"
+
+msgid "Failed to check Git binary"
+msgstr "بررسی باینری گیت ناموفق بود"
+
+msgid "Please ensure Git is installed on the server"
+msgstr "لطفاً اطمینان حاصل کنید که گیت روی سرور نصب شده است"
+
+msgid "Failed to check Git directory"
+msgstr "بررسی دایرکتوری گیت ناموفق بود"
+
+msgid "Please ensure this is a valid Git repository"
+msgstr "لطفاً اطمینان حاصل کنید که این یک مخزن گیت معتبر است"
+
+msgid "Failed to check safe directory"
+msgstr "بررسی دایرکتوری امن ناموفق بود"
+
+msgid "Please check Git configuration manually"
+msgstr "لطفاً پیکربندی گیت را به صورت دستی بررسی کنید"
+
+msgid "Failed to check permissions"
+msgstr "بررسی مجوزها ناموفق بود"
+
+msgid "Please check file permissions manually"
+msgstr "لطفاً مجوزهای فایل را به صورت دستی بررسی کنید"
+
+msgid "Failed to check SSH directory"
+msgstr "بررسی دایرکتوری SSH ناموفق بود"
+
+msgid "Please check SSH directory manually"
+msgstr "لطفاً دایرکتوری SSH را به صورت دستی بررسی کنید"
+
+msgid "SSH key imported successfully"
+msgstr "کلید SSH با موفقیت وارد شد"
+
+msgid "SSH key input field not found"
+msgstr "فیلد ورودی کلید SSH یافت نشد"
+
+msgid "Theme changed"
+msgstr "پوسته تغییر کرد"
+
+msgid "Unknown"
+msgstr "نامشخص"
+
+msgid "Repository"
+msgstr "مخزن"
+
+msgid "Current path"
+msgstr "مسیر فعلی"
+
+msgid "Add Repository"
+msgstr "افزودن مخزن"
+
+msgid "Cancel"
+msgstr "لغو"
+
+msgid "Browse"
+msgstr "مرور"
+
+msgid "Import"
+msgstr "وارد کردن"
+
+msgid "Clear"
+msgstr "پاک کردن"
+
+msgid "Loading..."
+msgstr "در حال بارگذاری..."
+
+msgid "Loading repositories..."
+msgstr "در حال بارگذاری مخازن..."
+
+msgid "Loading commits..."
+msgstr "در حال بارگذاری کامیت‌ها..."
+
+msgid "Loading branches..."
+msgstr "در حال بارگذاری برنچ‌ها..."
+
+msgid "Search branches..."
+msgstr "جستجو در برنچ‌ها..."
+
+msgid "Overview"
+msgstr "نمای کلی"
+
+msgid "Recent Commits"
+msgstr "کامیت‌های اخیر"
+
+msgid "Branches"
+msgstr "برنچ‌ها"
+
+msgid "Repository Status"
+msgstr "وضعیت مخزن"
+
+msgid "Branch Information"
+msgstr "اطلاعات برنچ"
+
+msgid "Recent Changes"
+msgstr "تغییرات اخیر"
+
+msgid "Last Commit"
+msgstr "آخرین کامیت"
+
+msgid "Recommendations"
+msgstr "توصیه‌ها"
+
+msgid "Loading repository status..."
+msgstr "در حال بارگذاری وضعیت مخزن..."
+
+msgid "Loading branch information..."
+msgstr "در حال بارگذاری اطلاعات برنچ..."
+
+msgid "Loading changes..."
+msgstr "در حال بارگذاری تغییرات..."
+
+msgid "Loading commit information..."
+msgstr "در حال بارگذاری اطلاعات کامیت..."
+
+msgid "Basic Information"
+msgstr "اطلاعات پایه"
+
+msgid "Actions"
+msgstr "عملیات"
+
+msgid "Repository Name"
+msgstr "نام مخزن"
+
+msgid "Repository Path"
+msgstr "مسیر مخزن"
+
+msgid "Remote URL"
+msgstr "آدرس ریموت"
+
+msgid "The display name for this repository"
+msgstr "نام نمایشی برای این مخزن"
+
+msgid "The local path to this repository"
+msgstr "مسیر محلی این مخزن"
+
+msgid "The remote repository URL (optional)"
+msgstr "آدرس مخزن ریموت (اختیاری)"
+
+msgid "Repository name"
+msgstr "نام مخزن"
+
+msgid "Repository path"
+msgstr "مسیر مخزن"
+
+msgid "https://github.com/user/repo.git"
+msgstr "https://github.com/user/repo.git"
+
+msgid "Pull changes"
+msgstr "پول تغییرات"
+
+msgid "Push changes"
+msgstr "پوش تغییرات"
+
+msgid "Fetch updates"
+msgstr "دریافت به‌روزرسانی‌ها"
+
+msgid "Check status"
+msgstr "بررسی وضعیت"
+
+msgid "Professional troubleshooting"
+msgstr "عیب‌یابی حرفه‌ای"
+
+msgid "Fix permissions"
+msgstr "رفع مجوزها"
+
+msgid "Pull"
+msgstr "پول"
+
+msgid "Push"
+msgstr "پوش"
+
+msgid "Fetch"
+msgstr "دریافت"
+
+msgid "Status"
+msgstr "وضعیت"
+
+msgid "Troubleshoot"
+msgstr "عیب‌یابی"
+
+msgid "Fix Permissions"
+msgstr "رفع مجوزها"
+
+msgid "Current Branch"
+msgstr "برنچ فعلی"
+
+msgid "Back to Welcome"
+msgstr "بازگشت به خوش‌آمدگویی"
+
+msgid "Add New Repository"
+msgstr "افزودن مخزن جدید"
+
+msgid "Repository Information"
+msgstr "اطلاعات مخزن"
+
+msgid "Repository URL"
+msgstr "آدرس مخزن"
+
+msgid "Local Path"
+msgstr "مسیر محلی"
+
+msgid "Branch (Optional)"
+msgstr "برنچ (اختیاری)"
+
+msgid "Enter the Git repository URL (HTTPS or SSH) - fields will auto-populate"
+msgstr "آدرس مخزن گیت را وارد کنید (HTTPS یا SSH) - فیلدها به طور خودکار پر خواهند شد"
+
+msgid "Select the parent directory where the repository will be cloned"
+msgstr "دایرکتوری والد را انتخاب کنید که مخزن در آن کلون خواهد شد"
+
+msgid "Specify a branch to checkout (defaults to main/master)"
+msgstr "برنچ‌ای را برای checkout مشخص کنید (پیش‌فرض main/master)"
+
+msgid "Authentication"
+msgstr "احراز هویت"
+
+msgid "This is a private repository"
+msgstr "این یک مخزن خصوصی است"
+
+msgid "Enable if the repository requires authentication"
+msgstr "اگر مخزن نیاز به احراز هویت دارد، فعال کنید"
+
+msgid "Authentication Method"
+msgstr "روش احراز هویت"
+
+msgid "SSH Key"
+msgstr "کلید SSH"
+
+msgid "Use SSH private key for authentication"
+msgstr "از کلید خصوصی SSH برای احراز هویت استفاده کنید"
+
+msgid "HTTPS Token"
+msgstr "توکن HTTPS"
+
+msgid "Use username and personal access token"
+msgstr "از نام کاربری و توکن دسترسی شخصی استفاده کنید"
+
+msgid "SSH Private Key"
+msgstr "کلید خصوصی SSH"
+
+msgid "Import SSH key from file"
+msgstr "وارد کردن کلید SSH از فایل"
+
+msgid "Clear SSH key"
+msgstr "پاک کردن کلید SSH"
+
+msgid "How to generate SSH key"
+msgstr "نحوه تولید کلید SSH"
+
+msgid "Import from file"
+msgstr "وارد کردن از فایل"
+
+msgid "Username"
+msgstr "نام کاربری"
+
+msgid "Personal Access Token"
+msgstr "توکن دسترسی شخصی"
+
+msgid "Your Git hosting service username"
+msgstr "نام کاربری سرویس میزبانی گیت شما"
+
+msgid "How to create access token"
+msgstr "نحوه ایجاد توکن دسترسی"
+
+msgid "Repository Type"
+msgstr "نوع مخزن"
+
+msgid "This is an existing Git repository"
+msgstr "این یک مخزن گیت موجود است"
+
+msgid "Enable if the directory already contains a Git repository"
+msgstr "اگر دایرکتوری قبلاً شامل یک مخزن گیت است، فعال کنید"
+
+msgid "Welcome to Git Manager"
+msgstr "به مدیر گیت خوش آمدید"
+
+msgid "Manage multiple Git repositories with a professional interface inspired by GitHub Desktop and GitLab."
+msgstr "مدیریت چندین مخزن گیت با رابط حرفه‌ای الهام گرفته از GitHub Desktop و GitLab."
+
+msgid "Add Your First Repository"
+msgstr "اولین مخزن خود را اضافه کنید"
+
+msgid "Buy me a coffee"
+msgstr "برای من قهوه بخرید"
+
+msgid "Repositories"
+msgstr "مخازن"
+
+msgid "Professional Git troubleshooting tool that will diagnose and fix common issues with your Git setup."
+msgstr "ابزار عیب‌یابی حرفه‌ای گیت که مشکلات رایج پیکربندی گیت شما را تشخیص داده و برطرف می‌کند."
+
+msgid "Run Troubleshooting"
+msgstr "اجرای عیب‌یابی"
+
+msgid "Troubleshooting Results"
+msgstr "نتایج عیب‌یابی"
+
+msgid "Copy Results"
+msgstr "کپی نتایج"
+
+msgid "You don't have access to this section."
+msgstr "شما به این بخش دسترسی ندارید."
+
+msgid "wp-content/plugins"
+msgstr "wp-content/plugins"
+
+msgid "main"
+msgstr "اصلی"
+
+msgid "-----BEGIN OPENSSH PRIVATE KEY-----&#10;Your SSH private key content here...&#10;-----END OPENSSH PRIVATE KEY-----"
+msgstr "-----BEGIN OPENSSH PRIVATE KEY-----&#10;محتوای کلید خصوصی SSH شما اینجا...&#10;-----END OPENSSH PRIVATE KEY-----"
+
+msgid "your-username"
+msgstr "نام-کاربری-شما"
+
+msgid "ghp_xxxxxxxxxxxxxxxxxxxx"
+msgstr "ghp_xxxxxxxxxxxxxxxxxxxx"
+
+msgid "Professional Git repository management"
+msgstr "مدیریت حرفه‌ای مخازن گیت"
+
+msgid "Toggle RTL/LTR"
+msgstr "تغییر راست به چپ/چپ به راست"
+
+msgid "Professional Troubleshooting"
+msgstr "عیب‌یابی حرفه‌ای"
+
+msgid "Repository pulled successfully."
+msgstr "مخزن با موفقیت کشیده شد."
+
+msgid "New commits detected on remote! Please Pull to update your local repository."
+msgstr "کامیت‌های جدید در ریموت شناسایی شد! لطفاً برای به‌روزرسانی مخزن محلی خود پول کنید."
+
+msgid "New commits on branch"
+msgstr "کامیت‌های جدید در برنچ"
+
+msgid "Please Pull to update your local repository or open Git Manager to review changes."
+msgstr "لطفاً برای به‌روزرسانی مخزن محلی خود پول کنید یا مدیر گیت را برای بررسی تغییرات باز کنید."
+
+msgid "[Git Manager] No remote tracking branch or fetch failed. remote_hash is empty."
+msgstr "[مدیر گیت] هیچ برنچ ردیابی ریموتی وجود ندارد یا دریافت ناموفق بود. remote_hash خالی است."
+
+msgid "New commits detected on remote!"
+msgstr "کامیت‌های جدید در ریموت شناسایی شد!"
+
+msgid "SSH key cleared"
+msgstr "کلید SSH پاک شد"
+
+msgid "Repository URL is required"
+msgstr "آدرس مخزن الزامی است"
+
+msgid "Local path is required"
+msgstr "مسیر محلی الزامی است"
+
+msgid "Failed to load repositories"
+msgstr "بارگذاری مخازن ناموفق بود"
+
+msgid "No repository selected"
+msgstr "هیچ مخزنی انتخاب نشده است"
+
+msgid "Requesting permission fix..."
+msgstr "درخواست رفع مجوزها..."
+
+msgid "Pulling changes..."
+msgstr "پول تغییرات..."
+
+msgid "Pushing changes..."
+msgstr "پوش تغییرات..."
+
+msgid "Changes pushed successfully"
+msgstr "تغییرات با موفقیت پوش شدند"
+
+msgid "Fetching updates..."
+msgstr "دریافت به‌روزرسانی‌ها..."
+
+msgid "Checking status..."
+msgstr "بررسی وضعیت..."
+
+msgid "Status checked successfully"
+msgstr "وضعیت با موفقیت بررسی شد"
+
+msgid "Deleting repository..."
+msgstr "حذف مخزن..."
+
+msgid "Re-cloning repository..."
+msgstr "کلون مجدد مخزن..."
+
+msgid "Repository settings loaded"
+msgstr "تنظیمات مخزن بارگذاری شد"
+
+msgid "Error loading repository settings"
+msgstr "خطا در بارگذاری تنظیمات مخزن"
+
+msgid "Settings form not found"
+msgstr "فرم تنظیمات یافت نشد"
+
+msgid "Repository name is required"
+msgstr "نام مخزن الزامی است"
+
+msgid "Repository path is required"
+msgstr "مسیر مخزن الزامی است"
+
+msgid "Invalid repository path"
+msgstr "مسیر مخزن نامعتبر است"
+
+msgid "Error refreshing repository list"
+msgstr "خطا در به‌روزرسانی لیست مخازن"
+
+msgid "Please select an action type"
+msgstr "لطفاً نوع عملیات را انتخاب کنید"
+
+msgid "Failed to read SSH key file"
+msgstr "خواندن فایل کلید SSH ناموفق بود"
+
+msgid "Running professional troubleshooting..."
+msgstr "در حال اجرای عیب‌یابی حرفه‌ای..."
+
+msgid "Troubleshooting failed"
+msgstr "عیب‌یابی ناموفق بود"
+
+msgid "Troubleshooting error"
+msgstr "خطای عیب‌یابی"
+
+msgid "Professional Troubleshooting Results"
+msgstr "نتایج عیب‌یابی حرفه‌ای"
+
+msgid "Close"
+msgstr "بستن"
+
+msgid "Fixing repository permissions..."
+msgstr "در حال رفع مجوزهای مخزن..."
+
+msgid "Permissions fixed successfully!"
+msgstr "مجوزها با موفقیت رفع شدند!"
+
+msgid "Permission fix failed"
+msgstr "رفع مجوزها ناموفق بود"
+
+msgid "Permission fix error"
+msgstr "خطای رفع مجوزها"
+
+msgid "Processing..."
+msgstr "در حال پردازش..."
+
+msgid "Pulling repository..."
+msgstr "در حال پول مخزن..."
+
+msgid "Pushing repository..."
+msgstr "در حال پوش مخزن..."
+
+msgid "Fetching repository..."
+msgstr "در حال دریافت مخزن..."
+
+msgid "Personal Access Token Guide"
+msgstr "راهنمای توکن دسترسی شخصی"
+
+msgid "GitHub"
+msgstr "GitHub"
+
+msgid "GitLab"
+msgstr "GitLab"
+
+msgid "Bitbucket"
+msgstr "Bitbucket"
+
+msgid "Unknown error"
+msgstr "خطای نامشخص"
+
+msgid "Unable to parse Git URL. Please check the format and try again."
+msgstr "تجزیه آدرس گیت ناموفق بود. لطفاً فرمت را بررسی کرده و دوباره تلاش کنید."
+
+msgid "Uncommitted Changes"
+msgstr "تغییرات کامیت نشده"
+
+msgid "You have uncommitted changes. Consider committing them to keep your repository clean."
+msgstr "شما تغییرات کامیت نشده‌ای دارید. برای تمیز نگه داشتن مخزن خود، آن‌ها را کامیت کنید."
+
+msgid "Behind Remote"
+msgstr "پشت ریموت"
+
+msgid "Your local branch is {count} commit(s) behind the remote. Consider pulling the latest changes."
+msgstr "برنچ محلی شما {count} کامیت از ریموت عقب‌تر است. پول آخرین تغییرات را در نظر بگیرید."
+
+msgid "Ahead of Remote"
+msgstr "جلوتر از ریموت"
+
+msgid "Your local branch is {count} commit(s) ahead of the remote. Consider pushing your changes."
+msgstr "برنچ محلی شما {count} کامیت از ریموت جلوتر است. پوش تغییرات خود را در نظر بگیرید."
+
+msgid "Your repository is clean and up to date with the remote."
+msgstr "مخزن شما تمیز و به‌روز با ریموت است."
+
+msgid "Repository is behind remote by {count} commit(s)."
+msgstr "مخزن {count} کامیت از ریموت عقب‌تر است."
+
+msgid "Repository is ahead of remote by {count} commit(s)."
+msgstr "مخزن {count} کامیت از ریموت جلوتر است."
+
+msgid "Add Repository (Ctrl+N)"
+msgstr "افزودن مخزن (Ctrl+N)"
+
+msgid "Toggle Theme (Ctrl+T)"
+msgstr "تغییر پوسته (Ctrl+T)"
+
+msgid "Error saving repository settings: "
+msgstr "خطا در ذخیره تنظیمات مخزن: "
+
+msgid "Floating Widget Settings"
+msgstr "تنظیمات ویجت شناور"
+
+msgid "Control the floating widget and its notifications behavior"
+msgstr "کنترل ویجت شناور و رفتار اعلان‌های آن"
+
+msgid "Enable floating widget"
+msgstr "فعال‌سازی ویجت شناور"
+
+msgid "Show the floating Git Manager widget on all admin pages for quick repository access."
+msgstr "نمایش ویجت شناور مدیر گیت در تمام صفحات مدیریت برای دسترسی سریع به مخزن."
+
+msgid "Enable floating widget notifications"
+msgstr "فعال‌سازی اعلان‌های ویجت شناور"
+
+msgid "Show notifications from the floating widget for repository status updates and actions."
+msgstr "نمایش اعلان‌ها از ویجت شناور برای به‌روزرسانی وضعیت مخزن و اقدامات."
+
+msgid "Enable repository status notifications"
+msgstr "فعال‌سازی اعلان‌های وضعیت ریپازیتوری"
+
+msgid "Show notifications for repository updates like new commits, branch changes, and status changes."
+msgstr "نمایش اعلان‌ها برای به‌روزرسانی‌های ریپازیتوری مانند کامیت‌های جدید، تغییرات برنچ و تغییرات وضعیت."
+
+msgid "Configure your Git Manager experience"
+msgstr "تجربه مدیر گیت خود را پیکربندی کنید"
+
+msgid "Access denied."
+msgstr "دسترسی رد شد."
+
+msgid "Access denied."
+msgstr "دسترسی رد شد."

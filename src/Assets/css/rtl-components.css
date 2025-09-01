@@ -1,0 +1,512 @@
+/* ========================================
+   Git Manager - RTL Component Styles
+   ======================================== */
+
+/* RTL Form Components */
+.git-manager-wrap[dir="rtl"] .git-form-group {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-form-group label {
+    text-align: right;
+    margin-right: 0;
+    margin-left: var(--gm-space-2);
+}
+
+.git-manager-wrap[dir="rtl"] .git-form-group input,
+.git-manager-wrap[dir="rtl"] .git-form-group select,
+.git-manager-wrap[dir="rtl"] .git-form-group textarea {
+    text-align: right;
+    padding-right: var(--gm-space-3);
+    padding-left: var(--gm-space-3);
+}
+
+/* RTL Modal Components */
+.git-manager-wrap[dir="rtl"] .git-modal {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-modal-header {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .git-modal-title {
+    margin-right: 0;
+    margin-left: var(--gm-space-4);
+}
+
+.git-manager-wrap[dir="rtl"] .git-modal-close {
+    margin-right: 0;
+    margin-left: var(--gm-space-4);
+}
+
+.git-manager-wrap[dir="rtl"] .git-modal-body {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-modal-footer {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .git-modal-footer button {
+    margin-right: 0;
+    margin-left: var(--gm-space-3);
+}
+
+/* RTL Button Groups */
+.git-manager-wrap[dir="rtl"] .git-btn-group {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .git-btn-group button {
+    margin-right: 0;
+    margin-left: var(--gm-space-2);
+}
+
+.git-manager-wrap[dir="rtl"] .git-btn-group button:first-child {
+    margin-left: 0;
+}
+
+/* RTL Navigation */
+.git-manager-wrap[dir="rtl"] .git-nav {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-nav-item {
+    text-align: right;
+    padding-right: var(--gm-space-4);
+    padding-left: var(--gm-space-4);
+}
+
+.git-manager-wrap[dir="rtl"] .git-nav-item svg {
+    margin-right: 0;
+    margin-left: var(--gm-space-2);
+}
+
+/* RTL Breadcrumbs */
+.git-manager-wrap[dir="rtl"] .git-breadcrumb {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .git-breadcrumb-item {
+    margin-right: 0;
+    margin-left: var(--gm-space-2);
+}
+
+.git-manager-wrap[dir="rtl"] .git-breadcrumb-separator {
+    margin-right: 0;
+    margin-left: var(--gm-space-2);
+    transform: scaleX(-1);
+}
+
+/* RTL Support for new breadcrumb system */
+.git-manager-wrap[dir="rtl"] .new-breadcrumb {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .new-breadcrumb-item {
+    margin-right: 0;
+    margin-left: var(--gm-space-2);
+}
+
+.git-manager-wrap[dir="rtl"] .new-breadcrumb-separator {
+    margin-right: 0;
+    margin-left: var(--gm-space-2);
+    transform: scaleX(-1);
+}
+
+/* RTL Support for directory selector */
+.git-manager-wrap[dir="rtl"] .new-directory-selector {
+    direction: rtl;
+}
+
+.git-manager-wrap[dir="rtl"] .new-directory-selector .new-search-container {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .new-directory-selector .new-search-input {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .new-directory-selector .new-search-clear {
+    margin-right: 0;
+    margin-left: var(--gm-space-2);
+}
+
+.git-manager-wrap[dir="rtl"] .new-directory-selector .new-toolbar {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .new-directory-selector .new-actions {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .new-directory-selector .new-footer-actions {
+    flex-direction: row-reverse;
+}
+
+/* RTL Tabs */
+.git-manager-wrap[dir="rtl"] .git-tabs {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-tab-list {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .git-tab-item {
+    margin-right: 0;
+    margin-left: var(--gm-space-2);
+}
+
+/* RTL Lists */
+.git-manager-wrap[dir="rtl"] .git-list {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-list-item {
+    text-align: right;
+    padding-right: var(--gm-space-4);
+    padding-left: var(--gm-space-4);
+}
+
+.git-manager-wrap[dir="rtl"] .git-list-item-icon {
+    margin-right: 0;
+    margin-left: var(--gm-space-3);
+}
+
+/* RTL Cards */
+.git-manager-wrap[dir="rtl"] .git-card {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-card-header {
+    flex-direction: row-reverse;
+    padding-right: var(--gm-space-6);
+    padding-left: var(--gm-space-6);
+}
+
+.git-manager-wrap[dir="rtl"] .git-card-title {
+    margin-right: 0;
+    margin-left: var(--gm-space-4);
+}
+
+.git-manager-wrap[dir="rtl"] .git-card-body {
+    text-align: right;
+    padding-right: var(--gm-space-6);
+    padding-left: var(--gm-space-6);
+}
+
+.git-manager-wrap[dir="rtl"] .git-card-footer {
+    flex-direction: row-reverse;
+    padding-right: var(--gm-space-6);
+    padding-left: var(--gm-space-6);
+}
+
+/* RTL Alerts */
+.git-manager-wrap[dir="rtl"] .git-alert {
+    text-align: right;
+    padding-right: var(--gm-space-4);
+    padding-left: var(--gm-space-4);
+}
+
+.git-manager-wrap[dir="rtl"] .git-alert-icon {
+    margin-right: 0;
+    margin-left: var(--gm-space-3);
+}
+
+/* RTL Badges */
+.git-manager-wrap[dir="rtl"] .git-badge {
+    margin-right: 0;
+    margin-left: var(--gm-space-2);
+}
+
+/* RTL Tooltips */
+.git-manager-wrap[dir="rtl"] .git-tooltip {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-tooltip-arrow {
+    transform: scaleX(-1);
+}
+
+/* RTL Dropdowns */
+.git-manager-wrap[dir="rtl"] .git-dropdown {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-dropdown-menu {
+    text-align: right;
+    right: auto;
+    left: 0;
+}
+
+.git-manager-wrap[dir="rtl"] .git-dropdown-item {
+    text-align: right;
+    padding-right: var(--gm-space-4);
+    padding-left: var(--gm-space-4);
+}
+
+/* RTL Tables */
+.git-manager-wrap[dir="rtl"] .git-table {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-table th,
+.git-manager-wrap[dir="rtl"] .git-table td {
+    text-align: right;
+    padding-right: var(--gm-space-4);
+    padding-left: var(--gm-space-4);
+}
+
+/* RTL Progress Bars */
+.git-manager-wrap[dir="rtl"] .git-progress {
+    direction: rtl;
+}
+
+.git-manager-wrap[dir="rtl"] .git-progress-bar {
+    direction: rtl;
+}
+
+/* RTL Code Blocks */
+.git-manager-wrap[dir="rtl"] .git-code-block {
+    text-align: left; /* Keep code left-aligned for readability */
+    direction: ltr;
+}
+
+.git-manager-wrap[dir="rtl"] .git-code-inline {
+    text-align: left; /* Keep inline code left-aligned */
+    direction: ltr;
+}
+
+/* RTL Repository Specific Components */
+.git-manager-wrap[dir="rtl"] .git-repo-card {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-repo-card-header {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .git-repo-card-title {
+    margin-right: 0;
+    margin-left: var(--gm-space-3);
+}
+
+.git-manager-wrap[dir="rtl"] .git-repo-card-actions {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .git-repo-card-actions button {
+    margin-right: 0;
+    margin-left: var(--gm-space-2);
+}
+
+.git-manager-wrap[dir="rtl"] .git-repo-status {
+    margin-right: 0;
+    margin-left: var(--gm-space-3);
+}
+
+/* RTL Repository Type Badge */
+.git-manager-wrap[dir="rtl"] .repo-type-badge {
+    margin-right: var(--gm-space-2);
+    margin-left: 0;
+}
+
+/* RTL Repository Hashtag */
+.git-manager-wrap[dir="rtl"] .repo-hashtag {
+    left: auto;
+    right: var(--gm-space-3);
+}
+
+/* RTL Troubleshooting Components */
+.git-manager-wrap[dir="rtl"] .git-troubleshoot-step {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-troubleshoot-step-header {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .git-troubleshoot-step-icon {
+    margin-right: 0;
+    margin-left: var(--gm-space-3);
+}
+
+.git-manager-wrap[dir="rtl"] .git-troubleshoot-step-content {
+    text-align: right;
+    padding-right: var(--gm-space-4);
+    padding-left: var(--gm-space-4);
+}
+
+/* RTL Welcome Screen */
+.git-manager-wrap[dir="rtl"] .git-repo-welcome {
+    text-align: center; /* Keep welcome screen centered */
+}
+
+.git-manager-wrap[dir="rtl"] .welcome-actions {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .welcome-actions button {
+    margin-right: 0;
+    margin-left: var(--gm-space-4);
+}
+
+/* RTL Add Repository Form */
+.git-manager-wrap[dir="rtl"] .git-add-repo-form {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-add-repo-form .git-form-group {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-add-repo-form .git-form-actions {
+    flex-direction: row-reverse;
+}
+
+/* RTL Repository Detail */
+.git-manager-wrap[dir="rtl"] .git-repo-detail {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-repo-detail-header {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .git-repo-detail-actions {
+    flex-direction: row-reverse;
+}
+
+.git-manager-wrap[dir="rtl"] .git-repo-detail-actions button {
+    margin-right: 0;
+    margin-left: var(--gm-space-3);
+}
+
+/* RTL Branch Selector */
+.git-manager-wrap[dir="rtl"] .git-branch-selector {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-branch-selector select {
+    text-align: right;
+}
+
+/* RTL Commit History */
+.git-manager-wrap[dir="rtl"] .git-commit-history {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-commit-item {
+    text-align: right;
+    padding-right: var(--gm-space-4);
+    padding-left: var(--gm-space-4);
+}
+
+.git-manager-wrap[dir="rtl"] .git-commit-meta {
+    margin-right: 0;
+    margin-left: var(--gm-space-3);
+}
+
+/* RTL File Browser */
+.git-manager-wrap[dir="rtl"] .git-file-browser {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-file-item {
+    text-align: right;
+    padding-right: var(--gm-space-4);
+    padding-left: var(--gm-space-4);
+}
+
+.git-manager-wrap[dir="rtl"] .git-file-icon {
+    margin-right: 0;
+    margin-left: var(--gm-space-3);
+}
+
+/* RTL Search Components */
+.git-manager-wrap[dir="rtl"] .git-search {
+    text-align: right;
+}
+
+.git-manager-wrap[dir="rtl"] .git-search-input {
+    text-align: right;
+    padding-right: var(--gm-space-4);
+    padding-left: var(--gm-space-4);
+}
+
+.git-manager-wrap[dir="rtl"] .git-search-icon {
+    right: auto;
+    left: var(--gm-space-3);
+}
+
+/* RTL Loading States */
+.git-manager-wrap[dir="rtl"] .git-loading {
+    text-align: center; /* Keep loading centered */
+}
+
+.git-manager-wrap[dir="rtl"] .git-loading-spinner {
+    margin-right: 0;
+    margin-left: var(--gm-space-3);
+}
+
+/* RTL Empty States */
+.git-manager-wrap[dir="rtl"] .git-empty-state {
+    text-align: center; /* Keep empty states centered */
+}
+
+/* RTL Responsive Design */
+@media (max-width: 768px) {
+    .git-manager-wrap[dir="rtl"] .git-manager-header-content {
+        flex-direction: column;
+    }
+
+    .git-manager-wrap[dir="rtl"] .git-manager-logo {
+        flex-direction: row;
+    }
+
+    .git-manager-wrap[dir="rtl"] .git-manager-actions {
+        flex-direction: row;
+    }
+
+    .git-manager-wrap[dir="rtl"] .git-repo-sidebar-header {
+        flex-direction: row;
+    }
+
+    .git-manager-wrap[dir="rtl"] .git-repo-card-header {
+        flex-direction: column;
+    }
+
+    .git-manager-wrap[dir="rtl"] .git-repo-card-actions {
+        flex-direction: row;
+    }
+
+    .git-manager-wrap[dir="rtl"] .git-form-actions {
+        flex-direction: column;
+    }
+
+    .git-manager-wrap[dir="rtl"] .git-modal-header {
+        flex-direction: column;
+    }
+
+    .git-manager-wrap[dir="rtl"] .git-modal-footer {
+        flex-direction: column;
+    }
+}
+
+/* RTL Print Styles */
+@media print {
+    .git-manager-wrap[dir="rtl"] {
+        direction: rtl;
+    }
+
+    .git-manager-wrap[dir="rtl"] .git-repo-card {
+        text-align: right;
+    }
+
+    .git-manager-wrap[dir="rtl"] .git-table th,
+    .git-manager-wrap[dir="rtl"] .git-table td {
+        text-align: right;
+    }
+}

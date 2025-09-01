@@ -1,0 +1,439 @@
+/* ========================================
+   Repository Settings Form - Enhanced Styles
+   ======================================== */
+
+/* Enhanced form sections */
+.repository-settings-form .form-section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.repository-settings-form .form-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.repository-settings-form .form-section:hover::before {
+    opacity: 1;
+}
+
+.repository-settings-form .form-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Enhanced section titles */
+.repository-settings-form .form-section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #e2e8f0;
+    position: relative;
+}
+
+.repository-settings-form .form-section-title::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    border-radius: 2px;
+}
+
+.repository-settings-form .form-section-title svg {
+    width: 24px;
+    height: 24px;
+    padding: 8px;
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    border-radius: 8px;
+    color: #2563eb;
+    transition: all 0.3s ease;
+}
+
+.repository-settings-form .form-section-title:hover svg {
+    background: linear-gradient(135deg, #bfdbfe, #93c5fd);
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Enhanced form groups */
+.repository-settings-form .form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.repository-settings-form .form-group label {
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.repository-settings-form .form-group:hover label {
+    color: #2563eb;
+}
+
+/* Enhanced form controls */
+.repository-settings-form .form-control {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #ffffff;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.repository-settings-form .form-control::placeholder {
+    color: #9ca3af;
+    transition: color 0.3s ease;
+}
+
+.repository-settings-form .form-control:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    transform: translateY(-1px);
+    background: #fafbfc;
+}
+
+.repository-settings-form .form-control:focus::placeholder {
+    color: #6b7280;
+}
+
+/* Enhanced form help text */
+.repository-settings-form .form-help {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    border-radius: 6px;
+    border-left: 3px solid #0ea5e9;
+    margin-left: 4px;
+}
+
+.repository-settings-form .form-control:focus + .form-help {
+    color: #0ea5e9;
+    background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+    transform: translateY(-2px);
+}
+
+/* Enhanced action buttons */
+.repository-settings-form .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.repository-settings-form .git-action-btn {
+    min-width: 140px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 14px 24px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.repository-settings-form .git-action-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.6s ease;
+}
+
+.repository-settings-form .git-action-btn:hover::before {
+    left: 100%;
+}
+
+.repository-settings-form .git-action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.4);
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+}
+
+.repository-settings-form .git-action-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+}
+
+.repository-settings-form .git-action-btn svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
+}
+
+.repository-settings-form .git-action-btn:hover svg {
+    transform: scale(1.1);
+}
+
+/* Modified state styling */
+.repository-settings-form .git-action-btn.modified {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border-color: #f59e0b;
+    animation: pulse-modified 2s infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.repository-settings-form .git-action-btn.modified::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: shimmer 2s infinite;
+}
+
+.repository-settings-form .git-action-btn.modified:hover {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(245, 158, 11, 0.4);
+}
+
+/* Enhanced animations */
+@keyframes pulse-modified {
+    0%,
+    100% {
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    }
+    50% {
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* Form validation styles */
+.repository-settings-form .form-control.is-valid {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.repository-settings-form .form-control.is-valid:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+}
+
+.repository-settings-form .form-control.is-invalid {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+.repository-settings-form .form-control.is-invalid:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+@keyframes shake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-6px);
+    }
+    75% {
+        transform: translateX(6px);
+    }
+}
+
+/* Loading state styles */
+.repository-settings-form .form-control.is-loading {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 18px;
+    padding-right: 48px;
+}
+
+.repository-settings-form .form-control.is-loading:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%233b82f6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'/%3E%3C/svg%3E");
+}
+
+[data-theme="dark"] .repository-settings-form .form-section {
+    background: #334155;
+    border-color: rgba(71, 85, 105, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .repository-settings-form .form-section:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="dark"] .repository-settings-form .form-section-title {
+    color: #f1f5f9;
+    border-bottom-color: #475569;
+}
+
+[data-theme="dark"] .repository-settings-form .form-section-title svg {
+    background: linear-gradient(135deg, #1e40af, #1d4ed8);
+    color: #93c5fd;
+}
+
+[data-theme="dark"] .repository-settings-form .form-control {
+    background: #475569;
+    border-color: #64748b;
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .repository-settings-form .form-control:focus {
+    background: #374151;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="dark"] .repository-settings-form .form-help {
+    background: linear-gradient(135deg, #0c4a6e, #075985);
+    border-left-color: #0ea5e9;
+    color: #bae6fd;
+}
+
+[data-theme="dark"] .repository-settings-form .form-control:focus + .form-help {
+    background: linear-gradient(135deg, #075985, #0c4a6e);
+    color: #7dd3fc;
+}
+
+/* RTL Support */
+[dir="rtl"] .repository-settings-form .form-section-title::after {
+    left: auto;
+    right: 0;
+}
+
+[dir="rtl"] .repository-settings-form .form-help {
+    border-left: none;
+    border-right: 3px solid #0ea5e9;
+    margin-left: 0;
+    margin-right: 4px;
+}
+
+[dir="rtl"] .repository-settings-form .form-actions {
+    justify-content: flex-start;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .repository-settings-form {
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .repository-settings-form .form-section {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .repository-settings-form .form-section-title {
+        font-size: 16px;
+        margin-bottom: 16px;
+    }
+
+    .repository-settings-form .form-group {
+        margin-bottom: 16px;
+    }
+
+    .repository-settings-form .form-control {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    .repository-settings-form .form-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .repository-settings-form .git-action-btn {
+        width: 100%;
+        min-width: auto;
+        padding: 12px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .repository-settings-form {
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    .repository-settings-form .form-section {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+
+    .repository-settings-form .form-section-title {
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+
+    .repository-settings-form .form-control {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .repository-settings-form .form-help {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
