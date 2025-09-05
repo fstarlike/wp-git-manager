@@ -11,14 +11,14 @@ class WelcomeScreen
         <div class="git-repo-welcome" id="git-welcome-screen">
             <div class="welcome-content">
                 <?php $this->renderWelcomeIcon(); ?>
-                <h2><?php echo esc_html__('Welcome to Git Manager', 'git-manager'); ?></h2>
-                <p><?php echo esc_html__('Manage multiple Git repositories with a professional interface inspired by GitHub Desktop and GitLab.', 'git-manager'); ?></p>
+                <h2><?php echo esc_html__('Welcome to Repo Manager', 'repo-manager'); ?></h2>
+                <p><?php echo esc_html__('Manage multiple Git repositories with a professional interface inspired by GitHub Desktop and GitLab.', 'repo-manager'); ?></p>
                 <div class="welcome-actions">
                     <button class="git-action-btn git-clone-btn">
                         <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" class="git-icon-left">
                             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                         </svg>
-                        <?php echo esc_html__('Add Your First Repository', 'git-manager'); ?>
+                        <?php echo esc_html__('Add Your First Repository', 'repo-manager'); ?>
                     </button>
                     <a href="#" onclick="window.open(this.href); return false;" target="_blank" class="git-action-btn git-secondary-btn git-troubleshoot-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -27,7 +27,7 @@ class WelcomeScreen
                             <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/>
                             <path d="M6 2v2"/>
                         </svg>
-                        <?php echo esc_html__('Buy me a coffee', 'git-manager'); ?>
+                        <?php echo esc_html__('Buy me a coffee', 'repo-manager'); ?>
                     </a>
                 </div>
             </div>

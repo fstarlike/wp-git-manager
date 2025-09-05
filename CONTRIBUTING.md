@@ -2,7 +2,7 @@
 
 ## Overview
 
-WP Git Manager is an open-source WordPress plugin licensed under the GNU General Public License v2 or later. We welcome contributions from the community!
+WP Repo Manager is an open-source WordPress Plugin licensed under the GNU General Public License v2 or later. We welcome contributions from the community!
 
 ## License
 
@@ -25,7 +25,7 @@ This project is licensed under the **GPL v2 or later**. By contributing, you agr
 ### 2. Feature Requests
 - Describe the feature clearly
 - Explain why it would be useful
-- Consider if it fits the plugin's scope
+- Consider if it fits the Plugin's scope
 
 ### 3. Code Contributions
 - Fork the repository

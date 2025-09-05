@@ -2,7 +2,7 @@
 
 ## Overview
 
-WP Git Manager is a WordPress plugin that provides Git repository management functionality. This document outlines the security measures implemented and explains why certain security decisions were made.
+WP Repo Manager is a WordPress Plugin that provides Git repository management functionality. This document outlines the security measures implemented and explains why certain security decisions were made.
 
 ## Security Features
 
@@ -25,7 +25,7 @@ WP Git Manager is a WordPress plugin that provides Git repository management fun
 
 ### Why shell_exec is Used
 
-WP Git Manager uses `shell_exec()` to execute Git commands on the server. This is **necessary and legitimate** for the following reasons:
+WP Repo Manager uses `shell_exec()` to execute Git commands on the server. This is **necessary and legitimate** for the following reasons:
 
 1. **Git Operations**: Git is a command-line tool that requires shell execution
 2. **Repository Management**: Operations like clone, pull, push, status require Git CLI
@@ -57,14 +57,14 @@ $out = shell_exec($cmd);
 ## Best Practices for Users
 
 1. **Server Security**: Use on trusted, secure servers only
-2. **User Management**: Limit plugin access to necessary administrators
-3. **Regular Updates**: Keep the plugin updated to latest version
-4. **Audit Logs**: Monitor plugin activity logs regularly
+2. **User Management**: Limit Plugin access to necessary administrators
+3. **Regular Updates**: Keep the Plugin updated to latest version
+4. **Audit Logs**: Monitor Plugin activity logs regularly
 5. **Backup**: Regularly backup repository configurations
 
 ## Compliance with WordPress Guidelines
 
-This plugin complies with WordPress Plugin Directory guidelines:
+This Plugin complies with WordPress Plugin Directory guidelines:
 
 - ✅ **GPL License**: Uses GPLv2 or later license
 - ✅ **No Trialware**: All functionality is available without payment
@@ -90,4 +90,4 @@ If you discover a security vulnerability, please:
 
 ---
 
-**Note**: This plugin is designed for development and staging environments where administrators have full control over the server. Use with appropriate caution in production environments.
+**Note**: This Plugin is designed for development and staging environments where administrators have full control over the server. Use with appropriate caution in production environments.

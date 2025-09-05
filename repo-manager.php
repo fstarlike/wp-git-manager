@@ -6,12 +6,12 @@ use WPGitManager\Infrastructure\Autoloader;
 use WPGitManager\View\Components\FloatingWidget;
 
 /**
- * Plugin Name: Git Manager
+ * Plugin Name: WP Repo Manager for Git
  * Description: Professional Git repository management for WordPress with a modern, accessible design system.
  * Version: 2.0.0
  * Author: Farzad Hoseinzadeh
  * Author URI: https://github.com/fstarlike
- * Text Domain: git-manager
+ * Text Domain: repo-manager
  * Domain Path: /languages
  * Requires at least: 5.0
  * Tested up to: 6.8
@@ -25,14 +25,14 @@ use WPGitManager\View\Components\FloatingWidget;
  * @author Farzad Hoseinzadeh
  * @license GPL v2 or later
  *
- * @link https://github.com/fstarlike/wp-git-manager
+ * @link https://github.com/fstarlike/repo-manager
  *
- * WP Git Manager is free software: you can redistribute it and/or modify
+ * WP Repo Manager is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
  * any later version.
  *
- * WP Git Manager is distributed in the hope that it will be useful,
+ * WP Repo Manager is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
@@ -63,7 +63,7 @@ if (file_exists(GIT_MANAGER_PATH . 'vendor/autoload.php')) {
 function git_manager_enqueue_global_checker($hook)
 {
     // Don't load on Git Manager's own pages
-    if (false !== strpos($hook, 'git-manager')) {
+    if (false !== strpos($hook, 'repo-manager')) {
         return;
     }
 
@@ -83,11 +83,11 @@ function git_manager_enqueue_global_checker($hook)
 
         if ($floating_widget_enabled) {
             // Floating Widget Assets for all admin pages
-            wp_enqueue_style('git-manager-floating-widget', GIT_MANAGER_URL . 'src/Assets/css/floating-widget.css', [], GIT_MANAGER_VERSION);
-            wp_enqueue_script('git-manager-floating-widget', GIT_MANAGER_URL . 'src/Assets/js/floating-widget.js', ['wp-i18n'], GIT_MANAGER_VERSION, true);
+            wp_enqueue_style('repo-manager-floating-widget', GIT_MANAGER_URL . 'src/Assets/css/floating-widget.css', [], GIT_MANAGER_VERSION);
+            wp_enqueue_script('repo-manager-floating-widget', GIT_MANAGER_URL . 'src/Assets/js/floating-widget.js', ['wp-i18n'], GIT_MANAGER_VERSION, true);
 
             // Global variables for floating widget
-            wp_localize_script('git-manager-floating-widget', 'WPGitManagerGlobal', [
+            wp_localize_script('repo-manager-floating-widget', 'WPGitManagerGlobal', [
                 'beepUrl'       => GIT_MANAGER_URL . 'src/Assets/audio/beep.mp3',
                 'ajaxurl'       => admin_url('admin-ajax.php'),
                 'action_nonces' => [
@@ -101,7 +101,7 @@ function git_manager_enqueue_global_checker($hook)
                     'git_manager_troubleshoot_step' => wp_create_nonce('git_manager_troubleshoot_step'),
                 ],
             ]);
-            wp_localize_script('git-manager-floating-widget', 'gitManagerNonce', [
+            wp_localize_script('repo-manager-floating-widget', 'gitManagerNonce', [
                 'nonce'                 => wp_create_nonce('git_manager_action'),
                 'git_manager_get_repos' => wp_create_nonce('git_manager_get_repos'),
             ]);
@@ -114,7 +114,7 @@ add_action('admin_enqueue_scripts', 'git_manager_enqueue_global_checker', 1);
 function git_manager_enqueue_admin_assets($hook)
 {
     wp_add_inline_style('admin-menu', '
-		.toplevel_page_git-manager > .wp-menu-image > img {
+		.toplevel_page_repo-manager > .wp-menu-image > img {
 			width: 25px !important;
 			height: auto !important;
 			padding: 0 !important;
@@ -122,7 +122,7 @@ function git_manager_enqueue_admin_assets($hook)
 		}
 	');
 
-    if (false === strpos($hook, 'git-manager')) {
+    if (false === strpos($hook, 'repo-manager')) {
         return;
     }
 
@@ -137,7 +137,7 @@ function git_manager_enqueue_admin_assets($hook)
     }
 
     if ($has_access) {
-        // Note: git-manager-global script is already enqueued in git_manager_enqueue_global_checker()
+        // Note: repo-manager-global script is already enqueued in git_manager_enqueue_global_checker()
         // No need to enqueue it again here
     }
 
@@ -145,8 +145,8 @@ function git_manager_enqueue_admin_assets($hook)
     // No need to enqueue it here to avoid duplication
     // wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', ['jquery'], '5.3.0', true);
 
-    wp_register_style('git-manager-logo', false, [], GIT_MANAGER_VERSION);
-    wp_enqueue_style('git-manager-logo');
+    wp_register_style('repo-manager-logo', false, [], GIT_MANAGER_VERSION);
+    wp_enqueue_style('repo-manager-logo');
 }
 
 add_action('admin_enqueue_scripts', 'git_manager_enqueue_admin_assets');
@@ -154,7 +154,7 @@ add_action('admin_enqueue_scripts', 'git_manager_enqueue_admin_assets');
 // Add floating widget to all admin pages
 add_action('admin_footer', function () {
     $screen = get_current_screen();
-    if ($screen && false !== strpos($screen->id, 'git-manager')) {
+    if ($screen && false !== strpos($screen->id, 'repo-manager')) {
         return;
     }
 
@@ -172,7 +172,7 @@ add_action('admin_footer', function () {
 add_action('admin_menu', function () {
     global $menu;
     foreach ($menu as $k => $item) {
-        if (isset($item[2]) && false !== strpos($item[2], 'git-manager')) {
+        if (isset($item[2]) && false !== strpos($item[2], 'repo-manager')) {
             $menu[$k][6] = GIT_MANAGER_URL . 'src/Assets/images/logo.svg';
         }
     }

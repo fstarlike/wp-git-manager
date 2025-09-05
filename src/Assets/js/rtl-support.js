@@ -1,5 +1,5 @@
-/**
- * Git Manager - RTL Support
+﻿/**
+ * Repo Manager- RTL Support
  * Handles RTL layout, language detection, and dynamic RTL functionality
  */
 
@@ -53,20 +53,20 @@ class GitManagerRTL {
     }
 
     /**
-     * Setup RTL support for the plugin
+     * Setup RTL support for the Plugin
      */
     setupRTLSupport() {
-        const wrapper = document.querySelector(".git-manager-wrap");
+        const wrapper = document.querySelector(".repo-manager-wrap");
         if (!wrapper) return;
 
         if (this.isRTL) {
             wrapper.setAttribute("dir", "rtl");
-            wrapper.classList.add("git-manager-rtl");
-            document.body.classList.add("git-manager-rtl-active");
+            wrapper.classList.add("repo-manager-rtl");
+            document.body.classList.add("repo-manager-rtl-active");
         } else {
             wrapper.setAttribute("dir", "ltr");
-            wrapper.classList.remove("git-manager-rtl");
-            document.body.classList.remove("git-manager-rtl-active");
+            wrapper.classList.remove("repo-manager-rtl");
+            document.body.classList.remove("repo-manager-rtl-active");
         }
 
         this.updateLayout();
@@ -107,9 +107,9 @@ class GitManagerRTL {
     resetToLTRLayout() {
         // Reset flex directions
         const flexContainers = document.querySelectorAll(`
-            .git-manager-header-content,
-            .git-manager-logo,
-            .git-manager-actions,
+            .repo-manager-header-content,
+            .repo-manager-logo,
+            .repo-manager-actions,
             .git-repo-sidebar-header,
             .git-repo-card-header,
             .git-repo-card-actions,
@@ -164,7 +164,7 @@ class GitManagerRTL {
 
         // Reset margins
         const marginElements = document.querySelectorAll(`
-            .git-manager-logo .git-manager-title,
+            .repo-manager-logo .repo-manager-title,
             .git-action-btn + .git-action-btn,
             .git-sidebar-add-btn,
             .git-repo-card-actions button,
@@ -207,7 +207,7 @@ class GitManagerRTL {
 
         // Reset padding
         const paddingElements = document.querySelectorAll(`
-            .git-manager-main,
+            .repo-manager-main,
             .git-repo-sidebar,
             .recommendation-section ul
         `);
@@ -223,9 +223,9 @@ class GitManagerRTL {
      */
     updateFlexDirections() {
         const flexContainers = document.querySelectorAll(`
-            .git-manager-header-content,
-            .git-manager-logo,
-            .git-manager-actions,
+            .repo-manager-header-content,
+            .repo-manager-logo,
+            .repo-manager-actions,
             .git-repo-sidebar-header,
             .git-repo-card-header,
             .git-repo-card-actions,
@@ -247,7 +247,7 @@ class GitManagerRTL {
     updateSpacing() {
         // Update margins
         const marginElements = document.querySelectorAll(`
-            .git-manager-logo .git-manager-title,
+            .repo-manager-logo .repo-manager-title,
             .git-action-btn + .git-action-btn,
             .git-sidebar-add-btn,
             .git-repo-card-actions button,
@@ -272,7 +272,7 @@ class GitManagerRTL {
 
         // Update paddings
         const paddingElements = document.querySelectorAll(`
-            .git-manager-main,
+            .repo-manager-main,
             .git-repo-sidebar
         `);
 
@@ -560,16 +560,16 @@ class GitManagerRTL {
      * Save RTL settings to localStorage
      */
     saveRTLSettings() {
-        localStorage.setItem("git-manager-rtl", this.isRTL.toString());
-        localStorage.setItem("git-manager-language", this.currentLanguage);
+        localStorage.setItem("repo-manager-rtl", this.isRTL.toString());
+        localStorage.setItem("repo-manager-language", this.currentLanguage);
     }
 
     /**
      * Load RTL settings from localStorage
      */
     loadRTLSettings() {
-        const savedRTL = localStorage.getItem("git-manager-rtl");
-        const savedLanguage = localStorage.getItem("git-manager-language");
+        const savedRTL = localStorage.getItem("repo-manager-rtl");
+        const savedLanguage = localStorage.getItem("repo-manager-language");
 
         if (savedRTL !== null) {
             this.isRTL = savedRTL === "true";
@@ -617,17 +617,17 @@ class GitManagerRTL {
                     mutation.type === "childList" &&
                     mutation.addedNodes.length > 0
                 ) {
-                    // Check if new Git Manager content was added
+                    // Check if new Repo Manager content was added
                     mutation.addedNodes.forEach((node) => {
                         if (node.nodeType === Node.ELEMENT_NODE) {
                             if (
                                 node.classList &&
-                                node.classList.contains("git-manager-wrap")
+                                node.classList.contains("repo-manager-wrap")
                             ) {
                                 this.updateLayout();
                             } else if (
                                 node.querySelector &&
-                                node.querySelector(".git-manager-wrap")
+                                node.querySelector(".repo-manager-wrap")
                             ) {
                                 this.updateLayout();
                             }

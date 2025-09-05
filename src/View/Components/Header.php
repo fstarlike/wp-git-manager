@@ -9,24 +9,24 @@ class Header
     public function render()
     {
         ?>
-        <div class="git-manager-header">
-            <div class="git-manager-header-content">
-                <div class="git-manager-logo">
+        <div class="repo-manager-header">
+            <div class="repo-manager-header-content">
+                <div class="repo-manager-logo">
                     <?php $this->renderLogo(); ?>
-                    <div class="git-manager-title">
-                        <h1><?php echo esc_html__('Git Manager', 'git-manager'); ?></h1>
-                        <p><?php echo esc_html__('Professional Git repository management', 'git-manager'); ?></p>
+                    <div class="repo-manager-title">
+                        <h1><?php echo esc_html__('Repo Manager for Git', 'repo-manager'); ?></h1>
+                        <p><?php echo esc_html__('Professional Git repository management', 'repo-manager'); ?></p>
                     </div>
                 </div>
-                <div class="git-manager-actions">
-                    <button class="git-action-btn git-clone-btn" title="<?php echo esc_attr__('Add Repository (Ctrl+N)', 'git-manager'); ?>">
+                <div class="repo-manager-actions">
+                    <button class="git-action-btn git-clone-btn" title="<?php echo esc_attr__('Add Repository (Ctrl+N)', 'repo-manager'); ?>">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" class="git-icon-left">
                             <path d="M5 12h14"/>
                             <path d="M12 5v14"/>
                         </svg>
-                        <?php echo esc_html__('Add Repository', 'git-manager'); ?>
+                        <?php echo esc_html__('Add Repository', 'repo-manager'); ?>
                     </button>
-                    <button class="git-action-btn git-secondary-btn git-theme-switcher" title="<?php echo esc_attr__('Toggle Theme (Ctrl+T)', 'git-manager'); ?>">
+                    <button class="git-action-btn git-secondary-btn git-theme-switcher" title="<?php echo esc_attr__('Toggle Theme (Ctrl+T)', 'repo-manager'); ?>">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
                             <circle cx="12" cy="12" r="4"/>
                             <path d="M12 2v2"/>
@@ -40,7 +40,7 @@ class Header
                         </svg>
                     </button>
                     <?php if (RTLSupport::isRTL()) { ?>
-                    <button class="git-action-btn git-secondary-btn git-rtl-toggle" title="<?php echo esc_attr__('Toggle RTL/LTR', 'git-manager'); ?>">
+                    <button class="git-action-btn git-secondary-btn git-rtl-toggle" title="<?php echo esc_attr__('Toggle RTL/LTR', 'repo-manager'); ?>">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
                             <path d="M8 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h3"/>
                             <path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3"/>
@@ -60,7 +60,7 @@ class Header
     private function renderLogo()
     {
         ?>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="63.495 58.089 120 120" width="120px" height="120px" class="git-manager-logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="63.495 58.089 120 120" width="120px" height="120px" class="repo-manager-logo-icon">
             <defs>
                 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" spreadMethod="pad">
                 <stop offset="0" stop-color="#2563eb"/>

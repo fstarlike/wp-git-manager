@@ -1,6 +1,6 @@
-/**
- * Git Manager - Modern JavaScript Framework
- * A comprehensive, modern JavaScript implementation for the Git Manager plugin
+﻿/**
+ * Repo Manager- Modern JavaScript Framework
+ * A comprehensive, modern JavaScript implementation for the Repo Manager Plugin
  */
 
 // Handle unhandled promise rejections
@@ -355,12 +355,12 @@ class GitManager {
     }
 
     getStoredTheme() {
-        return localStorage.getItem("git-manager-theme") || "light";
+        return localStorage.getItem("repo-manager-theme") || "light";
     }
 
     toggleTheme() {
         this.theme = this.theme === "light" ? "dark" : "light";
-        localStorage.setItem("git-manager-theme", this.theme);
+        localStorage.setItem("repo-manager-theme", this.theme);
         document.documentElement.setAttribute("data-theme", this.theme);
         this.updateThemeUI();
         this.showNotification(
@@ -924,7 +924,7 @@ class GitManager {
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: relative;top: 2px;margin-right: 5px;"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>
                      SSH Key Generation Guide
                      </h3>
-                    <button class="git-modal-close" onclick="closeSSHHelp()">×</button>
+                    <button class="git-modal-close" onclick="closeSSHHelp()">x</button>
                 </div>
                 <div class="git-modal-body">
                     <div class="help-content">
@@ -1060,8 +1060,8 @@ class GitManager {
         modal.innerHTML = `
             <div class="git-modal-content git-modal-large">
                 <div class="git-modal-header">
-                    <h3>🔐 Personal Access Token Guide</h3>
-                    <button class="git-modal-close" onclick="closeTokenHelp()">×</button>
+                    <h3><span class="dashicons dashicons-lock"></span> Personal Access Token Guide</h3>
+                    <button class="git-modal-close" onclick="GitManager.closeTokenHelp()">x</button>
                 </div>
                 <div class="git-modal-body">
                     <div class="help-content">
@@ -1069,9 +1069,8 @@ class GitManager {
                             <h4>GitHub</h4>
                             <ol>
                                 <li>Go to GitHub Settings → Developer settings → Personal access tokens</li>
-                                <li>Click "Generate new token (classic)"</li>
-                                <li>Select scopes: <code>repo</code>, <code>workflow</code></li>
-                                <li>Copy the generated token (starts with <code>ghp_</code>)</li>
+                                <li>Click "Generate new token". Select scopes (e.g., \`repo\`).</li>
+                                <li>Generate the token and copy it.</li>
                             </ol>
                         </div>
 
@@ -1079,8 +1078,8 @@ class GitManager {
                             <h4>GitLab</h4>
                             <ol>
                                 <li>Go to GitLab User Settings → Access Tokens</li>
-                                <li>Create a new token with <code>read_repository</code> and <code>write_repository</code> scopes</li>
-                                <li>Copy the generated token</li>
+                                <li>Create a token with \`read_repository\` and \`write_repository\` scopes.</li>
+                                <li>Copy the generated token.</li>
                             </ol>
                         </div>
 
@@ -1088,14 +1087,14 @@ class GitManager {
                             <h4>Bitbucket</h4>
                             <ol>
                                 <li>Go to Bitbucket Settings → App passwords</li>
-                                <li>Create a new app password with repository permissions</li>
-                                <li>Copy the generated password</li>
+                                <li>Create an app password with \`Read\` and \`Write\` permissions for repositories.</li>
+                                <li>Copy the generated password.</li>
                             </ol>
                         </div>
                     </div>
                 </div>
                 <div class="git-modal-footer">
-                    <button class="git-action-btn git-secondary-btn" onclick="closeTokenHelp()">Close</button>
+                    <button class="git-action-btn git-secondary-btn" onclick="GitManager.closeTokenHelp()">Close</button>
                 </div>
             </div>
         `;
@@ -1268,7 +1267,7 @@ class GitManager {
                         </svg>
                         Add Repository
                     </h3>
-                    <button class="git-modal-close" aria-label="Close modal">×</button>
+                    <button class="git-modal-close" aria-label="Close modal">x</button>
                 </div>
 
                 <div class="git-modal-body">
@@ -2709,8 +2708,8 @@ class GitManager {
         modal.innerHTML = `
             <div class="git-modal-content git-modal-large">
                 <div class="git-modal-header">
-                    <h3>🔧 Professional Troubleshooting Results</h3>
-                    <button class="git-modal-close" onclick="GitManager.closeTroubleshootModal()">×</button>
+                    <h3><span class="dashicons dashicons-hammer"></span> Professional Troubleshooting Results</h3>
+                    <button class="git-modal-close" onclick="GitManager.closeTroubleshootModal()">x</button>
                 </div>
                 <div class="git-modal-body">
                     <div class="troubleshoot-results">
@@ -3977,7 +3976,7 @@ class GitManager {
                 <div class="notification-message">${this.escapeHtml(
                     message
                 )}</div>
-                <button class="notification-close" aria-label="Close notification">×</button>
+                <button class="notification-close" aria-label="Close notification">x</button>
             </div>
             <div class="notification-progress" style="${
                 !showProgress || duration === 0 ? "display:none;" : ""
@@ -4100,7 +4099,7 @@ class GitManager {
      * Initialize troubleshooting tab when switched to
      */
     initializeTroubleshootingTab() {
-        const outputContainer = document.getElementById("git-manager-output");
+        const outputContainer = document.getElementById("repo-manager-output");
         if (!outputContainer) return;
 
         // Check if troubleshooting is already initialized
@@ -4186,9 +4185,9 @@ class GitManager {
                 <div class="git-modal-header">
                     <h3>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"></path><path d="M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"></path><path d="M3 5a2 2 0 0 0 2 2h3"></path><path d="M3 3v13a2 2 0 0 0 2 2h3"></path></svg>
-                        Directory Browser
+                        Directory Browser for Repository Manager
                     </h3>
-                    <button class="git-modal-close" aria-label="Close modal">×</button>
+                    <button class="git-modal-close" aria-label="Close modal">x</button>
                 </div>
 
                 <div class="git-modal-body">
@@ -4468,7 +4467,7 @@ class GitManager {
         const normalizedPath = typeof path === "string" ? path.trim() : "";
 
         // Handle edge cases: remove leading/trailing slashes and normalize
-        const cleanPath = normalizedPath.replace(/^[/\\]+|[/\\]+$/g, ""); // حذف اسلش‌های اول و آخر
+        const cleanPath = normalizedPath.replace(/^[/\\]+|[/\\]+$/g, "");
 
         // Split by slash and filter out empty parts and current directory references
         const pathParts = cleanPath
@@ -5413,8 +5412,8 @@ class GitManager {
         modal.innerHTML = `
             <div class="git-modal-content git-modal-large">
                 <div class="git-modal-header">
-                    <h3>🔧 Professional Troubleshooting Results</h3>
-                    <button class="git-modal-close" onclick="GitManager.closeTroubleshootModal()">×</button>
+                    <h3><span class="dashicons dashicons-hammer"></span> Professional Troubleshooting Results</h3>
+                    <button class="git-modal-close" onclick="GitManager.closeTroubleshootModal()">x</button>
                 </div>
                 <div class="git-modal-body">
                     <div class="troubleshoot-results">
@@ -5920,30 +5919,27 @@ class GitManager {
      * Show path validation success
      */
     showPathValidationSuccess(input, helpElement, message) {
-        if (helpElement) {
-            helpElement.innerHTML = `<span style="color: var(--gm-success);">✓ ${message}</span>`;
-        }
-        input.style.borderColor = "var(--gm-success)";
+        this.clearPathValidation(input, helpElement);
+        input.classList.add("is-valid");
+        helpElement.innerHTML = `<span style="color: var(--gm-success);">✓ ${message}</span>`;
     }
 
     /**
      * Show path validation warning
      */
     showPathValidationWarning(input, helpElement, message) {
-        if (helpElement) {
-            helpElement.innerHTML = `<span style="color: var(--gm-warning);">⚠ ${message}</span>`;
-        }
-        input.style.borderColor = "var(--gm-warning)";
+        this.clearPathValidation(input, helpElement);
+        input.classList.add("is-warning");
+        helpElement.innerHTML = `<span style="color: var(--gm-warning);">⚠ ${message}</span>`;
     }
 
     /**
      * Show path validation error
      */
     showPathValidationError(input, helpElement, message) {
-        if (helpElement) {
-            helpElement.innerHTML = `<span style="color: var(--gm-error);">✗ ${message}</span>`;
-        }
-        input.style.borderColor = "var(--gm-error)";
+        this.clearPathValidation(input, helpElement);
+        input.classList.add("is-invalid");
+        helpElement.innerHTML = `<span style="color: var(--gm-error);">✕ ${message}</span>`;
     }
 
     /**
@@ -6086,7 +6082,7 @@ class GitManager {
                         </svg>
                         Manage Repository Path
                     </h3>
-                    <button class="git-modal-close" aria-label="Close modal">×</button>
+                    <button class="git-modal-close" aria-label="Close modal">x</button>
                 </div>
 
                 <div class="git-modal-body">
@@ -6166,7 +6162,7 @@ class GitManager {
                                         <span class="switch-slider"></span>
                                     </div>
                                 </label>
-                                <div class="form-help">Update the path in Git Manager (use if files already exist at new location)</div>
+                                <div class="form-help">Update the path in Repo Manager(use if files already exist at new location)</div>
                             </div>
 
                             <div class="form-group">
@@ -6495,7 +6491,7 @@ class GitManager {
     }
 }
 
-// Initialize Git Manager when DOM is ready
+// Initialize Repo Manager when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
     try {
         if (typeof gitManagerAjax !== "undefined") {

@@ -2,6 +2,8 @@
 
 namespace WPGitManager\Service;
 
+use WPGitManager\Admin\GitManager;
+
 if (! defined('ABSPATH')) {
     exit;
 }
@@ -10,6 +12,9 @@ class GitCommandRunner
 {
     public static function run(string $repoPath, string $gitArgs, array $opts = []): array
     {
+        if (! GitManager::are_commands_enabled()) {
+            return ['success' => false, 'output' => 'Command execution is disabled', 'cmd' => $gitArgs];
+        }
         $repoPath = rtrim($repoPath, '\\/');
         if (! is_dir($repoPath . '/.git')) {
             return ['success' => false, 'output' => 'Not a git repository'];
@@ -22,7 +27,7 @@ class GitCommandRunner
         $sshWrapperFile = null;
         if (! empty($opts['ssh_key'])) {
             $keyContent = $opts['ssh_key'];
-            $tmpDir     = wp_upload_dir(null, false)['basedir'] . '/git-manager-keys';
+            $tmpDir     = wp_upload_dir(null, false)['basedir'] . '/repo-manager-keys';
             if (! is_dir($tmpDir)) {
                 @wp_mkdir_p($tmpDir);
             }
@@ -30,16 +35,6 @@ class GitCommandRunner
             $keyPath = $tmpDir . '/key_' . md5($keyContent) . '.pem';
             if (! file_exists($keyPath)) {
                 file_put_contents($keyPath, $keyContent);
-                // Use WP_Filesystem instead of chmod
-                global $wp_filesystem;
-                if (empty($wp_filesystem)) {
-                    require_once(ABSPATH . '/wp-admin/includes/file.php');
-                    WP_Filesystem();
-                }
-
-                if ($wp_filesystem) {
-                    $wp_filesystem->chmod($keyPath, 0600);
-                }
             }
 
             $wrapper = $tmpDir . '/ssh_wrapper_' . md5($keyPath) . ('WIN' === strtoupper(substr(PHP_OS, 0, 3)) ? '.bat' : '.sh');
@@ -49,16 +44,6 @@ class GitCommandRunner
                 }
             } elseif (! file_exists($wrapper)) {
                 file_put_contents($wrapper, "#!/bin/sh\nexec ssh -i '{$keyPath}' -o StrictHostKeyChecking=no \"$@\"\n");
-                // Use WP_Filesystem instead of chmod
-                global $wp_filesystem;
-                if (empty($wp_filesystem)) {
-                    require_once(ABSPATH . '/wp-admin/includes/file.php');
-                    WP_Filesystem();
-                }
-
-                if ($wp_filesystem) {
-                    $wp_filesystem->chmod($wrapper, 0700);
-                }
             }
 
             $sshWrapperFile = $wrapper;

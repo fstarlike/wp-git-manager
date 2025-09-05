@@ -1,5 +1,5 @@
-/* ========================================
-   Git Manager - Modern Design System
+﻿/* ========================================
+   Repo Manager- Modern Design System
    ======================================== */
 
 /* Import Repository Settings Styles */
@@ -12,8 +12,8 @@
     max-width: none;
 }
 
-#toplevel_page_git-manager a.wp-has-current-submenu:after,
-#toplevel_page_git-manager a.current:after {
+#toplevel_page_repo-manager a.wp-has-current-submenu:after,
+#toplevel_page_repo-manager a.current:after {
     border-right-color: var(--gm-bg) !important;
 }
 
@@ -40,7 +40,7 @@
    ======================================== */
 
 /* Main Container */
-.git-settings-modern {
+.git-settings {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0;
@@ -49,7 +49,7 @@
 }
 
 /* Modern Header */
-.git-settings-header-modern {
+.git-settings-header {
     background: linear-gradient(
         135deg,
         var(--gm-primary) 0%,
@@ -61,7 +61,7 @@
     position: relative;
 }
 
-.git-settings-header-modern::before {
+.git-settings-header::before {
     content: "";
     position: absolute;
     top: 0;
@@ -72,7 +72,7 @@
     opacity: 0.3;
 }
 
-.git-settings-header-content-modern {
+.git-settings-header-content {
     position: relative;
     z-index: 1;
     padding: var(--gm-space-8) var(--gm-space-6);
@@ -89,7 +89,7 @@
     gap: var(--gm-space-4);
 }
 
-.git-settings-logo-modern {
+.git-settings-logo {
     width: 48px;
     height: 48px;
     background: rgba(255, 255, 255, 0.15);
@@ -102,7 +102,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.git-settings-title-modern h1 {
+.git-settings-title h1 {
     color: white;
     font-size: var(--gm-text-2xl);
     font-weight: 700;
@@ -110,20 +110,20 @@
     line-height: 1.2;
 }
 
-.git-settings-title-modern p {
+.git-settings-title p {
     color: rgba(255, 255, 255, 0.8);
     font-size: var(--gm-text-base);
     margin: 0;
     line-height: 1.4;
 }
 
-.git-settings-nav-modern {
+.git-settings-nav {
     display: flex;
     gap: var(--gm-space-3);
     flex-wrap: wrap;
 }
 
-.git-nav-modern-btn {
+.git-nav-btn {
     display: inline-flex;
     align-items: center;
     gap: var(--gm-space-2);
@@ -139,7 +139,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.git-nav-modern-btn:hover {
+.git-nav-btn:hover {
     background: rgba(255, 255, 255, 0.25);
     color: white;
     text-decoration: none;
@@ -148,13 +148,13 @@
 }
 
 /* Content Area */
-.git-settings-content-modern {
+.git-settings-content {
     display: flex;
     flex-direction: column;
     gap: var(--gm-space-6);
 }
 
-.git-settings-form-modern {
+.git-settings-form {
     display: flex;
     flex-direction: column;
     gap: var(--gm-space-6);
@@ -322,11 +322,11 @@
 }
 
 /* Modern Select */
-.git-select-modern-wrapper {
+.git-select-wrapper {
     position: relative;
 }
 
-.git-select-modern {
+.git-select {
     width: 100%;
     padding: var(--gm-space-3) var(--gm-space-4);
     background: var(--gm-bg);
@@ -338,31 +338,31 @@
     min-height: 120px;
 }
 
-.git-select-modern:focus {
+.git-select:focus {
     outline: none;
     border-color: var(--gm-primary);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-.git-select-modern option {
+.git-select option {
     padding: var(--gm-space-2) var(--gm-space-3);
     background: var(--gm-bg);
     color: var(--gm-text);
 }
 
-.git-select-modern option:checked {
+.git-select option:checked {
     background: var(--gm-primary);
     color: white;
 }
 
 /* Modern Input */
-.git-input-modern-wrapper {
+.git-input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.git-input-modern {
+.git-input {
     flex: 1;
     padding: var(--gm-space-3) var(--gm-space-4);
     background: var(--gm-bg);
@@ -373,7 +373,7 @@
     transition: all var(--gm-transition);
 }
 
-.git-input-modern:focus {
+.git-input:focus {
     outline: none;
     border-color: var(--gm-primary);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
@@ -389,7 +389,7 @@
 }
 
 /* Save Section */
-.git-settings-actions-modern {
+.git-settings-actions {
     background: var(--gm-bg-elevated);
     border: 1px solid var(--gm-border);
     border-radius: var(--gm-radius-lg);
@@ -397,7 +397,7 @@
     box-shadow: var(--gm-shadow);
 }
 
-.git-settings-save-modern {
+.git-settings-save {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -442,7 +442,7 @@
     line-height: 1.4;
 }
 
-.git-save-btn-modern {
+.git-save-btn {
     display: inline-flex;
     align-items: center;
     gap: var(--gm-space-2);
@@ -459,7 +459,7 @@
     white-space: nowrap;
 }
 
-.git-save-btn-modern:hover {
+.git-save-btn:hover {
     background: var(--gm-primary-dark);
     transform: translateY(-1px);
     box-shadow: var(--gm-shadow-md);
@@ -467,30 +467,30 @@
     text-decoration: none;
 }
 
-.git-save-btn-modern:active {
+.git-save-btn:active {
     transform: translateY(0);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .git-settings-header-content-modern {
+    .git-settings-header-content {
         flex-direction: column;
         align-items: flex-start;
         gap: var(--gm-space-4);
     }
 
-    .git-settings-nav-modern {
+    .git-settings-nav {
         width: 100%;
         justify-content: flex-start;
     }
 
-    .git-settings-save-modern {
+    .git-settings-save {
         flex-direction: column;
         align-items: flex-start;
         gap: var(--gm-space-4);
     }
 
-    .git-save-btn-modern {
+    .git-save-btn {
         width: 100%;
         justify-content: center;
     }
@@ -501,7 +501,7 @@
     flex-direction: row-reverse;
 }
 
-[dir="rtl"] .git-settings-nav-modern {
+[dir="rtl"] .git-settings-nav {
     flex-direction: row-reverse;
 }
 
@@ -513,7 +513,7 @@
     flex-direction: row-reverse;
 }
 
-[dir="rtl"] .git-settings-save-modern {
+[dir="rtl"] .git-settings-save {
     flex-direction: row-reverse;
 }
 
@@ -527,7 +527,7 @@
 }
 
 /* Force Light Mode for Settings */
-.git-settings-modern {
+.git-settings {
     color-scheme: light !important;
 }
 
@@ -546,20 +546,20 @@
     border-color: #e2e8f0 !important;
 }
 
-.git-select-modern,
-.git-input-modern {
+.git-select,
+.git-input {
     background: #ffffff !important;
     border-color: #e2e8f0 !important;
     color: #1e293b !important;
 }
 
-.git-select-modern:focus,
-.git-input-modern:focus {
+.git-select:focus,
+.git-input:focus {
     border-color: #2563eb !important;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
 }
 
-.git-settings-actions-modern {
+.git-settings-actions {
     background: #ffffff !important;
     border-color: #e2e8f0 !important;
 }
@@ -707,7 +707,7 @@
    Base Styles & Reset
    ======================================== */
 
-.git-manager-wrap {
+.repo-manager-wrap {
     font-family: var(--gm-font-sans);
     color: var(--gm-text);
     background: var(--gm-bg);
@@ -716,38 +716,38 @@
 }
 
 /* Typography */
-.git-manager-wrap h1,
-.git-manager-wrap h2,
-.git-manager-wrap h3,
-.git-manager-wrap h4,
-.git-manager-wrap h5,
-.git-manager-wrap h6 {
+.repo-manager-wrap h1,
+.repo-manager-wrap h2,
+.repo-manager-wrap h3,
+.repo-manager-wrap h4,
+.repo-manager-wrap h5,
+.repo-manager-wrap h6 {
     font-weight: 600;
     line-height: 1.25;
     margin: 0 0 var(--gm-space-4) 0;
     color: var(--gm-text);
 }
 
-.git-manager-wrap h1 {
+.repo-manager-wrap h1 {
     font-size: var(--gm-text-4xl);
 }
-.git-manager-wrap h2 {
+.repo-manager-wrap h2 {
     font-size: var(--gm-text-3xl);
 }
-.git-manager-wrap h3 {
+.repo-manager-wrap h3 {
     font-size: var(--gm-text-2xl);
 }
-.git-manager-wrap h4 {
+.repo-manager-wrap h4 {
     font-size: var(--gm-text-xl);
 }
-.git-manager-wrap h5 {
+.repo-manager-wrap h5 {
     font-size: var(--gm-text-lg);
 }
-.git-manager-wrap h6 {
+.repo-manager-wrap h6 {
     font-size: var(--gm-text-base);
 }
 
-.git-manager-wrap p {
+.repo-manager-wrap p {
     margin: 0 0 var(--gm-space-4) 0;
     color: var(--gm-text-secondary);
 }
@@ -757,7 +757,7 @@
    ======================================== */
 
 /* Header */
-.git-manager-header {
+.repo-manager-header {
     background: var(--gm-bg-elevated);
     border-bottom: 1px solid var(--gm-border);
     padding: var(--gm-space-6) 0;
@@ -768,11 +768,11 @@
     background: rgba(255, 255, 255, 0.95);
 }
 
-[data-theme="dark"] .git-manager-header {
+[data-theme="dark"] .repo-manager-header {
     background: rgba(15, 23, 42, 0.95);
 }
 
-.git-manager-header-content {
+.repo-manager-header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -781,13 +781,13 @@
     padding: 0 var(--gm-space-6);
 }
 
-.git-manager-logo {
+.repo-manager-logo {
     display: flex;
     align-items: center;
     gap: var(--gm-space-4);
 }
 
-.git-manager-logo-icon {
+.repo-manager-logo-icon {
     width: 48px;
     height: 48px;
     background: linear-gradient(
@@ -805,12 +805,12 @@
     position: relative; */
 }
 
-.git-manager-logo-icon svg {
+.repo-manager-logo-icon svg {
     width: 24px;
     height: 24px;
 }
 
-.git-manager-title h1 {
+.repo-manager-title h1 {
     margin: 0;
     font-size: var(--gm-text-2xl);
     font-weight: 700;
@@ -825,19 +825,19 @@
     padding: 0;
 }
 
-.git-manager-title p {
+.repo-manager-title p {
     font-size: var(--gm-text-sm);
     color: var(--gm-text-secondary);
     margin: 0;
 }
 
-.git-manager-actions {
+.repo-manager-actions {
     display: flex;
     gap: var(--gm-space-3);
 }
 
 /* Dashboard Layout */
-.git-manager-dashboard {
+.repo-manager-dashboard {
     display: grid;
     grid-template-columns: 320px 1fr;
     gap: 0;
@@ -2187,13 +2187,13 @@
    ======================================== */
 
 @media (max-width: 1024px) {
-    .git-manager-dashboard {
+    .repo-manager-dashboard {
         grid-template-columns: 280px 1fr;
     }
 }
 
 @media (max-width: 768px) {
-    .git-manager-dashboard {
+    .repo-manager-dashboard {
         grid-template-columns: 1fr;
     }
 
@@ -2207,13 +2207,13 @@
         order: 1;
     }
 
-    .git-manager-header-content {
+    .repo-manager-header-content {
         flex-direction: column;
         gap: var(--gm-space-4);
         text-align: center;
     }
 
-    .git-manager-actions {
+    .repo-manager-actions {
         width: 100%;
         justify-content: center;
     }
@@ -2286,11 +2286,11 @@
 }
 
 @media (max-width: 480px) {
-    .git-manager-header {
+    .repo-manager-header {
         padding: var(--gm-space-4) 0;
     }
 
-    .git-manager-header-content {
+    .repo-manager-header-content {
         padding: 0 var(--gm-space-4);
     }
 
@@ -5889,7 +5889,7 @@ input#new-search-enhanced {
 
 /* Hide old loading spinners when skeleton is active */
 .skeleton-active .progress-spinner,
-.skeleton-active .git-manager-bar-spinner {
+.skeleton-active .repo-manager-bar-spinner {
     display: none !important;
 }
 
@@ -7554,17 +7554,17 @@ input#new-search-enhanced {
     }
 }
 
-.wp-admin .git-manager-wrap {
+.wp-admin .repo-manager-wrap {
     margin: 0;
     padding: 0;
 }
 
-.wp-admin .git-manager-header {
+.wp-admin .repo-manager-header {
     top: 32px;
 }
 
 @media screen and (max-width: 782px) {
-    .wp-admin .git-manager-header {
+    .wp-admin .repo-manager-header {
         top: 46px;
     }
 }
@@ -7582,12 +7582,12 @@ span#repo-name {
 }
 
 /* WordPress admin bar compatibility */
-.admin-bar .git-manager-header {
+.admin-bar .repo-manager-header {
     top: 32px;
 }
 
 @media screen and (max-width: 782px) {
-    .admin-bar .git-manager-header {
+    .admin-bar .repo-manager-header {
         top: 46px;
     }
 }
@@ -7633,7 +7633,7 @@ span#repo-name {
 }
 
 /* ========================================
-   Git Manager Settings Page Styles
+   Repo Manager Settings Page Styles
    ======================================== */
 
 /* Settings Container */
@@ -8326,4 +8326,11 @@ span#repo-name {
     background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
     opacity: 0;
     transition: opacity 0.3s ease;
+}
+
+.repo-manager-header div.fs-notice.promotion,
+.repo-manager-headerdiv.fs-notice.success,
+.repo-manager-header div.fs-notice.updated,
+.notice {
+    display: none !important;
 }

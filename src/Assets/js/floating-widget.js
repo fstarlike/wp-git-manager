@@ -1,5 +1,5 @@
-/**
- * Git Manager Floating Widget - Redesigned
+﻿/**
+ * Repo Manager floating Widget - Redesigned
  * Modern, minimal, and user-friendly floating widget for Git operations
  */
 
@@ -45,28 +45,30 @@
         bindEvents() {
             // Floating trigger button
             const trigger = document.getElementById(
-                "git-manager-floating-trigger"
+                "repo-manager-floating-trigger"
             );
             if (trigger) {
                 trigger.addEventListener("click", () => this.togglePanel());
             }
 
             // Panel close button
-            const closeBtn = document.getElementById("git-manager-panel-close");
+            const closeBtn = document.getElementById(
+                "repo-manager-panel-close"
+            );
             if (closeBtn) {
                 closeBtn.addEventListener("click", () => this.closePanel());
             }
 
             // Close panel when clicking outside
             document.addEventListener("click", (e) => {
-                if (!e.target.closest("#git-manager-floating-widget")) {
+                if (!e.target.closest("#repo-manager-floating-widget")) {
                     this.closePanel();
                 }
             });
 
             // Repository selector
             const repoSelect = document.getElementById(
-                "git-manager-repo-select"
+                "repo-manager-repo-select"
             );
             if (repoSelect) {
                 repoSelect.addEventListener("change", (e) => {
@@ -75,9 +77,9 @@
             }
 
             // Action buttons
-            const fetchBtn = document.getElementById("git-manager-fetch-btn");
-            const pullBtn = document.getElementById("git-manager-pull-btn");
-            const pushBtn = document.getElementById("git-manager-push-btn");
+            const fetchBtn = document.getElementById("repo-manager-fetch-btn");
+            const pullBtn = document.getElementById("repo-manager-pull-btn");
+            const pushBtn = document.getElementById("repo-manager-push-btn");
 
             if (fetchBtn) {
                 fetchBtn.addEventListener("click", () =>
@@ -95,9 +97,9 @@
 
             // Close notification on click
             document.addEventListener("click", (e) => {
-                if (e.target.closest(".git-manager-notification-close")) {
+                if (e.target.closest(".repo-manager-notification-close")) {
                     const notification = e.target.closest(
-                        ".git-manager-notification"
+                        ".repo-manager-notification"
                     );
                     if (notification) {
                         // Check if this is a status notification
@@ -197,7 +199,9 @@
         }
 
         openPanel() {
-            const panel = document.getElementById("git-manager-floating-panel");
+            const panel = document.getElementById(
+                "repo-manager-floating-panel"
+            );
             if (panel) {
                 panel.classList.add("active");
                 this.isPanelOpen = true;
@@ -205,7 +209,7 @@
                 // Focus management
                 setTimeout(() => {
                     const repoSelect = document.getElementById(
-                        "git-manager-repo-select"
+                        "repo-manager-repo-select"
                     );
                     if (repoSelect) {
                         repoSelect.focus();
@@ -215,7 +219,9 @@
         }
 
         closePanel() {
-            const panel = document.getElementById("git-manager-floating-panel");
+            const panel = document.getElementById(
+                "repo-manager-floating-panel"
+            );
             if (panel) {
                 panel.classList.remove("active");
                 this.isPanelOpen = false;
@@ -243,7 +249,7 @@
 
                         // Update the select element to show the selected repository
                         const repoSelect = document.getElementById(
-                            "git-manager-repo-select"
+                            "repo-manager-repo-select"
                         );
                         if (repoSelect) {
                             repoSelect.value = firstRepo.id;
@@ -252,7 +258,7 @@
                 }
             } catch (error) {
                 this.showError(
-                    __("Failed to load repositories", "git-manager")
+                    __("Failed to load repositories", "repo-manager")
                 );
             } finally {
                 this.hideLoading();
@@ -260,7 +266,7 @@
         }
 
         populateRepositorySelect() {
-            const select = document.getElementById("git-manager-repo-select");
+            const select = document.getElementById("repo-manager-repo-select");
             if (!select) return;
 
             // Clear existing options except the first one
@@ -307,7 +313,7 @@
                 await this.updateRepositoryStatusSilent();
             } catch (error) {
                 this.showError(
-                    __("Failed to load repository information", "git-manager")
+                    __("Failed to load repository information", "repo-manager")
                 );
             } finally {
                 this.hideLoading();
@@ -316,13 +322,13 @@
 
         updateBranchInfo() {
             const branchName = document.getElementById(
-                "git-manager-current-branch-name"
+                "repo-manager-current-branch-name"
             );
             const branchSection = document.getElementById(
-                "git-manager-branch-section"
+                "repo-manager-branch-section"
             );
             const emptyState = document.getElementById(
-                "git-manager-empty-state"
+                "repo-manager-empty-state"
             );
 
             if (branchName && this.currentBranch) {
@@ -371,12 +377,14 @@
         }
 
         updateStatusIndicator(statusData) {
-            const statusDot = document.getElementById("git-manager-status-dot");
+            const statusDot = document.getElementById(
+                "repo-manager-status-dot"
+            );
             const statusText = document.getElementById(
-                "git-manager-status-text"
+                "repo-manager-status-text"
             );
             const triggerStatus = document.getElementById(
-                "git-manager-trigger-status"
+                "repo-manager-trigger-status"
             );
 
             if (!statusDot || !statusText) return;
@@ -423,22 +431,22 @@
             }
 
             let status = "clean";
-            let text = __("Up to date", "git-manager");
+            let text = __("Up to date", "repo-manager");
 
             // Check for behind commits (need to pull)
             if (behind > 0) {
                 status = "behind";
-                text = __("Behind remote", "git-manager");
+                text = __("Behind remote", "repo-manager");
             }
             // Check for ahead commits (need to push)
             else if (ahead > 0) {
                 status = "ahead";
-                text = __("Ahead of remote", "git-manager");
+                text = __("Ahead of remote", "repo-manager");
             }
             // Check for diverged (both behind and ahead)
             else if (behind > 0 && ahead > 0) {
                 status = "diverged";
-                text = __("Diverged", "git-manager");
+                text = __("Diverged", "repo-manager");
             }
 
             statusDot.classList.add(status);
@@ -451,12 +459,14 @@
         }
 
         updateStatusIndicatorSilent(statusData) {
-            const statusDot = document.getElementById("git-manager-status-dot");
+            const statusDot = document.getElementById(
+                "repo-manager-status-dot"
+            );
             const statusText = document.getElementById(
-                "git-manager-status-text"
+                "repo-manager-status-text"
             );
             const triggerStatus = document.getElementById(
-                "git-manager-trigger-status"
+                "repo-manager-trigger-status"
             );
 
             if (!statusDot || !statusText) return;
@@ -503,22 +513,22 @@
             }
 
             let status = "clean";
-            let text = __("Up to date", "git-manager");
+            let text = __("Up to date", "repo-manager");
 
             // Check for behind commits (need to pull)
             if (behind > 0) {
                 status = "behind";
-                text = __("Behind remote", "git-manager");
+                text = __("Behind remote", "repo-manager");
             }
             // Check for ahead commits (need to push)
             else if (ahead > 0) {
                 status = "ahead";
-                text = __("Ahead of remote", "git-manager");
+                text = __("Ahead of remote", "repo-manager");
             }
             // Check for diverged (both behind and ahead)
             else if (behind > 0 && ahead > 0) {
                 status = "diverged";
-                text = __("Diverged", "git-manager");
+                text = __("Diverged", "repo-manager");
             }
 
             statusDot.classList.add(status);
@@ -543,7 +553,7 @@
 
             // Remove all status notifications for this repository
             const notifications = document.querySelectorAll(
-                ".git-manager-notification"
+                ".repo-manager-notification"
             );
             notifications.forEach((notification) => {
                 const notificationKey = notification.dataset.notificationKey;
@@ -580,7 +590,7 @@
                     this.showSuccess(
                         `${this.currentRepo.name}: ${__(
                             "Repository fetched successfully",
-                            "git-manager"
+                            "repo-manager"
                         )}`
                     );
                     await this.updateRepositoryStatus();
@@ -591,7 +601,7 @@
                         `${this.currentRepo.name}: ${
                             response.data?.message ||
                             response.data ||
-                            __("Fetch failed", "git-manager")
+                            __("Fetch failed", "repo-manager")
                         }`
                     );
                 }
@@ -599,7 +609,7 @@
                 this.showError(
                     `${this.currentRepo.name}: ${__(
                         "Fetch operation failed",
-                        "git-manager"
+                        "repo-manager"
                     )}`
                 );
             } finally {
@@ -626,7 +636,7 @@
                     this.showSuccess(
                         `${this.currentRepo.name}: ${__(
                             "Repository pulled successfully",
-                            "git-manager"
+                            "repo-manager"
                         )}`
                     );
                     await this.updateRepositoryStatus();
@@ -637,7 +647,7 @@
                         `${this.currentRepo.name}: ${
                             response.data?.message ||
                             response.data ||
-                            __("Pull failed", "git-manager")
+                            __("Pull failed", "repo-manager")
                         }`
                     );
                 }
@@ -645,7 +655,7 @@
                 this.showError(
                     `${this.currentRepo.name}: ${__(
                         "Pull operation failed",
-                        "git-manager"
+                        "repo-manager"
                     )}`
                 );
             } finally {
@@ -672,7 +682,7 @@
                     this.showSuccess(
                         `${this.currentRepo.name}: ${__(
                             "Repository pushed successfully",
-                            "git-manager"
+                            "repo-manager"
                         )}`
                     );
                     await this.updateRepositoryStatus();
@@ -683,7 +693,7 @@
                         `${this.currentRepo.name}: ${
                             response.data?.message ||
                             response.data ||
-                            __("Push failed", "git-manager")
+                            __("Push failed", "repo-manager")
                         }`
                     );
                 }
@@ -691,7 +701,7 @@
                 this.showError(
                     `${this.currentRepo.name}: ${__(
                         "Push operation failed",
-                        "git-manager"
+                        "repo-manager"
                     )}`
                 );
             } finally {
@@ -702,10 +712,10 @@
 
         hideBranchInfo() {
             const branchSection = document.getElementById(
-                "git-manager-branch-section"
+                "repo-manager-branch-section"
             );
             const emptyState = document.getElementById(
-                "git-manager-empty-state"
+                "repo-manager-empty-state"
             );
 
             if (branchSection) branchSection.style.display = "none";
@@ -714,13 +724,13 @@
 
         showLoading() {
             const loading = document.getElementById(
-                "git-manager-loading-state"
+                "repo-manager-loading-state"
             );
             const branchSection = document.getElementById(
-                "git-manager-branch-section"
+                "repo-manager-branch-section"
             );
             const emptyState = document.getElementById(
-                "git-manager-empty-state"
+                "repo-manager-empty-state"
             );
 
             if (loading) loading.style.display = "flex";
@@ -730,21 +740,21 @@
 
         hideLoading() {
             const loading = document.getElementById(
-                "git-manager-loading-state"
+                "repo-manager-loading-state"
             );
             if (loading) loading.style.display = "none";
         }
 
         disableButtons() {
             const buttons = document.querySelectorAll(
-                ".git-manager-action-btn"
+                ".repo-manager-action-btn"
             );
             buttons.forEach((btn) => (btn.disabled = true));
         }
 
         enableButtons() {
             const buttons = document.querySelectorAll(
-                ".git-manager-action-btn"
+                ".repo-manager-action-btn"
             );
             buttons.forEach((btn) => (btn.disabled = false));
         }
@@ -798,14 +808,14 @@
 
         async displayNotification(notification) {
             const container = document.getElementById(
-                "git-manager-notification-container"
+                "repo-manager-notification-container"
             );
             if (!container) {
                 return;
             }
 
             const notificationEl = document.createElement("div");
-            notificationEl.className = `git-manager-notification git-manager-notification-${notification.type}`;
+            notificationEl.className = `repo-manager-notification repo-manager-notification-${notification.type}`;
             notificationEl.dataset.notificationId = notification.id;
 
             // Add notification key for status notifications
@@ -817,7 +827,7 @@
             // Get avatar URL if available
             let avatarHtml = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g><path stroke="var(--git-manager-success)" d="M 9 19 C 5.283 20.115 3.005 19.703 2.068 17.054 C 1.848 16.432 1.085 16.283 0.572 16.155 M 16.558 22.159 L 16 18.13 C 16.076 17.165 15.465 15.854 14.792 15.159 C 17.932 14.809 23.456 15.349 21.5 8.52 C 21.116 7.178 20.963 5.781 20 4.77 C 20.456 3.549 20.853 1.609 20.339 0.411 C 20.339 0.411 18.73 0.65 16 2.48 C 13.708 1.859 11.292 1.859 9 2.48 C 6.27 0.65 4.768 0.464 4.768 0.464 C 4.254 1.662 4.544 3.549 5 4.77 C 4.03 5.789 3.716 7.16 3.5 8.55 C 2.522 14.85 7.019 14.692 10.159 15.082 C 9.494 15.77 8.933 17.176 9 18.13 L 9 22" style="stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.80018px; fill: none;"></path></g>
+                <g><path stroke="var(--repo-manager-success)" d="M 9 19 C 5.283 20.115 3.005 19.703 2.068 17.054 C 1.848 16.432 1.085 16.283 0.572 16.155 M 16.558 22.159 L 16 18.13 C 16.076 17.165 15.465 15.854 14.792 15.159 C 17.932 14.809 23.456 15.349 21.5 8.52 C 21.116 7.178 20.963 5.781 20 4.77 C 20.456 3.549 20.853 1.609 20.339 0.411 C 20.339 0.411 18.73 0.65 16 2.48 C 13.708 1.859 11.292 1.859 9 2.48 C 6.27 0.65 4.768 0.464 4.768 0.464 C 4.254 1.662 4.544 3.549 5 4.77 C 4.03 5.789 3.716 7.16 3.5 8.55 C 2.522 14.85 7.019 14.692 10.159 15.082 C 9.494 15.77 8.933 17.176 9 18.13 L 9 22" style="stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.80018px; fill: none;"></path></g>
                 </svg>
             `;
 
@@ -866,10 +876,10 @@
                     const mainMessage = lines[0];
                     const commitInfo = lines.slice(1).join("\n");
                     formattedMessage = `
-                        <div class="git-manager-notification-main-message">${this.escapeHtml(
+                        <div class="repo-manager-notification-main-message">${this.escapeHtml(
                             mainMessage
                         )}</div>
-                        <div class="git-manager-notification-commit-info">${this.escapeHtml(
+                        <div class="repo-manager-notification-commit-info">${this.escapeHtml(
                             commitInfo
                         )}</div>
                     `;
@@ -879,39 +889,39 @@
             }
 
             notificationEl.innerHTML = `
-                <div class="git-manager-notification-avatar">
+                <div class="repo-manager-notification-avatar">
                     ${avatarHtml}
                 </div>
-                <div class="git-manager-notification-content">
-                    <div class="git-manager-notification-title">
+                <div class="repo-manager-notification-content">
+                    <div class="repo-manager-notification-title">
                         ${this.escapeHtml(
                             notification.data.author ||
                                 (notification.data.isStatusNotification
-                                    ? __("Branch Status", "git-manager")
-                                    : __("Git Update", "git-manager"))
+                                    ? __("Branch Status", "repo-manager")
+                                    : __("Git Update", "repo-manager"))
                         )}
                     </div>
-                    <div class="git-manager-notification-message">
+                    <div class="repo-manager-notification-message">
                         ${formattedMessage}
                     </div>
-                    <div class="git-manager-notification-meta">
+                    <div class="repo-manager-notification-meta">
                         ${
                             notification.data.repo_name
-                                ? `<span class="git-manager-notification-repo">${this.escapeHtml(
+                                ? `<span class="repo-manager-notification-repo">${this.escapeHtml(
                                       notification.data.repo_name
                                   )}</span>`
                                 : ""
                         }
                         ${
                             notification.data.branch
-                                ? `<span class="git-manager-notification-branch">${this.escapeHtml(
+                                ? `<span class="repo-manager-notification-branch">${this.escapeHtml(
                                       notification.data.branch
                                   )}</span>`
                                 : ""
                         }
                         ${
                             notification.data.status
-                                ? `<span class="git-manager-notification-status git-manager-notification-status-${
+                                ? `<span class="repo-manager-notification-status repo-manager-notification-status-${
                                       notification.data.status
                                   }">${this.escapeHtml(
                                       notification.data.status
@@ -921,65 +931,65 @@
                         ${
                             notification.data.behind &&
                             notification.data.behind > 0
-                                ? `<span class="git-manager-notification-count git-manager-notification-count-behind">${
+                                ? `<span class="repo-manager-notification-count repo-manager-notification-count-behind">${
                                       notification.data.behind
                                   } ${
                                       notification.data.behind === 1
-                                          ? __("commit", "git-manager")
-                                          : __("commits", "git-manager")
-                                  } ${__("behind", "git-manager")}</span>`
+                                          ? __("commit", "repo-manager")
+                                          : __("commits", "repo-manager")
+                                  } ${__("behind", "repo-manager")}</span>`
                                 : ""
                         }
                         ${
                             notification.data.ahead &&
                             notification.data.ahead > 0
-                                ? `<span class="git-manager-notification-count git-manager-notification-count-ahead">${
+                                ? `<span class="repo-manager-notification-count repo-manager-notification-count-ahead">${
                                       notification.data.ahead
                                   } ${
                                       notification.data.ahead === 1
-                                          ? __("commit", "git-manager")
-                                          : __("commits", "git-manager")
-                                  } ${__("ahead", "git-manager")}</span>`
+                                          ? __("commit", "repo-manager")
+                                          : __("commits", "repo-manager")
+                                  } ${__("ahead", "repo-manager")}</span>`
                                 : ""
                         }
                     </div>
                     ${
                         notification.data.isStatusNotification &&
                         notification.data.repo_id
-                            ? `<div class="git-manager-notification-actions">
+                            ? `<div class="repo-manager-notification-actions">
                                 ${
                                     notification.data.status === "behind" ||
                                     notification.data.status === "diverged"
-                                        ? `<button class="git-manager-notification-btn git-manager-notification-btn-pull" data-repo-id="${
+                                        ? `<button class="repo-manager-notification-btn repo-manager-notification-btn-pull" data-repo-id="${
                                               notification.data.repo_id
                                           }" title="${__(
                                               "Pull changes",
-                                              "git-manager"
+                                              "repo-manager"
                                           )}">
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M21 15V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                 <polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                 <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                             </svg>
-                                            ${__("Pull", "git-manager")}
+                                            ${__("Pull", "repo-manager")}
                                         </button>`
                                         : ""
                                 }
                                 ${
                                     notification.data.status === "ahead" ||
                                     notification.data.status === "diverged"
-                                        ? `<button class="git-manager-notification-btn git-manager-notification-btn-push" data-repo-id="${
+                                        ? `<button class="repo-manager-notification-btn repo-manager-notification-btn-push" data-repo-id="${
                                               notification.data.repo_id
                                           }" title="${__(
                                               "Push changes",
-                                              "git-manager"
+                                              "repo-manager"
                                           )}">
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M21 15V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                 <polyline points="17,8 12,3 7,8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                 <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                             </svg>
-                                            ${__("Push", "git-manager")}
+                                            ${__("Push", "repo-manager")}
                                         </button>`
                                         : ""
                                 }
@@ -987,9 +997,9 @@
                             : ""
                     }
                 </div>
-                <button class="git-manager-notification-close" aria-label="${__(
+                <button class="repo-manager-notification-close" aria-label="${__(
                     "Close notification",
-                    "git-manager"
+                    "repo-manager"
                 )}">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1011,10 +1021,10 @@
                 notification.data.repo_id
             ) {
                 const pullBtn = notificationEl.querySelector(
-                    ".git-manager-notification-btn-pull"
+                    ".repo-manager-notification-btn-pull"
                 );
                 const pushBtn = notificationEl.querySelector(
-                    ".git-manager-notification-btn-push"
+                    ".repo-manager-notification-btn-push"
                 );
 
                 if (pullBtn) {
@@ -1056,8 +1066,8 @@
             notificationEl.addEventListener("click", (e) => {
                 // Don't trigger if clicking on close button or action buttons
                 if (
-                    e.target.closest(".git-manager-notification-close") ||
-                    e.target.closest(".git-manager-notification-btn")
+                    e.target.closest(".repo-manager-notification-close") ||
+                    e.target.closest(".repo-manager-notification-btn")
                 ) {
                     return;
                 }
@@ -1126,7 +1136,7 @@
          */
         updateNotificationStacking(container) {
             const notifications = container.querySelectorAll(
-                ".git-manager-notification"
+                ".repo-manager-notification"
             );
             const maxStackedNotifications = 5; // Maximum number of notifications to show stacked
             const isRTL = document.documentElement.dir === "rtl";
@@ -1166,7 +1176,7 @@
                     notification.style.zIndex = 10000 - stackIndex;
                     notification.style.pointerEvents = "auto";
                     notification.classList.add(
-                        "git-manager-notification-stacked"
+                        "repo-manager-notification-stacked"
                     );
                 } else if (isTopCard) {
                     // Top card - full visibility with smooth transition
@@ -1180,7 +1190,7 @@
                     notification.style.zIndex = 10000 + maxStackedNotifications;
                     notification.style.pointerEvents = "auto";
                     notification.classList.remove(
-                        "git-manager-notification-stacked"
+                        "repo-manager-notification-stacked"
                     );
                 } else {
                     // Hidden cards - move them out of view but keep them in DOM
@@ -1194,7 +1204,7 @@
                     notification.style.zIndex = "10000";
                     notification.style.pointerEvents = "none";
                     notification.classList.add(
-                        "git-manager-notification-hidden"
+                        "repo-manager-notification-hidden"
                     );
                 }
             });
@@ -1258,7 +1268,7 @@
                                 lastDashIndex + 1
                             );
                             const branchElement = notificationEl.querySelector(
-                                ".git-manager-notification-branch"
+                                ".repo-manager-notification-branch"
                             );
                             if (branchElement) {
                                 const branch = branchElement.textContent;
@@ -1540,7 +1550,7 @@
         clearAllBackgroundStatusNotifications() {
             // Remove all background status notifications
             const notifications = document.querySelectorAll(
-                ".git-manager-notification"
+                ".repo-manager-notification"
             );
             notifications.forEach((notification) => {
                 const notificationKey = notification.dataset.notificationKey;
@@ -1662,21 +1672,21 @@
                 status = "diverged";
                 message = `${repo.name}: ${__(
                     "Branch has diverged from remote. Manual merge needed.",
-                    "git-manager"
+                    "repo-manager"
                 )}`;
                 type = "error";
             } else if (behind > 0) {
                 status = "behind";
                 message = `${repo.name}: ${__(
                     "Branch is behind remote. Pull needed.",
-                    "git-manager"
+                    "repo-manager"
                 )}`;
                 type = "warning";
             } else if (ahead > 0) {
                 status = "ahead";
                 message = `${repo.name}: ${__(
                     "Branch is ahead of remote. Push needed.",
-                    "git-manager"
+                    "repo-manager"
                 )}`;
                 type = "info";
             }
@@ -1732,16 +1742,16 @@
                     if (behind > 0) {
                         enhancedMessage += ` (${behind} ${
                             behind === 1
-                                ? __("commit", "git-manager")
-                                : __("commits", "git-manager")
-                        } ${__("behind", "git-manager")})`;
+                                ? __("commit", "repo-manager")
+                                : __("commits", "repo-manager")
+                        } ${__("behind", "repo-manager")})`;
                     }
                     if (ahead > 0) {
                         enhancedMessage += ` (${ahead} ${
                             ahead === 1
-                                ? __("commit", "git-manager")
-                                : __("commits", "git-manager")
-                        } ${__("ahead", "git-manager")})`;
+                                ? __("commit", "repo-manager")
+                                : __("commits", "repo-manager")
+                        } ${__("ahead", "repo-manager")})`;
                     }
 
                     // Add latest commit information if available
@@ -1753,7 +1763,7 @@
                             commitData.author_name || commitData.author;
                         enhancedMessage += `\n${__(
                             "Latest commit:",
-                            "git-manager"
+                            "repo-manager"
                         )} ${authorName}: ${commitData.subject}`;
                     }
 
@@ -1811,7 +1821,7 @@
 
             // Read current WP user identity from DOM dataset if available
             const widgetRoot = document.getElementById(
-                "git-manager-floating-widget"
+                "repo-manager-floating-widget"
             );
             const currentUserEmail =
                 widgetRoot?.dataset?.currentUserEmail || "";
@@ -1863,20 +1873,20 @@
             } else if (data.author && data.subject) {
                 return `${data.author}: ${data.subject}`;
             }
-            return __("New commits detected on remote!", "git-manager");
+            return __("New commits detected on remote!", "repo-manager");
         }
 
         async handleNotificationPull(repoId, notificationEl) {
             try {
                 // Disable the button and show loading state
                 const pullBtn = notificationEl.querySelector(
-                    ".git-manager-notification-btn-pull"
+                    ".repo-manager-notification-btn-pull"
                 );
                 if (pullBtn) {
                     pullBtn.disabled = true;
                     pullBtn.innerHTML = `
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
-                        ${__("Pulling...", "git-manager")}
+                        ${__("Pulling...", "repo-manager")}
                     `;
                 }
 
@@ -1889,7 +1899,10 @@
 
                 if (response.success) {
                     this.showSuccess(
-                        `${__("Repository pulled successfully", "git-manager")}`
+                        `${__(
+                            "Repository pulled successfully",
+                            "repo-manager"
+                        )}`
                     );
                     // Clear status notifications for this repository
                     this.clearStatusNotification(repoId);
@@ -1900,7 +1913,7 @@
                         `${
                             response.data?.message ||
                             response.data ||
-                            __("Pull failed", "git-manager")
+                            __("Pull failed", "repo-manager")
                         }`
                     );
                     // Re-enable the button
@@ -1912,15 +1925,15 @@
                                 <polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            ${__("Pull", "git-manager")}
+                            ${__("Pull", "repo-manager")}
                         `;
                     }
                 }
             } catch (error) {
-                this.showError(__("Pull operation failed", "git-manager"));
+                this.showError(__("Pull operation failed", "repo-manager"));
                 // Re-enable the button
                 const pullBtn = notificationEl.querySelector(
-                    ".git-manager-notification-btn-pull"
+                    ".repo-manager-notification-btn-pull"
                 );
                 if (pullBtn) {
                     pullBtn.disabled = false;
@@ -1930,7 +1943,7 @@
                             <polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        ${__("Pull", "git-manager")}
+                        ${__("Pull", "repo-manager")}
                     `;
                 }
             }
@@ -1940,13 +1953,13 @@
             try {
                 // Disable the button and show loading state
                 const pushBtn = notificationEl.querySelector(
-                    ".git-manager-notification-btn-push"
+                    ".repo-manager-notification-btn-push"
                 );
                 if (pushBtn) {
                     pushBtn.disabled = true;
                     pushBtn.innerHTML = `
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
-                        ${__("Pushing...", "git-manager")}
+                        ${__("Pushing...", "repo-manager")}
                     `;
                 }
 
@@ -1959,7 +1972,10 @@
 
                 if (response.success) {
                     this.showSuccess(
-                        `${__("Repository pushed successfully", "git-manager")}`
+                        `${__(
+                            "Repository pushed successfully",
+                            "repo-manager"
+                        )}`
                     );
                     // Clear status notifications for this repository
                     this.clearStatusNotification(repoId);
@@ -1970,7 +1986,7 @@
                         `${
                             response.data?.message ||
                             response.data ||
-                            __("Push failed", "git-manager")
+                            __("Push failed", "repo-manager")
                         }`
                     );
                     // Re-enable the button
@@ -1982,15 +1998,15 @@
                                 <polyline points="17,8 12,3 7,8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            ${__("Push", "git-manager")}
+                            ${__("Push", "repo-manager")}
                         `;
                     }
                 }
             } catch (error) {
-                this.showError(__("Push operation failed", "git-manager"));
+                this.showError(__("Push operation failed", "repo-manager"));
                 // Re-enable the button
                 const pushBtn = notificationEl.querySelector(
-                    ".git-manager-notification-btn-push"
+                    ".repo-manager-notification-btn-push"
                 );
                 if (pushBtn) {
                     pushBtn.disabled = false;
@@ -2000,7 +2016,7 @@
                             <polyline points="17,8 12,3 7,8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        ${__("Push", "git-manager")}
+                        ${__("Push", "repo-manager")}
                     `;
                 }
             }
@@ -2012,7 +2028,7 @@
         loadNotificationDismissals() {
             try {
                 const stored = localStorage.getItem(
-                    "git-manager-notification-dismissals"
+                    "repo-manager-notification-dismissals"
                 );
                 const dismissals = stored ? JSON.parse(stored) : {};
                 return dismissals;
@@ -2028,7 +2044,7 @@
             try {
                 const dataToSave = JSON.stringify(this.notificationDismissals);
                 localStorage.setItem(
-                    "git-manager-notification-dismissals",
+                    "repo-manager-notification-dismissals",
                     dataToSave
                 );
             } catch (error) {
@@ -2082,7 +2098,7 @@
         showDismissalOptionsPopup(notificationEl, branchName, statusType) {
             // Create popup overlay
             const overlay = document.createElement("div");
-            overlay.className = "git-manager-dismissal-overlay";
+            overlay.className = "repo-manager-dismissal-overlay";
             overlay.style.cssText = `
                 position: fixed;
                 top: 0;
@@ -2098,7 +2114,7 @@
 
             // Create popup dialog
             const popup = document.createElement("div");
-            popup.className = "git-manager-dismissal-popup";
+            popup.className = "repo-manager-dismissal-popup";
             popup.style.cssText = `
                 background: white;
                 border-radius: 8px;
@@ -2137,17 +2153,17 @@
             popup.innerHTML = `
                 <div style="margin-bottom: 15px;">
                     <h3 style="margin: 0 0 10px 0; color: #333; font-size: 16px;">
-                        ${__("Notification Dismissal Options", "git-manager")}
+                        ${__("Notification Dismissal Options", "repo-manager")}
                     </h3>
                     <p style="margin: 0; color: #666; font-size: 14px;">
                         ${__(
                             "Choose how long to hide this notification:",
-                            "git-manager"
+                            "repo-manager"
                         )}
                     </p>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <button class="git-manager-dismissal-option" data-action="once" style="
+                    <button class="repo-manager-dismissal-option" data-action="once" style="
                         padding: 10px 15px;
                         border: 1px solid #ddd;
                         border-radius: 6px;
@@ -2157,13 +2173,13 @@
                         transition: all 0.2s;
                         font-size: 14px;
                     ">
-                        <strong>${__("Hide just once", "git-manager")}</strong>
+                        <strong>${__("Hide just once", "repo-manager")}</strong>
                         <br><span style="color: #666; font-size: 12px;">${__(
                             "Hide until you refresh the page",
-                            "git-manager"
+                            "repo-manager"
                         )}</span>
                     </button>
-                    <button class="git-manager-dismissal-option" data-action="permanent" style="
+                    <button class="repo-manager-dismissal-option" data-action="permanent" style="
                         padding: 10px 15px;
                         border: 1px solid #ddd;
                         border-radius: 6px;
@@ -2175,14 +2191,14 @@
                     ">
                         <strong>${__(
                             "Don't show for this status again",
-                            "git-manager"
+                            "repo-manager"
                         )}</strong>
                         <br><span style="color: #666; font-size: 12px;">${__(
                             "Permanently hide notifications for this branch and status",
-                            "git-manager"
+                            "repo-manager"
                         )}</span>
                     </button>
-                    <button class="git-manager-dismissal-option" data-action="10min" style="
+                    <button class="repo-manager-dismissal-option" data-action="10min" style="
                         padding: 10px 15px;
                         border: 1px solid #ddd;
                         border-radius: 6px;
@@ -2194,14 +2210,14 @@
                     ">
                         <strong>${__(
                             "Hide for 10 minutes",
-                            "git-manager"
+                            "repo-manager"
                         )}</strong>
                         <br><span style="color: #666; font-size: 12px;">${__(
                             "Notifications will reappear after 10 minutes",
-                            "git-manager"
+                            "repo-manager"
                         )}</span>
                     </button>
-                    <button class="git-manager-dismissal-option" data-action="1day" style="
+                    <button class="repo-manager-dismissal-option" data-action="1day" style="
                         padding: 10px 15px;
                         border: 1px solid #ddd;
                         border-radius: 6px;
@@ -2211,13 +2227,13 @@
                         transition: all 0.2s;
                         font-size: 14px;
                     ">
-                        <strong>${__("Hide for 1 day", "git-manager")}</strong>
+                        <strong>${__("Hide for 1 day", "repo-manager")}</strong>
                         <br><span style="color: #666; font-size: 12px;">${__(
                             "Notifications will reappear after 24 hours",
-                            "git-manager"
+                            "repo-manager"
                         )}</span>
                     </button>
-                    <button class="git-manager-dismissal-cancel" style="
+                    <button class="repo-manager-dismissal-cancel" style="
                         padding: 10px 15px;
                         border: 1px solid #ddd;
                         border-radius: 6px;
@@ -2228,14 +2244,14 @@
                         font-size: 14px;
                         margin-top: 10px;
                     ">
-                        ${__("Cancel", "git-manager")}
+                        ${__("Cancel", "repo-manager")}
                     </button>
                 </div>
             `;
 
             // Add hover effects
             const options = popup.querySelectorAll(
-                ".git-manager-dismissal-option"
+                ".repo-manager-dismissal-option"
             );
             options.forEach((option) => {
                 option.addEventListener("mouseenter", () => {
@@ -2263,7 +2279,7 @@
             });
 
             const cancelBtn = popup.querySelector(
-                ".git-manager-dismissal-cancel"
+                ".repo-manager-dismissal-cancel"
             );
             cancelBtn.addEventListener("click", () => {
                 this.closeDismissalPopup(overlay);
@@ -2291,7 +2307,7 @@
             // Focus first option for accessibility
             setTimeout(() => {
                 const firstOption = popup.querySelector(
-                    ".git-manager-dismissal-option"
+                    ".repo-manager-dismissal-option"
                 );
                 if (firstOption) {
                     firstOption.focus();
@@ -2323,11 +2339,11 @@
                     this.removeNotification(notificationEl);
                     // Informational toast
                     this.showNotification(
-                        __("Notification hidden until refresh", "git-manager"),
+                        __("Notification hidden until refresh", "repo-manager"),
                         "info",
                         {
                             repo_name: notificationEl.querySelector(
-                                ".git-manager-notification-repo"
+                                ".repo-manager-notification-repo"
                             )?.textContent,
                             branch: branchName,
                         }
@@ -2363,26 +2379,26 @@
                 case "permanent":
                     message = __(
                         "Notification dismissed permanently",
-                        "git-manager"
+                        "repo-manager"
                     );
                     break;
                 case "10min":
                     message = __(
                         "Notification hidden for 10 minutes",
-                        "git-manager"
+                        "repo-manager"
                     );
                     break;
                 case "1day":
                     message = __(
                         "Notification hidden for 1 day",
-                        "git-manager"
+                        "repo-manager"
                     );
                     break;
             }
 
             this.showNotification(message, "info", {
                 repo_name: notificationEl.querySelector(
-                    ".git-manager-notification-repo"
+                    ".repo-manager-notification-repo"
                 )?.textContent,
                 branch: branchName,
             });
@@ -2475,14 +2491,14 @@
          */
         getActiveNotifications() {
             const notifications = document.querySelectorAll(
-                ".git-manager-notification"
+                ".repo-manager-notification"
             );
             const activeNotifications = [];
 
             notifications.forEach((notification) => {
                 const notificationKey = notification.dataset.notificationKey;
                 const branchElement = notification.querySelector(
-                    ".git-manager-notification-branch"
+                    ".repo-manager-notification-branch"
                 );
                 const branch = branchElement
                     ? branchElement.textContent
@@ -2522,7 +2538,7 @@
          */
         areNotificationsEnabled() {
             const floatingWidget = document.getElementById(
-                "git-manager-floating-widget"
+                "repo-manager-floating-widget"
             );
             return (
                 floatingWidget &&

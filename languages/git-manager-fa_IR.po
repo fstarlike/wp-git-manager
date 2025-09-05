@@ -1,8 +1,8 @@
 # Copyright (C) 2025 Farzad Hoseinzadeh
-# This file is distributed under the same license as the WP Git Manager plugin.
+# This file is distributed under the same license as the WP Repo Manager Plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Git Manager 2.3.1\n"
+"Project-Id-Version: WP Repo Manager2.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git-manager\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "https://github.com/fstarlike"
 msgid "Git Manager"
 msgstr "مدیر گیت"
 
-msgid "Git Manager Settings"
+msgid "Repo Manager Settings"
 msgstr "تنظیمات مدیر گیت"
 
 msgid "Settings"
@@ -65,7 +65,7 @@ msgstr "کنترل دسترسی کاربران"
 msgid "Allowed User Roles"
 msgstr "نقش‌های کاربری مجاز"
 
-msgid "Select which WordPress roles are allowed to use the Git Manager interface. Use Ctrl/Cmd+click to select multiple roles."
+msgid "Select which WordPress roles are allowed to use the Repo Manager interface. Use Ctrl/Cmd+click to select multiple roles."
 msgstr "انتخاب کنید کدام نقش‌های وردپرس مجاز به استفاده از رابط مدیر گیت هستند. از Ctrl/Cmd+click برای انتخاب چندین نقش استفاده کنید."
 
 msgid "Ready to Save Changes"
@@ -92,7 +92,7 @@ msgstr "توقف"
 msgid "Reset"
 msgstr "بازنشانی"
 
-msgid "Git Manager Troubleshooting"
+msgid "Repo Manager troubleshooting"
 msgstr "عیب‌یابی مدیر گیت"
 
 msgid "Ready to start"
@@ -503,7 +503,7 @@ msgstr "کامیت‌های جدید در ریموت شناسایی شد! لطف
 msgid "New commits on branch"
 msgstr "کامیت‌های جدید در برنچ"
 
-msgid "Please Pull to update your local repository or open Git Manager to review changes."
+msgid "Please Pull to update your local repository or open Repo Manager to review changes."
 msgstr "لطفاً برای به‌روزرسانی مخزن محلی خود پول کنید یا مدیر گیت را برای بررسی تغییرات باز کنید."
 
 msgid "[Git Manager] No remote tracking branch or fetch failed. remote_hash is empty."
@@ -683,7 +683,7 @@ msgstr "کنترل ویجت شناور و رفتار اعلان‌های آن"
 msgid "Enable floating widget"
 msgstr "فعال‌سازی ویجت شناور"
 
-msgid "Show the floating Git Manager widget on all admin pages for quick repository access."
+msgid "Show the floating Repo Manager widget on all admin pages for quick repository access."
 msgstr "نمایش ویجت شناور مدیر گیت در تمام صفحات مدیریت برای دسترسی سریع به مخزن."
 
 msgid "Enable floating widget notifications"
@@ -698,7 +698,7 @@ msgstr "فعال‌سازی اعلان‌های وضعیت ریپازیتوری"
 msgid "Show notifications for repository updates like new commits, branch changes, and status changes."
 msgstr "نمایش اعلان‌ها برای به‌روزرسانی‌های ریپازیتوری مانند کامیت‌های جدید، تغییرات برنچ و تغییرات وضعیت."
 
-msgid "Configure your Git Manager experience"
+msgid "Configure your Repo Manager experience"
 msgstr "تجربه مدیر گیت خود را پیکربندی کنید"
 
 msgid "Access denied."

@@ -48,7 +48,7 @@ class Dashboard
             $this->header->render();
         ?>
 
-            <div class="git-manager-dashboard">
+            <div class="repo-manager-dashboard">
                 <?php
             $this->sidebar->render();
         ?>
@@ -71,15 +71,15 @@ class Dashboard
         // Note: admin.css and admin.js are already enqueued in GitManager.php
         // No need to enqueue them again here to avoid duplication
 
-        // Note: git-manager-global.js is already enqueued in wp-git-manager.php
+        // Note: repo-manager-global.js is already enqueued in repo-manager.php
         // No need to enqueue it again here to avoid duplication
 
         // Note: rtl-support.css, rtl-components.css, and rtl-support.js are already enqueued in GitManager.php
         // No need to enqueue them again here to avoid duplication
 
         // Only localize the RTL settings if RTL is active and the script is enqueued
-        if (RTLSupport::isRTL() && wp_script_is('git-manager-rtl-support', 'enqueued')) {
-            wp_localize_script('git-manager-rtl-support', 'gitManagerRTL', RTLSupport::getRTLSettings());
+        if (RTLSupport::isRTL() && wp_script_is('repo-manager-rtl-support', 'enqueued')) {
+            wp_localize_script('repo-manager-rtl-support', 'gitManagerRTL', RTLSupport::getRTLSettings());
         }
     }
 }

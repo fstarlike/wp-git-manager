@@ -1,189 +1,189 @@
-/* ========================================
-   Git Manager Floating Widget - Redesigned
+﻿/* ========================================
+   Repo Manager floating Widget - Redesigned
    Modern, Minimal, and User-Friendly
    ======================================== */
 
 /* CSS Variables for consistent theming */
 :root {
-    --git-manager-primary: #3b82f6;
-    --git-manager-primary-hover: #2563eb;
-    --git-manager-success: #10b981;
-    --git-manager-success-hover: #059669;
-    --git-manager-warning: #f97316;
-    --git-manager-warning-hover: #ea580c;
-    --git-manager-error: #ef4444;
-    --git-manager-error-hover: #dc2626;
-    --git-manager-gray-50: #f9fafb;
-    --git-manager-gray-100: #f3f4f6;
-    --git-manager-gray-200: #e5e7eb;
-    --git-manager-gray-300: #d1d5db;
-    --git-manager-gray-400: #9ca3af;
-    --git-manager-gray-500: #6b7280;
-    --git-manager-gray-600: #4b5563;
-    --git-manager-gray-700: #374151;
-    --git-manager-gray-800: #1f2937;
-    --git-manager-gray-900: #111827;
+    --repo-manager-primary: #3b82f6;
+    --repo-manager-primary-hover: #2563eb;
+    --repo-manager-success: #10b981;
+    --repo-manager-success-hover: #059669;
+    --repo-manager-warning: #f97316;
+    --repo-manager-warning-hover: #ea580c;
+    --repo-manager-error: #ef4444;
+    --repo-manager-error-hover: #dc2626;
+    --repo-manager-gray-50: #f9fafb;
+    --repo-manager-gray-100: #f3f4f6;
+    --repo-manager-gray-200: #e5e7eb;
+    --repo-manager-gray-300: #d1d5db;
+    --repo-manager-gray-400: #9ca3af;
+    --repo-manager-gray-500: #6b7280;
+    --repo-manager-gray-600: #4b5563;
+    --repo-manager-gray-700: #374151;
+    --repo-manager-gray-800: #1f2937;
+    --repo-manager-gray-900: #111827;
     --gm-gray-200: #e2e8f0;
     --gm-bg-secondary: #f8fafc;
     --gm-border: var(--gm-gray-200);
-    --gm-text: var(--git-manager-gray-900);
-    --gm-text-secondary: var(--git-manager-gray-600);
-    --gm-bg: var(--git-manager-white);
-    --git-manager-white: #ffffff;
-    --git-manager-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --git-manager-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1),
+    --gm-text: var(--repo-manager-gray-900);
+    --gm-text-secondary: var(--repo-manager-gray-600);
+    --gm-bg: var(--repo-manager-white);
+    --repo-manager-white: #ffffff;
+    --repo-manager-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --repo-manager-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1),
         0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --git-manager-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+    --repo-manager-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
         0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --git-manager-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    --repo-manager-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
         0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --git-manager-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    --repo-manager-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
         0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --git-manager-radius-sm: 0.375rem;
-    --git-manager-radius: 0.5rem;
-    --git-manager-radius-md: 0.75rem;
-    --git-manager-radius-lg: 1rem;
-    --git-manager-radius-full: 9999px;
-    --git-manager-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    --git-manager-transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --git-manager-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    --repo-manager-radius-sm: 0.375rem;
+    --repo-manager-radius: 0.5rem;
+    --repo-manager-radius-md: 0.75rem;
+    --repo-manager-radius-lg: 1rem;
+    --repo-manager-radius-full: 9999px;
+    --repo-manager-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --repo-manager-transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --repo-manager-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* Main Floating Widget Container */
-.git-manager-floating-widget {
+.repo-manager-floating-widget {
     position: fixed;
     bottom: 24px;
     right: 24px;
     z-index: 999999;
-    font-family: var(--git-manager-font-family);
+    font-family: var(--repo-manager-font-family);
     font-size: 14px;
     line-height: 1.5;
-    color: var(--git-manager-gray-900);
+    color: var(--repo-manager-gray-900);
 }
 
 /* Floating Trigger Button */
-.git-manager-floating-trigger {
+.repo-manager-floating-trigger {
     position: relative;
-    background: var(--git-manager-white);
-    box-shadow: var(--git-manager-shadow-lg);
+    background: var(--repo-manager-white);
+    box-shadow: var(--repo-manager-shadow-lg);
     border-radius: 15px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: var(--git-manager-transition-slow);
+    transition: var(--repo-manager-transition-slow);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 8px;
 }
 
-.git-manager-floating-logo-icon {
+.repo-manager-floating-logo-icon {
     width: 48px;
     height: 48px;
     background: linear-gradient(
         135deg,
-        var(--git-manager-primary),
-        var(--git-manager-primary-hover)
+        var(--repo-manager-primary),
+        var(--repo-manager-primary-hover)
     );
-    border-radius: var(--git-manager-radius-lg);
+    border-radius: var(--repo-manager-radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    box-shadow: var(--git-manager-shadow-lg);
-    transition: var(--git-manager-transition);
+    box-shadow: var(--repo-manager-shadow-lg);
+    transition: var(--repo-manager-transition);
 }
 
-.git-manager-floating-trigger:hover {
+.repo-manager-floating-trigger:hover {
     transform: translateY(-2px);
-    box-shadow: var(--git-manager-shadow-xl);
+    box-shadow: var(--repo-manager-shadow-xl);
 }
 
-.git-manager-floating-trigger:hover .git-manager-floating-logo-icon {
+.repo-manager-floating-trigger:hover .repo-manager-floating-logo-icon {
     transform: scale(1.05);
-    box-shadow: var(--git-manager-shadow-xl);
+    box-shadow: var(--repo-manager-shadow-xl);
 }
 
-.git-manager-floating-trigger:active {
+.repo-manager-floating-trigger:active {
     transform: translateY(0);
 }
 
-.git-manager-floating-trigger:active .git-manager-floating-logo-icon {
+.repo-manager-floating-trigger:active .repo-manager-floating-logo-icon {
     transform: scale(1);
 }
 
 /* Status indicator on trigger */
-.git-manager-trigger-status {
+.repo-manager-trigger-status {
     position: absolute;
     top: -2px;
     right: -2px;
     width: 12px;
     height: 12px;
-    border-radius: var(--git-manager-radius-full);
-    background: var(--git-manager-gray-300);
-    border: 2px solid var(--git-manager-white);
-    transition: var(--git-manager-transition);
+    border-radius: var(--repo-manager-radius-full);
+    background: var(--repo-manager-gray-300);
+    border: 2px solid var(--repo-manager-white);
+    transition: var(--repo-manager-transition);
 }
 
-.git-manager-trigger-status.status-clean {
-    background: var(--git-manager-success);
+.repo-manager-trigger-status.status-clean {
+    background: var(--repo-manager-success);
 }
 
-.git-manager-trigger-status.status-behind {
-    background: var(--git-manager-warning);
+.repo-manager-trigger-status.status-behind {
+    background: var(--repo-manager-warning);
 }
 
-.git-manager-trigger-status.status-ahead {
-    background: var(--git-manager-primary);
+.repo-manager-trigger-status.status-ahead {
+    background: var(--repo-manager-primary);
 }
 
-.git-manager-trigger-status.status-diverged {
-    background: var(--git-manager-error);
+.repo-manager-trigger-status.status-diverged {
+    background: var(--repo-manager-error);
 }
 
 /* Floating Panel */
-.git-manager-floating-panel {
+.repo-manager-floating-panel {
     position: absolute;
     bottom: 72px;
     right: 0;
     width: 360px;
     background: var(--gm-bg);
-    border-radius: var(--git-manager-radius-lg);
-    box-shadow: var(--git-manager-shadow-xl);
+    border-radius: var(--repo-manager-radius-lg);
+    box-shadow: var(--repo-manager-shadow-xl);
     border: 1px solid var(--gm-border);
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px) scale(0.95);
-    transition: var(--git-manager-transition-slow);
+    transition: var(--repo-manager-transition-slow);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     overflow: hidden;
 }
 
-.git-manager-floating-panel.active {
+.repo-manager-floating-panel.active {
     opacity: 1;
     visibility: visible;
     transform: translateY(0) scale(1);
 }
 
 /* Panel Header */
-.git-manager-panel-header {
+.repo-manager-panel-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 20px 24px;
     background: linear-gradient(
         135deg,
-        var(--git-manager-primary) 0%,
-        var(--git-manager-primary-hover) 100%
+        var(--repo-manager-primary) 0%,
+        var(--repo-manager-primary-hover) 100%
     );
     color: white;
     position: relative;
     overflow: hidden;
 }
 
-.git-manager-panel-header::before {
+.repo-manager-panel-header::before {
     content: "";
     position: absolute;
     top: 0;
@@ -194,7 +194,7 @@
     opacity: 0.3;
 }
 
-.git-manager-panel-title {
+.repo-manager-panel-title {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -205,18 +205,18 @@
     z-index: 1;
 }
 
-.git-manager-panel-title svg {
+.repo-manager-panel-title svg {
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-.git-manager-panel-close {
+.repo-manager-panel-close {
     background: rgba(255, 255, 255, 0.1);
     border: none;
     padding: 8px;
-    border-radius: var(--git-manager-radius);
+    border-radius: var(--repo-manager-radius);
     color: white;
     cursor: pointer;
-    transition: var(--git-manager-transition);
+    transition: var(--repo-manager-transition);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -226,13 +226,13 @@
     -webkit-backdrop-filter: blur(10px);
 }
 
-.git-manager-panel-close:hover {
+.repo-manager-panel-close:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: scale(1.05);
 }
 
 /* Panel Content */
-.git-manager-panel-content {
+.repo-manager-panel-content {
     padding: 20px 22px;
     max-height: 460px;
     overflow-y: auto;
@@ -243,86 +243,86 @@
 }
 
 /* Smooth scroll and nicer scrollbar for webkit */
-.git-manager-panel-content::-webkit-scrollbar {
+.repo-manager-panel-content::-webkit-scrollbar {
     width: 10px;
 }
-.git-manager-panel-content::-webkit-scrollbar-track {
+.repo-manager-panel-content::-webkit-scrollbar-track {
     background: transparent;
 }
-.git-manager-panel-content::-webkit-scrollbar-thumb {
-    background: var(--git-manager-gray-200);
-    border-radius: var(--git-manager-radius-full);
+.repo-manager-panel-content::-webkit-scrollbar-thumb {
+    background: var(--repo-manager-gray-200);
+    border-radius: var(--repo-manager-radius-full);
     border: 2px solid transparent;
     background-clip: padding-box;
 }
-.git-manager-panel-content:hover::-webkit-scrollbar-thumb {
-    background: var(--git-manager-gray-300);
+.repo-manager-panel-content:hover::-webkit-scrollbar-thumb {
+    background: var(--repo-manager-gray-300);
 }
 
 /* Repository Section */
-.git-manager-repo-section {
+.repo-manager-repo-section {
     margin-bottom: 16px;
 }
 
-.git-manager-label {
+.repo-manager-label {
     display: block;
     font-weight: 600;
-    color: var(--git-manager-gray-800);
+    color: var(--repo-manager-gray-800);
     margin-bottom: 8px;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.6px;
 }
 
-.git-manager-select {
+.repo-manager-select {
     width: 100%;
     padding: 10px 14px;
-    border: 1.5px solid var(--git-manager-gray-200);
-    border-radius: var(--git-manager-radius);
-    background: var(--git-manager-white);
+    border: 1.5px solid var(--repo-manager-gray-200);
+    border-radius: var(--repo-manager-radius);
+    background: var(--repo-manager-white);
     font-size: 14px;
-    color: var(--git-manager-gray-900);
-    transition: var(--git-manager-transition);
+    color: var(--repo-manager-gray-900);
+    transition: var(--repo-manager-transition);
     cursor: pointer;
     font-weight: 500;
-    box-shadow: var(--git-manager-shadow-sm);
+    box-shadow: var(--repo-manager-shadow-sm);
 }
 
-.git-manager-select:focus {
+.repo-manager-select:focus {
     outline: none;
-    border-color: var(--git-manager-primary);
+    border-color: var(--repo-manager-primary);
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.git-manager-select:hover {
-    border-color: var(--git-manager-gray-400);
+.repo-manager-select:hover {
+    border-color: var(--repo-manager-gray-400);
 }
 
 /* Branch Section */
-.git-manager-branch-section {
+.repo-manager-branch-section {
     animation: fadeInUp 0.3s ease;
 }
 
 /* Make branch section feel like a card */
-.git-manager-branch-section {
+.repo-manager-branch-section {
     margin-top: 12px;
 }
 
-.git-manager-branch-header {
+.repo-manager-branch-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 16px;
     padding: 16px;
     background: var(--gm-bg-secondary);
-    border-radius: var(--git-manager-radius);
+    border-radius: var(--repo-manager-radius);
     border: 1px solid var(--gm-border);
     position: relative;
     overflow: hidden;
-    box-shadow: var(--git-manager-shadow-sm);
+    box-shadow: var(--repo-manager-shadow-sm);
 }
 
-.git-manager-branch-header::before {
+.repo-manager-branch-header::before {
     content: "";
     position: absolute;
     bottom: 0;
@@ -331,12 +331,12 @@
     width: 100%;
     background: linear-gradient(
         135deg,
-        var(--git-manager-primary) 0%,
-        var(--git-manager-primary-hover) 100%
+        var(--repo-manager-primary) 0%,
+        var(--repo-manager-primary-hover) 100%
     );
 }
 
-.git-manager-branch-name {
+.repo-manager-branch-name {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -347,13 +347,13 @@
     z-index: 1;
 }
 
-.git-manager-branch-name svg {
-    color: var(--git-manager-primary);
+.repo-manager-branch-name svg {
+    color: var(--repo-manager-primary);
     width: 24px;
     height: 24px;
 }
 
-.git-manager-branch-status {
+.repo-manager-branch-status {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -364,58 +364,58 @@
     z-index: 1;
     padding: 6px 10px;
     background: var(--gm-bg);
-    border-radius: var(--git-manager-radius-sm);
+    border-radius: var(--repo-manager-radius-sm);
     border: 1px solid var(--gm-border);
 }
 
-.git-manager-status-dot {
+.repo-manager-status-dot {
     width: 2px;
     height: 28px;
-    border-radius: var(--git-manager-radius-full);
-    background: var(--git-manager-success);
+    border-radius: var(--repo-manager-radius-full);
+    background: var(--repo-manager-success);
     animation: pulse 2s infinite;
 }
 
-.git-manager-status-dot.behind {
-    background: var(--git-manager-warning);
+.repo-manager-status-dot.behind {
+    background: var(--repo-manager-warning);
 }
 
-.git-manager-status-dot.ahead {
-    background: var(--git-manager-primary);
+.repo-manager-status-dot.ahead {
+    background: var(--repo-manager-primary);
 }
 
-.git-manager-status-dot.diverged {
-    background: var(--git-manager-error);
+.repo-manager-status-dot.diverged {
+    background: var(--repo-manager-error);
 }
 
 /* Quick Actions */
-.git-manager-quick-actions {
+.repo-manager-quick-actions {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
     margin-bottom: 16px;
 }
 
-.git-manager-action-btn {
+.repo-manager-action-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     padding: 14px 16px;
     border: none;
-    border-radius: var(--git-manager-radius);
+    border-radius: var(--repo-manager-radius);
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: var(--git-manager-transition);
+    transition: var(--repo-manager-transition);
     text-decoration: none;
-    color: var(--git-manager-white);
+    color: var(--repo-manager-white);
     position: relative;
     overflow: hidden;
-    box-shadow: var(--git-manager-shadow-md);
+    box-shadow: var(--repo-manager-shadow-md);
 }
 
-.git-manager-action-btn::before {
+.repo-manager-action-btn::before {
     content: "";
     position: absolute;
     top: 0;
@@ -428,58 +428,58 @@
 
 /* Shimmer disabled */
 
-.git-manager-action-btn:hover {
+.repo-manager-action-btn:hover {
     transform: translateY(-2px);
-    box-shadow: var(--git-manager-shadow-lg);
+    box-shadow: var(--repo-manager-shadow-lg);
 }
 
-.git-manager-action-btn:active {
+.repo-manager-action-btn:active {
     transform: translateY(0);
 }
 
-.git-manager-action-btn:disabled {
+.repo-manager-action-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
 }
 
-.git-manager-action-fetch {
-    background: var(--git-manager-primary);
+.repo-manager-action-fetch {
+    background: var(--repo-manager-primary);
 }
 
-.git-manager-action-fetch:hover {
-    background: var(--git-manager-primary-hover);
+.repo-manager-action-fetch:hover {
+    background: var(--repo-manager-primary-hover);
 }
 
-.git-manager-action-pull {
-    background: var(--git-manager-success);
+.repo-manager-action-pull {
+    background: var(--repo-manager-success);
 }
 
-.git-manager-action-pull:hover {
-    background: var(--git-manager-success-hover);
+.repo-manager-action-pull:hover {
+    background: var(--repo-manager-success-hover);
 }
 
 /* Push button styling */
-.git-manager-action-push {
-    background: var(--git-manager-warning);
+.repo-manager-action-push {
+    background: var(--repo-manager-warning);
 }
 
-.git-manager-action-push:hover {
-    background: var(--git-manager-warning-hover);
+.repo-manager-action-push:hover {
+    background: var(--repo-manager-warning-hover);
 }
 
 /* Accessible focus rings for action buttons */
-.git-manager-action-btn:focus-visible {
+.repo-manager-action-btn:focus-visible {
     outline: none;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 }
 
 /* Dashboard Section */
-.git-manager-dashboard-section {
+.repo-manager-dashboard-section {
     margin-top: 12px;
 }
 
-.git-manager-dashboard-btn {
+.repo-manager-dashboard-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -488,18 +488,18 @@
     background: var(--gm-bg-secondary);
     color: var(--gm-text);
     border: 1px solid var(--gm-border);
-    border-radius: var(--git-manager-radius);
+    border-radius: var(--repo-manager-radius);
     font-size: 15px;
     font-weight: 600;
     text-decoration: none;
-    transition: var(--git-manager-transition);
+    transition: var(--repo-manager-transition);
     cursor: pointer;
-    box-shadow: var(--git-manager-shadow-sm);
+    box-shadow: var(--repo-manager-shadow-sm);
     position: relative;
     overflow: hidden;
 }
 
-.git-manager-dashboard-btn::before {
+.repo-manager-dashboard-btn::before {
     content: "";
     position: absolute;
     top: 0;
@@ -510,79 +510,79 @@
     display: none;
 }
 
-.git-manager-dashboard-btn:hover {
-    border-color: var(--git-manager-primary);
-    background: var(--git-manager-primary);
-    color: var(--git-manager-white);
+.repo-manager-dashboard-btn:hover {
+    border-color: var(--repo-manager-primary);
+    background: var(--repo-manager-primary);
+    color: var(--repo-manager-white);
     text-decoration: none;
     transform: translateY(-2px);
-    box-shadow: var(--git-manager-shadow-lg);
+    box-shadow: var(--repo-manager-shadow-lg);
 }
 
 /* Overlay disabled */
 
-.git-manager-dashboard-btn:active {
+.repo-manager-dashboard-btn:active {
     transform: translateY(0);
 }
 
-.git-manager-dashboard-btn span,
-.git-manager-dashboard-btn svg {
+.repo-manager-dashboard-btn span,
+.repo-manager-dashboard-btn svg {
     position: relative;
     z-index: 1;
     transition: color 0.3s ease;
 }
 
-.git-manager-dashboard-btn:hover span,
-.git-manager-dashboard-btn:hover svg {
-    color: var(--git-manager-white);
+.repo-manager-dashboard-btn:hover span,
+.repo-manager-dashboard-btn:hover svg {
+    color: var(--repo-manager-white);
 }
 
-.git-manager-dashboard-btn svg {
-    color: var(--git-manager-gray-600);
-    transition: var(--git-manager-transition);
+.repo-manager-dashboard-btn svg {
+    color: var(--repo-manager-gray-600);
+    transition: var(--repo-manager-transition);
 }
 
 /* Loading State */
-.git-manager-loading-state {
+.repo-manager-loading-state {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 16px;
     padding: 40px 20px;
-    color: var(--git-manager-gray-600);
+    color: var(--repo-manager-gray-600);
     font-size: 14px;
     font-weight: 500;
 }
 
-.git-manager-loading-spinner {
+.repo-manager-loading-spinner {
     width: 24px;
     height: 24px;
-    border: 3px solid var(--git-manager-gray-200);
-    border-top: 3px solid var(--git-manager-primary);
-    border-radius: var(--git-manager-radius-full);
+    border: 3px solid var(--repo-manager-gray-200);
+    border-top: 3px solid var(--repo-manager-primary);
+    border-radius: var(--repo-manager-radius-full);
     animation: spin 1s linear infinite;
 }
 
 /* Empty State */
-.git-manager-empty-state {
+.repo-manager-empty-state {
     text-align: center;
     padding: 60px 20px;
-    color: var(--git-manager-gray-500);
+    color: var(--repo-manager-gray-500);
 }
 
-.git-manager-empty-icon {
+.repo-manager-empty-icon {
     margin-bottom: 20px;
     opacity: 0.6;
 }
 
-.git-manager-empty-state p {
+.repo-manager-empty-state p {
     font-size: 15px;
     margin: 0;
     font-weight: 500;
 }
 
 /* Notification Container */
-.git-manager-notification-container {
+.repo-manager-notification-container {
     position: fixed;
     bottom: 24px;
     left: 50%;
@@ -595,11 +595,11 @@
 }
 
 /* Notification */
-.git-manager-notification {
-    border-radius: var(--git-manager-radius-lg);
+.repo-manager-notification {
+    border-radius: var(--repo-manager-radius-lg);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
         0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    border: 1px solid var(--git-manager-gray-200);
+    border: 1px solid var(--repo-manager-gray-200);
     padding: 0;
     animation: notificationSlideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: flex;
@@ -617,13 +617,13 @@
 }
 
 /* Card stacking styles */
-.git-manager-notification-stacked {
+.repo-manager-notification-stacked {
     box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.08),
         0 2px 6px -1px rgba(0, 0, 0, 0.04);
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.git-manager-notification-stacked:hover {
+.repo-manager-notification-stacked:hover {
     box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.12),
         0 4px 12px -2px rgba(0, 0, 0, 0.08);
     z-index: 10005 !important;
@@ -634,7 +634,7 @@
         scale(0.95) !important;
 }
 
-.git-manager-notification-hidden {
+.repo-manager-notification-hidden {
     pointer-events: none;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     animation: notificationSlideOut 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)
@@ -642,48 +642,48 @@
 }
 
 /* Hover effect for clickable notifications */
-.git-manager-notification:not(.git-manager-notification-stacked):hover {
+.repo-manager-notification:not(.repo-manager-notification-stacked):hover {
     transform: translateY(-20px);
     box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.18),
         0 8px 20px -5px rgba(0, 0, 0, 0.12);
 }
 
-.git-manager-notification::before {
+.repo-manager-notification::before {
     content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: var(--git-manager-primary);
+    background: var(--repo-manager-primary);
     display: block;
     height: 2px;
 }
 
-.git-manager-notification.git-manager-notification-success::before {
-    background: var(--git-manager-success);
+.repo-manager-notification.repo-manager-notification-success::before {
+    background: var(--repo-manager-success);
 }
 
-.git-manager-notification.git-manager-notification-error::before {
-    background: var(--git-manager-error);
+.repo-manager-notification.repo-manager-notification-error::before {
+    background: var(--repo-manager-error);
 }
 
-.git-manager-notification.git-manager-notification-warning::before {
-    background: var(--git-manager-warning);
+.repo-manager-notification.repo-manager-notification-warning::before {
+    background: var(--repo-manager-warning);
 }
 
-.git-manager-notification-avatar {
+.repo-manager-notification-avatar {
     width: 60px;
     height: 80px;
-    /* background: var(--git-manager-gray-50); */
+    /* background: var(--repo-manager-gray-50); */
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    /* border-right: 1px solid var(--git-manager-gray-200); */
+    /* border-right: 1px solid var(--repo-manager-gray-200); */
     position: relative;
 }
 
-/* .git-manager-notification-avatar::before {
+/* .repo-manager-notification-avatar::before {
     content: "";
     position: absolute;
     top: 0;
@@ -697,25 +697,25 @@
     );
 } */
 
-.git-manager-notification-avatar img {
+.repo-manager-notification-avatar img {
     width: 32px;
     height: 32px;
-    border-radius: var(--git-manager-radius-full);
+    border-radius: var(--repo-manager-radius-full);
     object-fit: cover;
     position: relative;
     z-index: 1;
-    border: 2px solid var(--git-manager-white);
-    box-shadow: var(--git-manager-shadow-sm);
+    border: 2px solid var(--repo-manager-white);
+    box-shadow: var(--repo-manager-shadow-sm);
 }
 
-.git-manager-notification-avatar svg {
+.repo-manager-notification-avatar svg {
     font-size: 20px;
-    color: var(--git-manager-gray-500);
+    color: var(--repo-manager-gray-500);
     position: relative;
     z-index: 1;
 }
 
-.git-manager-notification-content {
+.repo-manager-notification-content {
     flex: 1;
     min-width: 0;
     padding: 16px 20px;
@@ -724,97 +724,97 @@
     justify-content: center;
 }
 
-.git-manager-notification-title {
+.repo-manager-notification-title {
     font-weight: 600;
-    color: var(--git-manager-gray-900);
+    color: var(--repo-manager-gray-900);
     font-size: 14px;
     margin-bottom: 4px;
     line-height: 1.4;
 }
 
-.git-manager-notification-message {
-    color: var(--git-manager-gray-600);
+.repo-manager-notification-message {
+    color: var(--repo-manager-gray-600);
     font-size: 13px;
     line-height: 1.4;
     margin-bottom: 8px;
 }
 
-.git-manager-notification-meta {
+.repo-manager-notification-meta {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 11px;
-    color: var(--git-manager-gray-500);
+    color: var(--repo-manager-gray-500);
     flex-wrap: wrap;
 }
 
-.git-manager-notification-repo {
-    background: var(--git-manager-gray-100);
+.repo-manager-notification-repo {
+    background: var(--repo-manager-gray-100);
     padding: 3px 8px;
-    border-radius: var(--git-manager-radius-sm);
+    border-radius: var(--repo-manager-radius-sm);
     font-weight: 500;
-    color: var(--git-manager-gray-700);
-    border: 1px solid var(--git-manager-gray-200);
+    color: var(--repo-manager-gray-700);
+    border: 1px solid var(--repo-manager-gray-200);
 }
 
-.git-manager-notification-branch {
-    background: var(--git-manager-primary);
-    color: var(--git-manager-white);
+.repo-manager-notification-branch {
+    background: var(--repo-manager-primary);
+    color: var(--repo-manager-white);
     padding: 3px 8px;
-    border-radius: var(--git-manager-radius-sm);
+    border-radius: var(--repo-manager-radius-sm);
     font-weight: 500;
     box-shadow: 0 1px 2px rgba(59, 130, 246, 0.2);
 }
 
-.git-manager-notification-status {
+.repo-manager-notification-status {
     padding: 3px 8px;
-    border-radius: var(--git-manager-radius-sm);
+    border-radius: var(--repo-manager-radius-sm);
     font-weight: 500;
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.git-manager-notification-status-behind {
-    background: var(--git-manager-warning);
-    color: var(--git-manager-white);
+.repo-manager-notification-status-behind {
+    background: var(--repo-manager-warning);
+    color: var(--repo-manager-white);
     box-shadow: 0 1px 2px rgba(245, 158, 11, 0.2);
 }
 
-.git-manager-notification-status-ahead {
-    background: var(--git-manager-primary);
-    color: var(--git-manager-white);
+.repo-manager-notification-status-ahead {
+    background: var(--repo-manager-primary);
+    color: var(--repo-manager-white);
     box-shadow: 0 1px 2px rgba(59, 130, 246, 0.2);
 }
 
-.git-manager-notification-status-diverged {
-    background: var(--git-manager-error);
-    color: var(--git-manager-white);
+.repo-manager-notification-status-diverged {
+    background: var(--repo-manager-error);
+    color: var(--repo-manager-white);
     box-shadow: 0 1px 2px rgba(239, 68, 68, 0.2);
 }
 
 /* Status notification special styling */
-.git-manager-notification[data-notification-key^="status-"] {
-    border-left: 4px solid var(--git-manager-warning);
+.repo-manager-notification[data-notification-key^="status-"] {
+    border-left: 4px solid var(--repo-manager-warning);
     animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1), pulse 2s infinite;
 }
 
-.git-manager-notification[data-notification-key^="status-"].git-manager-notification-error {
-    border-left-color: var(--git-manager-error);
+.repo-manager-notification[data-notification-key^="status-"].repo-manager-notification-error {
+    border-left-color: var(--repo-manager-error);
 }
 
-.git-manager-notification[data-notification-key^="status-"].git-manager-notification-info {
-    border-left-color: var(--git-manager-primary);
+.repo-manager-notification[data-notification-key^="status-"].repo-manager-notification-info {
+    border-left-color: var(--repo-manager-primary);
 }
 
 /* Enhanced notification message styling */
-.git-manager-notification-main-message {
+.repo-manager-notification-main-message {
     font-weight: 600;
     margin-bottom: 4px;
     color: var(--gm-text);
 }
 
-.git-manager-notification-commit-info {
+.repo-manager-notification-commit-info {
     font-size: 13px;
     color: var(--gm-text-secondary);
     font-style: italic;
@@ -827,11 +827,11 @@
 }
 
 /* Commit count badges */
-.git-manager-notification-count {
+.repo-manager-notification-count {
     display: inline-flex;
     align-items: center;
     padding: 2px 8px;
-    border-radius: var(--git-manager-radius-sm);
+    border-radius: var(--repo-manager-radius-sm);
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
@@ -839,137 +839,137 @@
     margin-right: 8px;
 }
 
-.git-manager-notification-count-behind {
-    background: var(--git-manager-warning);
+.repo-manager-notification-count-behind {
+    background: var(--repo-manager-warning);
     color: white;
 }
 
-.git-manager-notification-count-ahead {
-    background: var(--git-manager-primary);
+.repo-manager-notification-count-ahead {
+    background: var(--repo-manager-primary);
     color: white;
 }
 
 /* Enhanced avatar styling for status notifications */
-.git-manager-notification[data-notification-key^="status-"]
-    .git-manager-notification-avatar
+.repo-manager-notification[data-notification-key^="status-"]
+    .repo-manager-notification-avatar
     img {
-    border: 2px solid var(--git-manager-primary);
+    border: 2px solid var(--repo-manager-primary);
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
-.git-manager-notification[data-notification-key^="background-status-"]
-    .git-manager-notification-avatar
+.repo-manager-notification[data-notification-key^="background-status-"]
+    .repo-manager-notification-avatar
     img {
-    border: 2px solid var(--git-manager-warning);
+    border: 2px solid var(--repo-manager-warning);
     box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
-.git-manager-notification[data-notification-key^="background-status-"].git-manager-notification-info
-    .git-manager-notification-avatar
+.repo-manager-notification[data-notification-key^="background-status-"].repo-manager-notification-info
+    .repo-manager-notification-avatar
     img {
-    border: 2px solid var(--git-manager-primary);
+    border: 2px solid var(--repo-manager-primary);
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
-.git-manager-notification-close {
+.repo-manager-notification-close {
     background: none;
     border: none;
-    color: var(--git-manager-gray-400);
+    color: var(--repo-manager-gray-400);
     cursor: pointer;
     padding: 12px;
     border-radius: 0;
-    transition: var(--git-manager-transition);
+    transition: var(--repo-manager-transition);
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-left: 1px solid var(--git-manager-gray-200);
+    border-left: 1px solid var(--repo-manager-gray-200);
     width: 50px;
 }
 
-.git-manager-notification-close:hover {
-    background: var(--git-manager-gray-50);
-    color: var(--git-manager-gray-600);
+.repo-manager-notification-close:hover {
+    background: var(--repo-manager-gray-50);
+    color: var(--repo-manager-gray-600);
 }
 
-.git-manager-notification-close svg {
+.repo-manager-notification-close svg {
     width: 16px;
     height: 16px;
 }
 
 /* Notification Action Buttons */
-.git-manager-notification-actions {
+.repo-manager-notification-actions {
     display: flex;
     gap: 8px;
     margin-top: 12px;
     padding-top: 12px;
-    border-top: 1px solid var(--git-manager-gray-200);
+    border-top: 1px solid var(--repo-manager-gray-200);
 }
 
-.git-manager-notification-btn {
+.repo-manager-notification-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 8px 12px;
     border: none;
-    border-radius: var(--git-manager-radius-sm);
+    border-radius: var(--repo-manager-radius-sm);
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: var(--git-manager-transition);
+    transition: var(--repo-manager-transition);
     text-decoration: none;
-    background: var(--git-manager-gray-100);
-    color: var(--git-manager-gray-700);
-    box-shadow: var(--git-manager-shadow-sm);
+    background: var(--repo-manager-gray-100);
+    color: var(--repo-manager-gray-700);
+    box-shadow: var(--repo-manager-shadow-sm);
 }
 
-.git-manager-notification-btn:hover {
+.repo-manager-notification-btn:hover {
     transform: translateY(-1px);
-    box-shadow: var(--git-manager-shadow-md);
+    box-shadow: var(--repo-manager-shadow-md);
 }
 
-.git-manager-notification-btn:active {
+.repo-manager-notification-btn:active {
     transform: translateY(0);
 }
 
-.git-manager-notification-btn:disabled {
+.repo-manager-notification-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
 }
 
-.git-manager-notification-btn svg {
+.repo-manager-notification-btn svg {
     width: 14px;
     height: 14px;
     flex-shrink: 0;
 }
 
-.git-manager-notification-btn-pull {
-    background: var(--git-manager-success);
+.repo-manager-notification-btn-pull {
+    background: var(--repo-manager-success);
     color: white;
 }
 
-.git-manager-notification-btn-pull:hover {
-    background: var(--git-manager-success-hover);
+.repo-manager-notification-btn-pull:hover {
+    background: var(--repo-manager-success-hover);
 }
 
-.git-manager-notification-btn-push {
-    background: var(--git-manager-primary);
+.repo-manager-notification-btn-push {
+    background: var(--repo-manager-primary);
     color: white;
 }
 
-.git-manager-notification-btn-push:hover {
-    background: var(--git-manager-primary-hover);
+.repo-manager-notification-btn-push:hover {
+    background: var(--repo-manager-primary-hover);
 }
 
 /* Accessible focus rings for dashboard/notification buttons */
-.git-manager-dashboard-btn:focus-visible,
-.git-manager-notification-btn:focus-visible {
+.repo-manager-dashboard-btn:focus-visible,
+.repo-manager-notification-btn:focus-visible {
     outline: none;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 }
 
-.git-manager-notification-btn .animate-spin {
+.repo-manager-notification-btn .animate-spin {
     animation: spin 1s linear infinite;
 }
 
@@ -1131,18 +1131,18 @@
     }
 }
 
-.git-manager-notification.processing {
+.repo-manager-notification.processing {
     animation: notificationProcessing 0.6s ease-in-out;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .git-manager-floating-widget {
+    .repo-manager-floating-widget {
         bottom: 16px;
         right: 16px;
     }
 
-    .git-manager-floating-panel {
+    .repo-manager-floating-panel {
         bottom: 72px;
         right: 0;
         left: 0;
@@ -1150,7 +1150,7 @@
         max-width: 360px;
     }
 
-    .git-manager-notification-container {
+    .repo-manager-notification-container {
         bottom: 16px;
         left: 16px;
         right: 16px;
@@ -1159,20 +1159,20 @@
         width: auto;
     }
 
-    .git-manager-notification {
+    .repo-manager-notification {
         animation: notificationSlideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     /* Adjust card stacking for mobile: handled by JS; no CSS overrides needed */
 
     /* Adjust grid for mobile */
-    .git-manager-quick-actions {
+    .repo-manager-quick-actions {
         grid-template-columns: 1fr;
         gap: 8px;
     }
 
     /* Make badges smaller on mobile */
-    .git-manager-commit-badge {
+    .repo-manager-commit-badge {
         min-width: 18px;
         height: 18px;
         font-size: 10px;
@@ -1204,40 +1204,40 @@
 }
 
 /* RTL Support */
-[dir="rtl"] .git-manager-floating-widget {
+[dir="rtl"] .repo-manager-floating-widget {
     right: auto;
     left: 24px;
 }
 
-[dir="rtl"] .git-manager-floating-panel {
+[dir="rtl"] .repo-manager-floating-panel {
     right: auto;
     left: 0;
 }
 
-[dir="rtl"] .git-manager-notification-container {
+[dir="rtl"] .repo-manager-notification-container {
     left: auto;
     right: 50%;
     transform: translateX(50%);
 }
 
-[dir="rtl"] .git-manager-notification {
+[dir="rtl"] .repo-manager-notification {
     flex-direction: row-reverse;
 }
 
 /* RTL support for card stacking: handled by JS; no CSS overrides needed */
 
 @media (max-width: 768px) {
-    [dir="rtl"] .git-manager-floating-widget {
+    [dir="rtl"] .repo-manager-floating-widget {
         left: 16px;
         right: 16px;
     }
 
-    [dir="rtl"] .git-manager-floating-panel {
+    [dir="rtl"] .repo-manager-floating-panel {
         left: 0;
         right: 0;
     }
 
-    [dir="rtl"] .git-manager-notification-container {
+    [dir="rtl"] .repo-manager-notification-container {
         right: 16px;
         left: 16px;
         transform: none;
@@ -1248,34 +1248,34 @@
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
-    .git-manager-floating-trigger {
+    .repo-manager-floating-trigger {
         border-width: 3px;
     }
 
-    .git-manager-floating-panel {
+    .repo-manager-floating-panel {
         border-width: 2px;
     }
 
-    .git-manager-notification {
+    .repo-manager-notification {
         border-width: 2px;
     }
 }
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-    .git-manager-floating-trigger,
-    .git-manager-floating-panel,
-    .git-manager-action-btn,
-    .git-manager-dashboard-btn,
-    .git-manager-notification {
+    .repo-manager-floating-trigger,
+    .repo-manager-floating-panel,
+    .repo-manager-action-btn,
+    .repo-manager-dashboard-btn,
+    .repo-manager-notification {
         transition: none;
     }
 
-    .git-manager-loading-spinner {
+    .repo-manager-loading-spinner {
         animation: none;
     }
 
-    .git-manager-status-dot {
+    .repo-manager-status-dot {
         animation: none;
     }
 }

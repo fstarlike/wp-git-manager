@@ -1,8 +1,8 @@
 # Copyright (C) 2025 Farzad Hoseinzadeh
-# This file is distributed under the same license as the WP Git Manager plugin.
+# This file is distributed under the same license as the WP Repo Manager Plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Git Manager 2.3.1\n"
+"Project-Id-Version: WP Repo Manager2.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git-manager\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgstr ""
 msgid "Git Manager"
 msgstr ""
 
-msgid "Git Manager Settings"
+msgid "Repo Manager Settings"
 msgstr ""
 
 msgid "Settings"
@@ -63,7 +63,7 @@ msgstr ""
 msgid "Allowed User Roles"
 msgstr ""
 
-msgid "Select which WordPress roles are allowed to use the Git Manager interface. Use Ctrl/Cmd+click to select multiple roles."
+msgid "Select which WordPress roles are allowed to use the Repo Manager interface. Use Ctrl/Cmd+click to select multiple roles."
 msgstr ""
 
 msgid "Ready to Save Changes"
@@ -108,7 +108,7 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-msgid "Git Manager Troubleshooting"
+msgid "Repo Manager troubleshooting"
 msgstr ""
 
 msgid "Ready to start"
@@ -525,7 +525,7 @@ msgstr ""
 msgid "New commits on branch"
 msgstr ""
 
-msgid "Please Pull to update your local repository or open Git Manager to review changes."
+msgid "Please Pull to update your local repository or open Repo Manager to review changes."
 msgstr ""
 
 msgid "[Git Manager] No remote tracking branch or fetch failed. remote_hash is empty."
@@ -549,7 +549,7 @@ msgstr ""
 msgid "Enable floating widget"
 msgstr ""
 
-msgid "Show the floating Git Manager widget on all admin pages for quick repository access."
+msgid "Show the floating Repo Manager widget on all admin pages for quick repository access."
 msgstr ""
 
 msgid "Enable floating widget notifications"
@@ -564,7 +564,7 @@ msgstr ""
 msgid "Show notifications for repository updates like new commits, branch changes, and status changes."
 msgstr ""
 
-msgid "Configure your Git Manager experience"
+msgid "Configure your Repo Manager experience"
 msgstr ""
 
 msgid "Access denied."

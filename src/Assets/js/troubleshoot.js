@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Enhanced Troubleshooting System for Git Manager
  * Provides step-by-step checks with visual feedback and solutions
  */
@@ -78,7 +78,7 @@ class GitTroubleshooter {
      * Create the enhanced troubleshooting UI
      */
     createTroubleshootUI() {
-        const outputContainer = document.getElementById("git-manager-output");
+        const outputContainer = document.getElementById("repo-manager-output");
         if (!outputContainer) return;
 
         // Create the troubleshooting interface
@@ -999,7 +999,7 @@ class GitTroubleshooter {
                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 4.01v3"/><path d="M15 19.01v-3"/><path d="M15 4.01c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2z"/><path d="M7 10c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2z"/></svg>
                      <div>
                          <strong>All checks passed!</strong>
-                         <p>Your Git setup appears to be working correctly. You should be able to use all Git Manager features.</p>
+                         <p>Your Git setup appears to be working correctly. You should be able to use all Repo Manager features.</p>
                      </div>
                  </div>
              `;
@@ -1111,7 +1111,7 @@ class GitTroubleshooter {
             );
             if (troubleshootContainer) {
                 troubleshootContainer.setAttribute("dir", "rtl");
-                troubleshootContainer.classList.add("git-manager-rtl");
+                troubleshootContainer.classList.add("repo-manager-rtl");
             }
 
             // Update layout for RTL
@@ -1123,7 +1123,7 @@ class GitTroubleshooter {
             );
             if (troubleshootContainer) {
                 troubleshootContainer.setAttribute("dir", "ltr");
-                troubleshootContainer.classList.remove("git-manager-rtl");
+                troubleshootContainer.classList.remove("repo-manager-rtl");
             }
         }
     }
@@ -1485,13 +1485,13 @@ window.GitTroubleshooter = GitTroubleshooter;
 // Initialize when DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
     // Only initialize if we're on the troubleshooting page or in repository context
-    if (document.getElementById("git-manager-output")) {
+    if (document.getElementById("repo-manager-output")) {
         // Check if we're in repository context (GitManager is available and has currentRepo)
         if (window.GitManager && window.GitManager.currentRepo) {
             window.gitTroubleshooter = new GitTroubleshooter();
             window.gitTroubleshooter.init(window.GitManager.currentRepo);
         } else if (
-            window.location.href.includes("git-manager-troubleshooting")
+            window.location.href.includes("repo-manager-troubleshooting")
         ) {
             // Global troubleshooting page
             window.gitTroubleshooter = new GitTroubleshooter();

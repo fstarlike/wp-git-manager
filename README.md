@@ -1,6 +1,6 @@
-# Git Manager v2.0.0 – Professional Git Management for WordPress
+# Repo Manager 2.0.0 – Professional Git Management for WordPress
 
-**Git Manager** is a WordPress plugin that brings full Git repository management right into your dashboard. Version 2.0.0 is a complete rewrite – faster, more secure, and packed with a clean, modern UI that makes working with Git inside WordPress feel natural.
+**Git Manager** is a WordPress Plugin that brings full Git repository management right into your dashboard. Version 2.0.0 is a complete rewrite – faster, more secure, and packed with a clean, modern UI that makes working with Git inside WordPress feel natural.
 
 ---
 
@@ -59,7 +59,7 @@
 
 1. Download and install the plugin
 2. Activate it from your WordPress dashboard
-3. Go to **Git Manager → Settings** and set your repository paths
+3. Go to **Repo Manager→ Settings** and set your repository paths
 4. Test the connection and start managing your Git workflow
 
 ---

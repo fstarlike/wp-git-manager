@@ -7,7 +7,7 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Value object representing a Git repository managed by the plugin.
+ * Value object representing a Git repository managed by the Plugin.
  */
 class Repository
 {

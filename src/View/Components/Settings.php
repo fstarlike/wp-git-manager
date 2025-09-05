@@ -14,17 +14,17 @@ class Settings
 
         // Check if user has permission
         if (! current_user_can('manage_options')) {
-            wp_die(esc_html__('Access denied.', 'git-manager'));
+            wp_die(esc_html__('Access denied.', 'repo-manager'));
         }
 
         ?>
         <div class="wrap">
-            <div class="git-settings-modern" <?php echo esc_attr(RTLSupport::getRTLWrapperAttributes()); ?>>
+            <div class="git-settings" <?php echo esc_attr(RTLSupport::getRTLWrapperAttributes()); ?>>
                 <!-- Modern Header -->
-                <div class="git-settings-header-modern">
-                    <div class="git-settings-header-content-modern">
+                <div class="git-settings-header">
+                    <div class="git-settings-header-content">
                         <div class="git-settings-brand">
-                            <div class="git-settings-logo-modern">
+                            <div class="git-settings-logo">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="63.495 58.089 120 120" width="50px" height="50px">
                                     <defs>
                                         <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" spreadMethod="pad">
@@ -38,29 +38,62 @@ class Settings
                                     </g>
                                 </svg>
                             </div>
-                            <div class="git-settings-title-modern">
-                                <h1><?php esc_html_e('Git Manager Settings', 'git-manager'); ?></h1>
-                                <p><?php esc_html_e('Configure your Git Manager experience', 'git-manager'); ?></p>
+                            <div class="git-settings-title">
+                                <h1><?php esc_html_e('Repo Manager Settings', 'repo-manager'); ?></h1>
+                                <p><?php esc_html_e('Configure your Repo Manager Experience', 'repo-manager'); ?></p>
                             </div>
                         </div>
 
-                        <div class="git-settings-nav-modern">
-                            <a href="<?php echo esc_url(admin_url('admin.php?page=git-manager')); ?>" class="git-nav-modern-btn">
+                        <div class="git-settings-nav">
+                            <a href="<?php echo esc_url(admin_url('admin.php?page=repo-manager')); ?>" class="git-nav-btn">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
                                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                                     <polyline points="9,22 9,12 15,12 15,22"/>
                                 </svg>
-                                <?php esc_html_e('Dashboard', 'git-manager'); ?>
+                                <?php esc_html_e('Dashboard', 'repo-manager'); ?>
                             </a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Settings Content -->
-                <div class="git-settings-content-modern">
-                    <form method="post" action="options.php" class="git-settings-form-modern">
+                <div class="git-settings-content">
+                    <form method="post" action="options.php" class="git-settings-form">
                         <?php settings_fields('git_manager_options'); ?>
                         <?php do_settings_sections('git_manager_options'); ?>
+
+                        <!-- Command Execution (Security) Section -->
+                        <div class="git-settings-card">
+                            <div class="git-settings-card-header">
+                                <div class="git-settings-card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                                        <line x1="12" y1="9" x2="12" y2="13"/>
+                                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                                    </svg>
+                                </div>
+                                <div class="git-settings-card-title">
+                                    <h3><?php esc_html_e('Command Execution', 'repo-manager'); ?></h3>
+                                    <p><?php esc_html_e('Enable Git command execution via server shell. Use with caution.', 'repo-manager'); ?></p>
+                                </div>
+                            </div>
+
+                            <div class="git-settings-card-body">
+                                <div class="git-settings-toggle">
+                                    <label class="git-toggle-switch">
+                                        <input type="checkbox" name="git_manager_allow_commands" value="1"
+                                               <?php checked(1, get_option('git_manager_allow_commands', 0)); ?>>
+                                        <span class="git-toggle-slider"></span>
+                                    </label>
+                                    <div class="git-toggle-content">
+                                        <div class="git-toggle-title"><?php esc_html_e('Enable command execution (shell)', 'repo-manager'); ?></div>
+                                        <div class="git-toggle-description">
+                                            <?php esc_html_e('Security warning: This runs system commands on your server. Only enable on trusted, single-tenant servers.', 'repo-manager'); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- Automatic Fixes Section -->
                         <div class="git-settings-card">
@@ -71,8 +104,8 @@ class Settings
                                     </svg>
                                 </div>
                                 <div class="git-settings-card-title">
-                                    <h3><?php esc_html_e('Automatic Fixes', 'git-manager'); ?></h3>
-                                    <p><?php esc_html_e('Allow the plugin to automatically resolve common Git issues', 'git-manager'); ?></p>
+                                    <h3><?php esc_html_e('Automatic Fixes', 'repo-manager'); ?></h3>
+                                    <p><?php esc_html_e('Allow the plugin to automatically resolve common Git issues', 'repo-manager'); ?></p>
                                 </div>
                             </div>
 
@@ -84,9 +117,9 @@ class Settings
                                         <span class="git-toggle-slider"></span>
                                     </label>
                                     <div class="git-toggle-content">
-                                        <div class="git-toggle-title"><?php esc_html_e('Enable automatic fixes', 'git-manager'); ?></div>
+                                        <div class="git-toggle-title"><?php esc_html_e('Enable automatic fixes', 'repo-manager'); ?></div>
                                         <div class="git-toggle-description">
-                                            <?php esc_html_e('Automatically fix filesystem and Git issues. Only enable on trusted servers.', 'git-manager'); ?>
+                                            <?php esc_html_e('Automatically fix filesystem and Git issues. Only enable on trusted servers.', 'repo-manager'); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -105,22 +138,22 @@ class Settings
                                     </svg>
                                 </div>
                                 <div class="git-settings-card-title">
-                                    <h3><?php esc_html_e('User Access Control', 'git-manager'); ?></h3>
-                                    <p><?php esc_html_e('Control which user roles can access Git Manager', 'git-manager'); ?></p>
+                                    <h3><?php esc_html_e('User Access Control', 'repo-manager'); ?></h3>
+                                    <p><?php esc_html_e('Control which user roles can access Git Manager', 'repo-manager'); ?></p>
                                 </div>
                             </div>
 
                             <div class="git-settings-card-body">
                                 <div class="git-settings-field">
                                     <label class="git-field-label">
-                                        <span class="git-field-title"><?php esc_html_e('Allowed User Roles', 'git-manager'); ?></span>
+                                        <span class="git-field-title"><?php esc_html_e('Allowed User Roles', 'repo-manager'); ?></span>
                                         <span class="git-field-description">
-                                            <?php esc_html_e('Select which WordPress roles can use Git Manager. Use Ctrl/Cmd+click for multiple selection.', 'git-manager'); ?>
+                                            <?php esc_html_e('Select which WordPress roles can use Git Manager. Use Ctrl/Cmd+click for multiple selection.', 'repo-manager'); ?>
                                         </span>
                                     </label>
 
-                                    <div class="git-select-modern-wrapper">
-                                        <select name="git_manager_allowed_roles[]" multiple class="git-select-modern">
+                                    <div class="git-select-wrapper">
+                                        <select name="git_manager_allowed_roles[]" multiple class="git-select">
                                             <?php
                                             global $wp_roles;
         $allowed   = get_option('git_manager_allowed_roles', ['administrator']);
@@ -147,8 +180,8 @@ class Settings
                                     </svg>
                                 </div>
                                 <div class="git-settings-card-title">
-                                    <h3><?php esc_html_e('Troubleshooting & Monitoring', 'git-manager'); ?></h3>
-                                    <p><?php esc_html_e('Configure troubleshooting features and monitoring behavior', 'git-manager'); ?></p>
+                                    <h3><?php esc_html_e('Troubleshooting & Monitoring', 'repo-manager'); ?></h3>
+                                    <p><?php esc_html_e('Configure troubleshooting features and monitoring behavior', 'repo-manager'); ?></p>
                                 </div>
                             </div>
 
@@ -160,25 +193,25 @@ class Settings
                                         <span class="git-toggle-slider"></span>
                                     </label>
                                     <div class="git-toggle-content">
-                                        <div class="git-toggle-title"><?php esc_html_e('Enable troubleshooting features', 'git-manager'); ?></div>
+                                        <div class="git-toggle-title"><?php esc_html_e('Enable troubleshooting features', 'repo-manager'); ?></div>
                                         <div class="git-toggle-description">
-                                            <?php esc_html_e('Allow users to access the troubleshooting interface and run diagnostic checks.', 'git-manager'); ?>
+                                            <?php esc_html_e('Allow users to access the troubleshooting interface and run diagnostic checks.', 'repo-manager'); ?>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="git-settings-field">
                                     <label class="git-field-label">
-                                        <span class="git-field-title"><?php esc_html_e('Auto-check Interval', 'git-manager'); ?></span>
+                                        <span class="git-field-title"><?php esc_html_e('Auto-check Interval', 'repo-manager'); ?></span>
                                         <span class="git-field-description">
-                                            <?php esc_html_e('How often to automatically check for new commits and repository status. Set to 0 to disable.', 'git-manager'); ?>
+                                            <?php esc_html_e('How often to automatically check for new commits and repository status. Set to 0 to disable.', 'repo-manager'); ?>
                                         </span>
                                     </label>
 
-                                    <div class="git-input-modern-wrapper">
+                                    <div class="git-input-wrapper">
                                         <input type="number" name="git_manager_auto_check_interval"
                                                value="<?php echo esc_attr(get_option('git_manager_auto_check_interval', 30)); ?>"
-                                               min="0" max="3600" step="5" class="git-input-modern">
+                                               min="0" max="3600" step="5" class="git-input">
                                         <span class="git-input-suffix">seconds</span>
                                     </div>
                                 </div>
@@ -196,8 +229,8 @@ class Settings
                                     </svg>
                                 </div>
                                 <div class="git-settings-card-title">
-                                    <h3><?php esc_html_e('Floating Widget Settings', 'git-manager'); ?></h3>
-                                    <p><?php esc_html_e('Control the floating widget and its notifications behavior', 'git-manager'); ?></p>
+                                    <h3><?php esc_html_e('Floating Widget Settings', 'repo-manager'); ?></h3>
+                                    <p><?php esc_html_e('Control the floating widget and its notifications behavior', 'repo-manager'); ?></p>
                                 </div>
                             </div>
 
@@ -209,9 +242,9 @@ class Settings
                                         <span class="git-toggle-slider"></span>
                                     </label>
                                     <div class="git-toggle-content">
-                                        <div class="git-toggle-title"><?php esc_html_e('Enable floating widget', 'git-manager'); ?></div>
+                                        <div class="git-toggle-title"><?php esc_html_e('Enable floating widget', 'repo-manager'); ?></div>
                                         <div class="git-toggle-description">
-                                            <?php esc_html_e('Show the floating Git Manager widget on all admin pages for quick repository access.', 'git-manager'); ?>
+                                            <?php esc_html_e('Show the floating Repo Manager Widget on all admin pages for quick repository access.', 'repo-manager'); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -224,9 +257,9 @@ class Settings
                                         <span class="git-toggle-slider"></span>
                                     </label>
                                     <div class="git-toggle-content">
-                                        <div class="git-toggle-title"><?php esc_html_e('Enable repository status notifications', 'git-manager'); ?></div>
+                                        <div class="git-toggle-title"><?php esc_html_e('Enable repository status notifications', 'repo-manager'); ?></div>
                                         <div class="git-toggle-description">
-                                            <?php esc_html_e('Show notifications for repository updates like new commits, branch changes, and status changes.', 'git-manager'); ?>
+                                            <?php esc_html_e('Show notifications for repository updates like new commits, branch changes, and status changes.', 'repo-manager'); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -234,8 +267,8 @@ class Settings
                         </div>
 
                         <!-- Save Settings Section -->
-                        <div class="git-settings-actions-modern">
-                            <div class="git-settings-save-modern">
+                        <div class="git-settings-actions">
+                            <div class="git-settings-save">
                                 <div class="git-save-info">
                                     <div class="git-save-icon">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
@@ -247,18 +280,18 @@ class Settings
                                         </svg>
                                     </div>
                                     <div class="git-save-text">
-                                        <div class="git-save-title"><?php esc_html_e('Ready to Save', 'git-manager'); ?></div>
-                                        <div class="git-save-description"><?php esc_html_e('Your settings will be applied immediately', 'git-manager'); ?></div>
+                                        <div class="git-save-title"><?php esc_html_e('Ready to Save', 'repo-manager'); ?></div>
+                                        <div class="git-save-description"><?php esc_html_e('Your settings will be applied immediately', 'repo-manager'); ?></div>
                                     </div>
                                 </div>
 
-                                <button type="submit" class="git-save-btn-modern">
+                                <button type="submit" class="git-save-btn">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
                                         <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
                                         <polyline points="17,21 17,13 7,13 7,21"/>
                                         <polyline points="7,3 7,8 15,8"/>
                                     </svg>
-                                    <?php esc_html_e('Save Settings', 'git-manager'); ?>
+                                    <?php esc_html_e('Save Settings', 'repo-manager'); ?>
                                 </button>
                             </div>
                         </div>
@@ -272,7 +305,7 @@ class Settings
 
 // Add JavaScript to handle settings dependency
 add_action('admin_footer', function () {
-    if (get_current_screen() && 'git-manager_page_git-manager-settings' === get_current_screen()->id) {
+    if (get_current_screen() && 'repo-manager_page_repo-manager-settings' === get_current_screen()->id) {
         ?>
         <script>
         document.addEventListener('DOMContentLoaded', function() {

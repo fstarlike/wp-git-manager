@@ -1,4 +1,4 @@
-/* ========================================
+﻿/* ========================================
    Repository Settings Form - Enhanced Styles
    ======================================== */
 
@@ -436,4 +436,11 @@
         font-size: 12px;
         padding: 6px 10px;
     }
+}
+
+.repo-manager-header div.fs-notice.promotion,
+.repo-manager-headerdiv.fs-notice.success,
+.repo-manager-header div.fs-notice.updated,
+.notice {
+    display: none !important;
 }

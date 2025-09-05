@@ -1,5 +1,5 @@
-{
-    "name": "wp-git-manager/plugin",
+﻿{
+    "name": "repo-manager/Plugin",
     "description": "Professional Git repository management for WordPress with enhanced security and modern UI",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
@@ -11,7 +11,7 @@
         "version-control",
         "developer-tools"
     ],
-    "homepage": "https://github.com/fstarlike/wp-git-manager",
+    "homepage": "https://github.com/fstarlike/repo-manager",
     "authors": [
         {
             "name": "Farzad Hoseinzadeh",
@@ -21,9 +21,9 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/fstarlike/wp-git-manager/issues",
-        "source": "https://github.com/fstarlike/wp-git-manager",
-        "docs": "https://github.com/fstarlike/wp-git-manager#readme"
+        "issues": "https://github.com/fstarlike/repo-manager/issues",
+        "source": "https://github.com/fstarlike/repo-manager",
+        "docs": "https://github.com/fstarlike/repo-manager#readme"
     },
     "autoload": {
         "psr-4": {
@@ -47,10 +47,10 @@
         "post-update-cmd": [
             "WPGitManager\\Infrastructure\\Autoloader::register"
         ],
-        "make-pot": "wp i18n make-pot . languages/git-manager.pot --domain=git-manager",
-        "make-po": "wp i18n make-pot . languages/git-manager.pot --domain=git-manager && echo 'POT file generated successfully!'",
-        "update-pot": "wp i18n make-pot . languages/git-manager.pot --domain=git-manager --force",
-        "make-mo": "wp i18n make-mo languages/git-manager.pot languages/",
+        "make-pot": "wp i18n make-pot . languages/repo-manager.pot --domain=repo-manager",
+        "make-po": "wp i18n make-pot . languages/repo-manager.pot --domain=repo-manager && echo 'POT file generated successfully!'",
+        "update-pot": "wp i18n make-pot . languages/repo-manager.pot --domain=repo-manager --force",
+        "make-mo": "wp i18n make-mo languages/repo-manager.pot languages/",
         "build-languages": "composer make-pot && composer make-mo"
     }
 }

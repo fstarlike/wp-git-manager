@@ -1,8 +1,8 @@
 # Copyright (C) 2025 Farzad Hoseinzadeh
-# This file is distributed under the same license as the WP Git Manager plugin.
+# This file is distributed under the same license as the WP Repo Manager Plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Git Manager 2.3.1\n"
+"Project-Id-Version: WP Repo Manager2.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/git-manager\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "https://github.com/fstarlike"
 msgid "Git Manager"
 msgstr "Git 管理器"
 
-msgid "Git Manager Settings"
+msgid "Repo Manager Settings"
 msgstr "Git 管理器设置"
 
 msgid "Settings"
@@ -71,7 +71,7 @@ msgid "Allowed User Roles"
 msgstr "允许的用户角色"
 
 msgid ""
-"Select which WordPress roles are allowed to use the Git Manager interface. "
+"Select which WordPress roles are allowed to use the Repo Manager interface. "
 "Use Ctrl/Cmd+click to select multiple roles."
 msgstr "选择允许使用 Git 管理器界面的 WordPress 角色。使用 Ctrl/Cmd+点击选择多个角色。"
 
@@ -99,7 +99,7 @@ msgstr "停止"
 msgid "Reset"
 msgstr "重置"
 
-msgid "Git Manager Troubleshooting"
+msgid "Repo Manager troubleshooting"
 msgstr "Git 管理器故障排除"
 
 msgid "Ready to start"
@@ -521,7 +521,7 @@ msgstr "控制浮动小部件及其通知行为"
 msgid "Enable floating widget"
 msgstr "启用浮动小部件"
 
-msgid "Show the floating Git Manager widget on all admin pages for quick repository access."
+msgid "Show the floating Repo Manager widget on all admin pages for quick repository access."
 msgstr "在所有管理页面上显示浮动 Git 管理器小部件，以便快速访问存储库。"
 
 msgid "Enable floating widget notifications"
@@ -536,7 +536,7 @@ msgstr "启用存储库状态通知"
 msgid "Show notifications for repository updates like new commits, branch changes, and status changes."
 msgstr "显示存储库更新的通知，如新提交、分支更改和状态更改。"
 
-msgid "Configure your Git Manager experience"
+msgid "Configure your Repo Manager experience"
 msgstr "配置您的 Git 管理器体验"
 
 msgid "Access denied."

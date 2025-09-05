@@ -63,10 +63,10 @@ class RTLSupport
 
     public static function getRTLClasses()
     {
-        $classes = ['git-manager-wrap'];
+        $classes = ['repo-manager-wrap'];
 
         if (self::isRTL()) {
-            $classes[] = 'git-manager-rtl';
+            $classes[] = 'repo-manager-rtl';
         }
 
         return implode(' ', $classes);

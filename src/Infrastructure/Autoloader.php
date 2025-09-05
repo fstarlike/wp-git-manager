@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Simple PSR-4 Autoloader for the plugin (fallback if Composer not used)
+ * Simple PSR-4 Autoloader for the Plugin (fallback if Composer not used)
  */
 
 namespace WPGitManager\Infrastructure;

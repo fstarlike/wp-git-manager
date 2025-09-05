@@ -1,48 +1,48 @@
-/* ========================================
-   Git Manager - RTL Support
+﻿/* ========================================
+   Repo Manager- RTL Support
    ======================================== */
 
 /* RTL Direction Support */
-.git-manager-wrap[dir="rtl"] {
+.repo-manager-wrap[dir="rtl"] {
     direction: rtl;
     text-align: right;
 }
 
 /* RTL Layout Overrides */
-.git-manager-wrap[dir="rtl"] .git-manager-header-content {
+.repo-manager-wrap[dir="rtl"] .repo-manager-header-content {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .git-manager-logo {
+.repo-manager-wrap[dir="rtl"] .repo-manager-logo {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .git-manager-actions {
+.repo-manager-wrap[dir="rtl"] .repo-manager-actions {
     flex-direction: row-reverse;
 }
 
 /* RTL Spacing and Margins */
-.git-manager-wrap[dir="rtl"] .git-manager-logo .git-manager-title {
+.repo-manager-wrap[dir="rtl"] .repo-manager-logo .repo-manager-title {
     margin-right: var(--gm-space-4);
     margin-left: 0;
 }
 
-.git-manager-wrap[dir="rtl"] .git-action-btn + .git-action-btn {
+.repo-manager-wrap[dir="rtl"] .git-action-btn + .git-action-btn {
     margin-right: var(--gm-space-3);
     margin-left: 0;
 }
 
 /* RTL Sidebar */
-.git-manager-wrap[dir="rtl"] .git-repo-sidebar {
+.repo-manager-wrap[dir="rtl"] .git-repo-sidebar {
     border-right: none;
     border-left: 1px solid var(--gm-border);
 }
 
-.git-manager-wrap[dir="rtl"] .git-repo-sidebar-header {
+.repo-manager-wrap[dir="rtl"] .git-repo-sidebar-header {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .git-sidebar-add-btn {
+.repo-manager-wrap[dir="rtl"] .git-sidebar-add-btn {
     margin-right: 0;
     margin-left: var(--gm-space-3);
     pointer-events: auto !important;
@@ -51,147 +51,147 @@
 }
 
 /* RTL Main Content */
-.git-manager-wrap[dir="rtl"] .git-manager-main {
+.repo-manager-wrap[dir="rtl"] .repo-manager-main {
     padding-right: var(--gm-space-6);
     padding-left: 0;
 }
 
 /* RTL Cards and Components */
-.git-manager-wrap[dir="rtl"] .git-repo-card {
+.repo-manager-wrap[dir="rtl"] .git-repo-card {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .git-repo-card-header {
+.repo-manager-wrap[dir="rtl"] .git-repo-card-header {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .git-repo-card-actions {
+.repo-manager-wrap[dir="rtl"] .git-repo-card-actions {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .git-repo-card-actions button {
+.repo-manager-wrap[dir="rtl"] .git-repo-card-actions button {
     margin-right: 0;
     margin-left: var(--gm-space-2);
 }
 
 /* RTL Repository Type Badge */
-.git-manager-wrap[dir="rtl"] .repo-type-badge {
+.repo-manager-wrap[dir="rtl"] .repo-type-badge {
     margin-right: var(--gm-space-2);
     margin-left: 0;
 }
 
 /* RTL Repository Hashtag */
-.git-manager-wrap[dir="rtl"] .repo-hashtag {
+.repo-manager-wrap[dir="rtl"] .repo-hashtag {
     left: auto;
     right: var(--gm-space-3);
 }
 
 /* RTL Forms */
-.git-manager-wrap[dir="rtl"] .git-form-group label {
+.repo-manager-wrap[dir="rtl"] .git-form-group label {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .git-form-group input,
-.git-manager-wrap[dir="rtl"] .git-form-group select,
-.git-manager-wrap[dir="rtl"] .git-form-group textarea {
+.repo-manager-wrap[dir="rtl"] .git-form-group input,
+.repo-manager-wrap[dir="rtl"] .git-form-group select,
+.repo-manager-wrap[dir="rtl"] .git-form-group textarea {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .git-form-actions {
+.repo-manager-wrap[dir="rtl"] .git-form-actions {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .git-form-actions button {
+.repo-manager-wrap[dir="rtl"] .git-form-actions button {
     margin-right: 0;
     margin-left: var(--gm-space-3);
 }
 
 /* RTL Modals */
-.git-manager-wrap[dir="rtl"] .git-modal-header {
+.repo-manager-wrap[dir="rtl"] .git-modal-header {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .git-modal-close {
+.repo-manager-wrap[dir="rtl"] .git-modal-close {
     margin-right: 0;
     margin-left: var(--gm-space-4);
 }
 
-.git-manager-wrap[dir="rtl"] .git-modal-body {
+.repo-manager-wrap[dir="rtl"] .git-modal-body {
     text-align: right;
 }
 
 /* RTL Buttons */
-.git-manager-wrap[dir="rtl"] .git-btn-group {
+.repo-manager-wrap[dir="rtl"] .git-btn-group {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .git-btn-group button {
+.repo-manager-wrap[dir="rtl"] .git-btn-group button {
     margin-right: 0;
     margin-left: var(--gm-space-2);
 }
 
 /* RTL Icons and SVGs */
-.git-manager-wrap[dir="rtl"] .git-icon-left {
+.repo-manager-wrap[dir="rtl"] .git-icon-left {
     transform: scaleX(-1);
 }
 
-.git-manager-wrap[dir="rtl"] .git-icon-right {
+.repo-manager-wrap[dir="rtl"] .git-icon-right {
     transform: scaleX(-1);
 }
 
 /* RTL Navigation */
-.git-manager-wrap[dir="rtl"] .git-nav-item {
+.repo-manager-wrap[dir="rtl"] .git-nav-item {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .git-nav-item svg {
+.repo-manager-wrap[dir="rtl"] .git-nav-item svg {
     margin-right: 0;
     margin-left: var(--gm-space-2);
 }
 
 /* RTL Status Indicators */
-.git-manager-wrap[dir="rtl"] .git-status-indicator {
+.repo-manager-wrap[dir="rtl"] .git-status-indicator {
     margin-right: 0;
     margin-left: var(--gm-space-2);
 }
 
 /* RTL Tooltips */
-.git-manager-wrap[dir="rtl"] .git-tooltip {
+.repo-manager-wrap[dir="rtl"] .git-tooltip {
     text-align: right;
 }
 
 /* RTL Dropdowns */
-.git-manager-wrap[dir="rtl"] .git-dropdown-menu {
+.repo-manager-wrap[dir="rtl"] .git-dropdown-menu {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .git-dropdown-item {
+.repo-manager-wrap[dir="rtl"] .git-dropdown-item {
     text-align: right;
 }
 
 /* RTL Tables */
-.git-manager-wrap[dir="rtl"] .git-table th,
-.git-manager-wrap[dir="rtl"] .git-table td {
+.repo-manager-wrap[dir="rtl"] .git-table th,
+.repo-manager-wrap[dir="rtl"] .git-table td {
     text-align: right;
 }
 
 /* RTL Alerts */
-.git-manager-wrap[dir="rtl"] .git-alert {
+.repo-manager-wrap[dir="rtl"] .git-alert {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .git-alert-icon {
+.repo-manager-wrap[dir="rtl"] .git-alert-icon {
     margin-right: 0;
     margin-left: var(--gm-space-3);
 }
 
 /* RTL Progress Bars */
-.git-manager-wrap[dir="rtl"] .git-progress-bar {
+.repo-manager-wrap[dir="rtl"] .git-progress-bar {
     direction: rtl;
 }
 
 /* RTL Code Blocks */
-.git-manager-wrap[dir="rtl"] .git-code-block {
+.repo-manager-wrap[dir="rtl"] .git-code-block {
     text-align: left; /* Keep code left-aligned for readability */
     direction: ltr;
 }
@@ -201,219 +201,219 @@
    ======================================== */
 
 /* RTL Troubleshooting Header */
-.git-manager-wrap[dir="rtl"] .troubleshoot-header {
+.repo-manager-wrap[dir="rtl"] .troubleshoot-header {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .troubleshoot-title {
+.repo-manager-wrap[dir="rtl"] .troubleshoot-title {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .troubleshoot-title svg {
+.repo-manager-wrap[dir="rtl"] .troubleshoot-title svg {
     margin-right: 0;
     margin-left: var(--gm-space-3, 12px);
 }
 
-.git-manager-wrap[dir="rtl"] .troubleshoot-progress {
+.repo-manager-wrap[dir="rtl"] .troubleshoot-progress {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .progress-text {
+.repo-manager-wrap[dir="rtl"] .progress-text {
     text-align: left;
     margin-right: 0;
     margin-left: var(--gm-space-4, 16px);
 }
 
 /* RTL Troubleshooting Steps */
-.git-manager-wrap[dir="rtl"] .troubleshoot-step {
+.repo-manager-wrap[dir="rtl"] .troubleshoot-step {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .step-header {
+.repo-manager-wrap[dir="rtl"] .step-header {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .step-icon {
+.repo-manager-wrap[dir="rtl"] .step-icon {
     margin-right: 0;
     margin-left: var(--gm-space-4, 16px);
 }
 
-.git-manager-wrap[dir="rtl"] .step-status {
+.repo-manager-wrap[dir="rtl"] .step-status {
     margin-left: 0;
     margin-right: var(--gm-space-4, 16px);
 }
 
-.git-manager-wrap[dir="rtl"] .step-info {
+.repo-manager-wrap[dir="rtl"] .step-info {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .step-title {
+.repo-manager-wrap[dir="rtl"] .step-title {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .step-description {
+.repo-manager-wrap[dir="rtl"] .step-description {
     text-align: right;
 }
 
 /* RTL Step Content */
-.git-manager-wrap[dir="rtl"] .step-content {
+.repo-manager-wrap[dir="rtl"] .step-content {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .step-log {
+.repo-manager-wrap[dir="rtl"] .step-log {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .step-message {
+.repo-manager-wrap[dir="rtl"] .step-message {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .step-message svg {
+.repo-manager-wrap[dir="rtl"] .step-message svg {
     margin-right: 0;
     margin-left: var(--gm-space-3, 12px);
 }
 
-.git-manager-wrap[dir="rtl"] .step-details {
+.repo-manager-wrap[dir="rtl"] .step-details {
     text-align: left; /* Keep technical details left-aligned */
     direction: ltr;
 }
 
-.git-manager-wrap[dir="rtl"] .step-solution {
+.repo-manager-wrap[dir="rtl"] .step-solution {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .solution-content h4 {
+.repo-manager-wrap[dir="rtl"] .solution-content h4 {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .solution-content h4 svg {
+.repo-manager-wrap[dir="rtl"] .solution-content h4 svg {
     margin-right: 0;
     margin-left: var(--gm-space-2, 8px);
 }
 
 /* RTL Troubleshooting Actions */
-.git-manager-wrap[dir="rtl"] .troubleshoot-actions {
+.repo-manager-wrap[dir="rtl"] .troubleshoot-actions {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .troubleshoot-btn {
+.repo-manager-wrap[dir="rtl"] .troubleshoot-btn {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .troubleshoot-btn svg {
+.repo-manager-wrap[dir="rtl"] .troubleshoot-btn svg {
     margin-right: 0;
     margin-left: var(--gm-space-2, 8px);
 }
 
 /* RTL Troubleshooting Summary */
-.git-manager-wrap[dir="rtl"] .troubleshoot-summary {
+.repo-manager-wrap[dir="rtl"] .troubleshoot-summary {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .troubleshoot-summary-content {
+.repo-manager-wrap[dir="rtl"] .troubleshoot-summary-content {
     text-align: right;
 }
 
-.git-manager-wrap[dir="rtl"] .troubleshoot-summary-content h3 {
+.repo-manager-wrap[dir="rtl"] .troubleshoot-summary-content h3 {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .troubleshoot-summary-content h3 svg {
+.repo-manager-wrap[dir="rtl"] .troubleshoot-summary-content h3 svg {
     margin-right: 0;
     margin-left: var(--gm-space-3, 12px);
 }
 
-.git-manager-wrap[dir="rtl"] .summary-stats {
+.repo-manager-wrap[dir="rtl"] .summary-stats {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .stat-item {
+.repo-manager-wrap[dir="rtl"] .stat-item {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .stat-item svg {
+.repo-manager-wrap[dir="rtl"] .stat-item svg {
     margin-right: 0;
     margin-left: var(--gm-space-2, 8px);
 }
 
-.git-manager-wrap[dir="rtl"] .summary-recommendation {
+.repo-manager-wrap[dir="rtl"] .summary-recommendation {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .summary-recommendation svg {
+.repo-manager-wrap[dir="rtl"] .summary-recommendation svg {
     margin-right: 0;
     margin-left: var(--gm-space-4, 16px);
 }
 
-.git-manager-wrap[dir="rtl"] .recommendation-section h4 {
+.repo-manager-wrap[dir="rtl"] .recommendation-section h4 {
     flex-direction: row-reverse;
 }
 
-.git-manager-wrap[dir="rtl"] .recommendation-section h4 svg {
+.repo-manager-wrap[dir="rtl"] .recommendation-section h4 svg {
     margin-right: 0;
     margin-left: var(--gm-space-2, 8px);
 }
 
-.git-manager-wrap[dir="rtl"] .recommendation-section ul {
+.repo-manager-wrap[dir="rtl"] .recommendation-section ul {
     padding-left: 0;
     padding-right: var(--gm-space-6, 24px);
 }
 
 /* RTL Responsive Design */
 @media (max-width: 768px) {
-    .git-manager-wrap[dir="rtl"] .git-manager-header-content {
+    .repo-manager-wrap[dir="rtl"] .repo-manager-header-content {
         flex-direction: column;
     }
 
-    .git-manager-wrap[dir="rtl"] .git-manager-logo {
+    .repo-manager-wrap[dir="rtl"] .repo-manager-logo {
         flex-direction: row;
     }
 
-    .git-manager-wrap[dir="rtl"] .git-manager-actions {
+    .repo-manager-wrap[dir="rtl"] .repo-manager-actions {
         flex-direction: row;
     }
 
-    .git-manager-wrap[dir="rtl"] .git-repo-sidebar-header {
+    .repo-manager-wrap[dir="rtl"] .git-repo-sidebar-header {
         flex-direction: row;
     }
 
     /* RTL Troubleshooting Mobile */
-    .git-manager-wrap[dir="rtl"] .troubleshoot-title {
+    .repo-manager-wrap[dir="rtl"] .troubleshoot-title {
         flex-direction: row;
     }
 
-    .git-manager-wrap[dir="rtl"] .troubleshoot-progress {
+    .repo-manager-wrap[dir="rtl"] .troubleshoot-progress {
         flex-direction: column;
     }
 
-    .git-manager-wrap[dir="rtl"] .step-header {
+    .repo-manager-wrap[dir="rtl"] .step-header {
         flex-direction: row;
     }
 
-    .git-manager-wrap[dir="rtl"] .troubleshoot-actions {
+    .repo-manager-wrap[dir="rtl"] .troubleshoot-actions {
         flex-direction: column;
     }
 
-    .git-manager-wrap[dir="rtl"] .summary-stats {
+    .repo-manager-wrap[dir="rtl"] .summary-stats {
         flex-direction: column;
     }
 
-    .git-manager-wrap[dir="rtl"] .summary-recommendation {
+    .repo-manager-wrap[dir="rtl"] .summary-recommendation {
         flex-direction: row;
     }
 }
 
 /* RTL Dark Theme Support */
-[data-theme="dark"] .git-manager-wrap[dir="rtl"] {
+[data-theme="dark"] .repo-manager-wrap[dir="rtl"] {
     /* Dark theme RTL specific overrides if needed */
 }
 
 /* RTL Animation Support */
-.git-manager-wrap[dir="rtl"] .git-slide-in-left {
+.repo-manager-wrap[dir="rtl"] .git-slide-in-left {
     animation: slideInRight 0.3s ease-out;
 }
 
-.git-manager-wrap[dir="rtl"] .git-slide-in-right {
+.repo-manager-wrap[dir="rtl"] .git-slide-in-right {
     animation: slideInLeft 0.3s ease-out;
 }
 
@@ -441,15 +441,15 @@
 
 /* RTL Print Styles */
 @media print {
-    .git-manager-wrap[dir="rtl"] {
+    .repo-manager-wrap[dir="rtl"] {
         direction: rtl;
     }
 
-    .git-manager-wrap[dir="rtl"] .git-repo-card {
+    .repo-manager-wrap[dir="rtl"] .git-repo-card {
         text-align: right;
     }
 
-    .git-manager-wrap[dir="rtl"] .troubleshoot-step {
+    .repo-manager-wrap[dir="rtl"] .troubleshoot-step {
         text-align: right;
     }
 }

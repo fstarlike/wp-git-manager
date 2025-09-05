@@ -1,4 +1,4 @@
-=== Git Manager ===
+﻿=== WP Repo Manager for Git ===
 Contributors: farzad-hoseinzadeh
 Tags: git, repository, admin, version control, developer
 Requires at least: 5.0
@@ -7,10 +7,12 @@ Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A comprehensive and professional WordPress plugin for advanced Git repository management with enhanced security, performance, and user experience.
+A comprehensive and professional WordPress Plugin for advanced Git repository management with enhanced security, performance, and user experience.
 
 == Description ==
-WP Git Manager v2.0.0 is a complete rewrite with modern architecture and advanced features for managing Git repositories directly from the WordPress admin panel. Key features include:
+This Plugin helps manage and sync local repositories inside WordPress.
+
+Key features include:
 
 * **Multi-Repository Support**: Manage multiple repositories from a single interface
 * **Advanced Repository Management**: Clone, configure, and monitor repositories with enhanced security
@@ -28,32 +30,15 @@ WP Git Manager v2.0.0 is a complete rewrite with modern architecture and advance
 == Installation ==
 1. Upload the plugin folder to `/wp-content/plugins/` or install via the WordPress admin panel.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Go to the 'Git Manager' menu in the admin sidebar.
+3. Go to the 'WP Repo Manager for Git' menu in the admin sidebar.
 4. Set your repository path and configure allowed user roles (admin only).
 
 == Frequently Asked Questions ==
-= Why does the plugin require shell_exec? =
-This plugin uses shell_exec to run git commands on your server. This is **necessary and legitimate** for Git operations like clone, pull, push, and status. Git is a command-line tool that requires shell execution. All inputs are properly sanitized and only authorized administrators can access these features.
+= Does it require internet to work? =
+No. It works with local repositories and does not depend on external CDNs.
 
-= Is it safe to use shell_exec? =
-Yes, when used properly. The plugin implements comprehensive security measures:
-- All user inputs are sanitized using WordPress functions
-- File paths are validated to prevent directory traversal
-- Only predefined Git commands are allowed
-- Role-based access control restricts usage to administrators
-- Nonce verification prevents CSRF attacks
-- Command escaping prevents command injection
-
-= What security measures are in place? =
-- Role-based access control (admin only by default)
-- Input validation and sanitization
-- Nonce protection on all AJAX requests
-- Path validation against ABSPATH
-- Comprehensive audit logging
-- Temporary SSH key storage with restricted permissions
-
-= Is this plugin suitable for production use? =
-This plugin is designed for development and staging environments where administrators have full control over the server. For production use, ensure proper server security and limit access to trusted administrators only.
+= Is command execution required? =
+No. By default, command execution is disabled. You can enable it in Settings if you fully trust your server environment.
 
 == Changelog ==
 
@@ -130,18 +115,7 @@ Copyright (c) 2025 Farzad Hoseinzade
 Farzad Hoseinzadeh
 
 == GitHub ==
-https://github.com/fstarlike/wp-git-manager
+https://github.com/fstarlike/repo-manager
 
-== Security / Automatic Fixes ==
-
-WP Git Manager can perform certain automatic fixes to help configure git on the server (for example: adding a repository to Git's `safe.directory`, adding host keys to `~/.ssh/known_hosts`, and adjusting file/directory permissions). These operations are potentially dangerous when run on multi-tenant or untrusted servers.
-
-- Default behavior: Automatic fixes are disabled by default.
-- Enable via Settings: Admins may enable automatic fixes from the plugin Settings page (Git Manager → Settings). This sets the option `git_manager_allow_auto_fix`.
-- Enable via wp-config: Advanced users may enable auto-fix globally by adding the following to `wp-config.php` (not recommended on shared servers):
-
-	define('GIT_MANAGER_ALLOW_AUTO_FIX', true);
-
-When automatic fixes are disabled, the plugin will not modify files or change permissions; instead it will display clear, copyable shell commands and instructions for the site administrator to run manually.
-
-Use this feature only on servers you trust and where you have console access or a secure way to run the suggested commands.
+== Security ==
+This plugin does not change file permissions or SSH known_hosts automatically. Any optional command execution is disabled by default and can be enabled explicitly in Settings.

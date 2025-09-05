@@ -626,7 +626,7 @@ class MultiRepoAjax
 
             // If SSH with private key is provided, create a temporary wrapper
             if ('ssh' === $authType && $privateKey) {
-                $tmpDir = wp_upload_dir(null, false)['basedir'] . '/git-manager-keys';
+                $tmpDir = wp_upload_dir(null, false)['basedir'] . '/repo-manager-keys';
                 if (! is_dir($tmpDir)) {
                     @wp_mkdir_p($tmpDir);
                 }
@@ -683,15 +683,24 @@ class MultiRepoAjax
             if ($branch && 'main' !== $branch && 'master' !== $branch) {
                 // Check if the branch exists remotely
                 $branchCheckCmd = 'cd ' . escapeshellarg($absolutePath) . ' && git ls-remote --heads origin ' . escapeshellarg($branch);
+                if (! \WPGitManager\Admin\GitManager::are_commands_enabled()) {
+                    wp_send_json_error('Command execution is disabled');
+                }
                 $branchExists   = shell_exec($branchCheckCmd);
 
                 if ($branchExists) {
                     // Branch exists remotely, checkout
                     $checkoutCmd = 'cd ' . escapeshellarg($absolutePath) . ' && git checkout ' . escapeshellarg($branch);
+                    if (! \WPGitManager\Admin\GitManager::are_commands_enabled()) {
+                        wp_send_json_error('Command execution is disabled');
+                    }
                     $checkoutOut = shell_exec($checkoutCmd);
                 } else {
                     // Try to create the branch
                     $createCmd = 'cd ' . escapeshellarg($absolutePath) . ' && git checkout -b ' . escapeshellarg($branch);
+                    if (! \WPGitManager\Admin\GitManager::are_commands_enabled()) {
+                        wp_send_json_error('Command execution is disabled');
+                    }
                     $createOut = shell_exec($createCmd);
                 }
             }
@@ -867,7 +876,7 @@ class MultiRepoAjax
             wp_send_json_success(sprintf('Repository "%s" and its files have been deleted successfully', $repo_name));
         }
 
-        wp_send_json_success(sprintf('Repository "%s" has been removed from Git Manager successfully', $repo_name));
+        wp_send_json_success(sprintf('Repository "%s" has been removed from Repo Manager successfully', $repo_name));
     }
 
     /**
@@ -1023,7 +1032,7 @@ class MultiRepoAjax
 
         // If SSH with private key is provided, create a temporary wrapper and prefix GIT_SSH
         if ('ssh' === $authType && $privateKey) {
-            $tmpDir = wp_upload_dir(null, false)['basedir'] . '/git-manager-keys';
+            $tmpDir = wp_upload_dir(null, false)['basedir'] . '/repo-manager-keys';
             if (! is_dir($tmpDir)) {
                 @wp_mkdir_p($tmpDir);
             }
@@ -1070,6 +1079,9 @@ class MultiRepoAjax
             }
         }
 
+        if (! \WPGitManager\Admin\GitManager::are_commands_enabled()) {
+            wp_send_json_error('Command execution is disabled');
+        }
         $out = shell_exec($cmd);
         if (! is_dir($absoluteTarget . '/.git')) {
             wp_send_json_error($out ?: 'Clone failed - no .git directory found');
@@ -1571,27 +1583,31 @@ class MultiRepoAjax
         $path = $repo->path;
         $html = '';
         // 1) Git binary
-        $gitVersion = trim((string) shell_exec('git --version 2>&1'));
+        $gitVersion = GitManager::are_commands_enabled() ? trim((string) shell_exec('git --version 2>&1')) : '';
         $html .= '<b>Git:</b> ' . ($gitVersion ?: 'Not found') . '\n';
         // 2) Repo path and .git
         $html .= is_dir($path) ? "\nRepo Path: OK (" . esc_html($path) . ')' : "\nRepo Path: NOT FOUND";
         $html .= is_dir($path . '/.git') ? "\n.git: OK" : "\n.git: MISSING";
         // 3) Safe directory attempt
         if (is_dir($path . '/.git')) {
-            $outSafe = shell_exec(
-                ('WIN' === strtoupper(substr(PHP_OS, 0, 3)))
-                ? 'set "HOME=' . str_replace('"', '', getenv('HOME') ?: (getenv('USERPROFILE') ?: sys_get_temp_dir())) . '" && git -C "' . str_replace('"', '', $path) . '" config --local --add safe.directory ' . escapeshellarg($path) . ' 2>&1'
-                : 'HOME=' . escapeshellarg(getenv('HOME') ?: sys_get_temp_dir()) . ' git -C ' . escapeshellarg($path) . ' config --local --add safe.directory ' . escapeshellarg($path) . ' 2>&1'
-            );
-            $html .= "\nSafe Directory: " . ('' === trim($outSafe) ? 'OK (set)' : 'Tried (' . esc_html($outSafe) . ')');
+            if (GitManager::are_commands_enabled()) {
+                $outSafe = shell_exec(
+                    ('WIN' === strtoupper(substr(PHP_OS, 0, 3)))
+                    ? 'set "HOME=' . str_replace('"', '', getenv('HOME') ?: (getenv('USERPROFILE') ?: sys_get_temp_dir())) . '" && git -C "' . str_replace('"', '', $path) . '" config --local --add safe.directory ' . escapeshellarg($path) . ' 2>&1'
+                    : 'HOME=' . escapeshellarg(getenv('HOME') ?: sys_get_temp_dir()) . ' git -C ' . escapeshellarg($path) . ' config --local --add safe.directory ' . escapeshellarg($path) . ' 2>&1'
+                );
+                $html .= "\nSafe Directory: " . ('' === trim($outSafe) ? 'OK (set)' : 'Tried (' . esc_html($outSafe) . ')');
+            } else {
+                $html .= "\nSafe Directory: skipped (commands disabled)";
+            }
         }
 
         // 4) Remote test
-        $remoteUrl = trim((string) shell_exec(
+        $remoteUrl = GitManager::are_commands_enabled() ? trim((string) shell_exec(
             ('WIN' === strtoupper(substr(PHP_OS, 0, 3)))
             ? 'set "HOME=' . str_replace('"', '', getenv('HOME') ?: (getenv('USERPROFILE') ?: sys_get_temp_dir())) . '" && git -C "' . str_replace('"', '', $path) . '" config --get remote.origin.url 2>&1'
             : 'HOME=' . escapeshellarg(getenv('HOME') ?: sys_get_temp_dir()) . ' git -C ' . escapeshellarg($path) . ' config --get remote.origin.url 2>&1'
-        ));
+        )) : '';
         if ('' !== $remoteUrl && '0' !== $remoteUrl) {
             $ls = GitCommandRunner::run($path, 'ls-remote --exit-code origin');
             $html .= "\nRemote: " . $remoteUrl . "\nRemote check: " . (false !== strpos($ls['output'] ?? '', 'fatal:') ? 'Failed' : 'OK');
@@ -2413,7 +2429,7 @@ class MultiRepoAjax
         if (! GitManager::is_auto_fix_enabled()) {
             wp_send_json_error([
                 'message'           => 'Automatic fixes are disabled. Please enable them in the settings or contact your administrator.',
-                'solution'          => 'Go to Git Manager → Settings and enable "Automatic Fixes" option, or ask your administrator to enable it.',
+                'solution'          => 'Go to Repo Managerâ†’ Settings and enable "Automatic Fixes" option, or ask your administrator to enable it.',
                 'auto_fix_disabled' => true,
             ]);
         }
@@ -2427,14 +2443,13 @@ class MultiRepoAjax
             'chmod 644 ' . escapeshellarg($repo->path . '/.git/HEAD'),
         ];
 
-        $results = [];
-        foreach ($commands as $command) {
-            $result    = shell_exec($command . ' 2>&1');
-            $results[] = [
-                'command' => $command,
-                'result'  => $result,
+        // Remove automatic permission changes for safety
+        $results = array_map(function ($cmd) {
+            return [
+                'command' => $cmd,
+                'result'  => 'skipped (unsafe) â€” run manually if you understand the risk',
             ];
-        }
+        }, $commands);
 
         // Test if git commands work now
         $testResult = GitCommandRunner::run($repo->path, 'status');
@@ -2674,7 +2689,7 @@ class MultiRepoAjax
                             'status'   => 'warning',
                             'message'  => 'Git found but not in PATH: ' . $gitPath,
                             'details'  => 'Git is installed but may not be accessible from command line',
-                            'solution' => 'Add Git to your system PATH or configure the full path in Git Manager settings',
+                            'solution' => 'Add Git to your system PATH or configure the full path in Repo Manager Settings',
                         ];
                     }
                 }
@@ -2805,6 +2820,14 @@ class MultiRepoAjax
             }
 
             // Check current safe.directory configuration
+            if (! \WPGitManager\Admin\GitManager::are_commands_enabled()) {
+                return [
+                    'status'   => 'warning',
+                    'message'  => 'Command execution is disabled',
+                    'details'  => 'Enable it in settings to check safe.directory automatically',
+                    'solution' => 'Run manually: git config --global --get safe.directory',
+                ];
+            }
             $result          = shell_exec(sprintf('cd "%s" && git config --global --get safe.directory 2>&1', $absolutePath));
             $safeDirectories = array_filter(explode("\n", trim($result ?: '')));
 
@@ -2823,11 +2846,18 @@ class MultiRepoAjax
                     'status'   => 'warning',
                     'message'  => 'Repository not in safe.directory list (auto-fix disabled)',
                     'details'  => 'Path: ' . $absolutePath . ' needs to be added to Git safe directories',
-                    'solution' => 'Enable automatic fixes in Git Manager settings, or run manually: git config --global --add safe.directory "' . $absolutePath . '"',
+                    'solution' => 'Enable automatic fixes in Repo Manager Settings, or run manually: git config --global --add safe.directory "' . $absolutePath . '"',
                 ];
             }
 
             // Try to add to safe.directory
+            if (! \WPGitManager\Admin\GitManager::are_commands_enabled()) {
+                return [
+                    'status'   => 'warning',
+                    'message'  => 'Command execution is disabled',
+                    'solution' => 'Please run manually: git config --global --add safe.directory "' . $absolutePath . '"',
+                ];
+            }
             $addResult = shell_exec(sprintf('cd "%s" && git config --global --add safe.directory "%s" 2>&1', $absolutePath, $absolutePath));
 
             if (null === $addResult || false === strpos($addResult, 'error')) {
@@ -3100,6 +3130,13 @@ class MultiRepoAjax
             ];
         }
 
+        if (! \WPGitManager\Admin\GitManager::are_commands_enabled()) {
+            return [
+                'status'   => 'warning',
+                'message'  => 'Command execution is disabled',
+                'solution' => 'Enable command execution in plugin settings to check Git config automatically',
+            ];
+        }
         $userName  = shell_exec('git -C ' . escapeshellarg($repoPath) . ' config user.name 2>&1');
         $userEmail = shell_exec('git -C ' . escapeshellarg($repoPath) . ' config user.email 2>&1');
 
@@ -3138,6 +3175,13 @@ class MultiRepoAjax
             ];
         }
 
+        if (! \WPGitManager\Admin\GitManager::are_commands_enabled()) {
+            return [
+                'status'   => 'warning',
+                'message'  => 'Command execution is disabled',
+                'solution' => 'Enable command execution in plugin settings to check remotes automatically',
+            ];
+        }
         $result = shell_exec('git -C ' . escapeshellarg($repoPath) . ' remote -v 2>&1');
         if (null === $result || in_array(trim($result), ['', '0'], true)) {
             return [
@@ -3168,6 +3212,13 @@ class MultiRepoAjax
         }
 
         // Test connection (this might take a while)
+        if (! \WPGitManager\Admin\GitManager::are_commands_enabled()) {
+            return [
+                'status'   => 'warning',
+                'message'  => 'Command execution is disabled',
+                'solution' => 'Enable command execution in plugin settings to test remote connection automatically',
+            ];
+        }
         $testResult = shell_exec('git -C ' . escapeshellarg($repoPath) . ' ls-remote --exit-code origin 2>&1');
         if (null !== $testResult && false === strpos($testResult, 'error')) {
             return [
@@ -3294,6 +3345,9 @@ class MultiRepoAjax
         }
 
         // Check if git is available
+        if (! \WPGitManager\Admin\GitManager::are_commands_enabled()) {
+            wp_send_json_error('Command execution is disabled');
+        }
         $gitVersion = shell_exec('git --version 2>&1');
         if (! $gitVersion || false === strpos($gitVersion, 'git version')) {
             wp_send_json_error('Git is not available on the system. Please install Git first.');
@@ -3301,6 +3355,9 @@ class MultiRepoAjax
 
         // Clone the repository
         $cloneCommand = 'git clone ' . escapeshellarg($repo->remoteUrl) . ' ' . escapeshellarg($repo->path) . ' 2>&1';
+        if (! \WPGitManager\Admin\GitManager::are_commands_enabled()) {
+            wp_send_json_error('Command execution is disabled');
+        }
         $output       = shell_exec($cloneCommand);
         $exitCode     = $this->getLastExitCode();
 
