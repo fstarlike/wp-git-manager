@@ -25,7 +25,7 @@ class Settings
                     <div class="git-settings-header-content">
                         <div class="git-settings-brand">
                             <div class="git-settings-logo">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="63.495 58.089 120 120" width="50px" height="50px">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="63.495 58.089 120 120" width="65px" height="65px">
                                     <defs>
                                         <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" spreadMethod="pad">
                                         <stop offset="0" stop-color="#2563eb"></stop>
