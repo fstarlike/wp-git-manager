@@ -3,6 +3,7 @@
 namespace WPGitManager\View\Admin;
 
 use WPGitManager\Infrastructure\RTLSupport;
+use WPGitManager\Admin\GitManager;
 use WPGitManager\View\Components\AddRepository;
 use WPGitManager\View\Components\Header;
 use WPGitManager\View\Components\RepositoryDetail;
@@ -54,6 +55,23 @@ class Dashboard
         ?>
 
                 <div class="git-repo-content">
+                    <?php if (! GitManager::are_commands_enabled()) { ?>
+                    <div class="repo-manager-commands-modal-overlay" id="gm-commands-modal-overlay">
+                        <div class="repo-manager-commands-modal" role="dialog" aria-modal="true" aria-labelledby="gm-commands-modal-title">
+                            <div class="repo-manager-commands-modal-header">
+                                <h3 id="gm-commands-modal-title"><?php echo esc_html__('Command execution is disabled', 'repo-manager'); ?></h3>
+                                <button type="button" class="gm-modal-close" id="gm-commands-close-btn" aria-label="<?php echo esc_attr__('Close', 'repo-manager'); ?>">×</button>
+                            </div>
+                            <div class="repo-manager-commands-modal-body">
+                                <p><?php echo esc_html__('To use Repo Manager features (fetch, pull, push, status), you need to enable command execution. Go to Settings → Command Execution and turn it on. Only enable this on trusted servers, as it allows the plugin to run git commands on your server.', 'repo-manager'); ?></p>
+                            </div>
+                            <div class="repo-manager-commands-modal-footer">
+                                <a class="git-action-btn" id="gm-commands-open-settings" href="<?php echo esc_url(admin_url('admin.php?page=repo-manager-settings')); ?>"><?php echo esc_html__('Open Settings', 'repo-manager'); ?></a>
+                                <button type="button" class="git-action-btn git-secondary-btn" id="gm-commands-dismiss-btn"><?php echo esc_html__('Close', 'repo-manager'); ?></button>
+                            </div>
+                        </div>
+                    </div>
+                    <?php } ?>
                     <?php
             $this->welcomeScreen->render();
         $this->addRepository->render();

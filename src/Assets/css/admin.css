@@ -847,6 +847,57 @@
     margin: 0;
 }
 
+/* Commands disabled modal */
+.repo-manager-commands-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.repo-manager-commands-modal {
+    width: 560px;
+    max-width: calc(100% - 32px);
+    background: var(--gm-bg);
+    border-radius: 12px;
+    box-shadow: var(--gm-shadow-2xl, 0 25px 50px -12px rgba(0, 0, 0, 0.25));
+    border: 1px solid var(--gm-border);
+}
+.repo-manager-commands-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--gm-border);
+}
+.repo-manager-commands-modal-header h3 {
+    margin: 0;
+    font-size: var(--gm-text-xl, 18px);
+    color: var(--gm-text);
+}
+.gm-modal-close {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--gm-text);
+}
+.repo-manager-commands-modal-body {
+    padding: 16px 18px;
+    color: var(--gm-text);
+    line-height: 1.6;
+}
+.repo-manager-commands-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--gm-border);
+}
+
 .repo-manager-actions {
     display: flex;
     gap: var(--gm-space-3);

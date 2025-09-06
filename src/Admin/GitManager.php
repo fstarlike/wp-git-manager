@@ -230,6 +230,9 @@ class GitManager
                     'git_manager_repo_reclone'       => wp_create_nonce('git_manager_action'),
                 ],
                 'translations' => [
+                    'commandExecutionDisabled'           => __('Command execution is disabled.', 'repo-manager'),
+                    'enableCommandExecutionHelp'         => __('To use Repo Manager features (fetch, pull, push, status), you need to enable command execution. Go to Settings → Command Execution and turn it on. Only enable this on trusted servers, as it allows the plugin to run git commands on your server.', 'repo-manager'),
+                    'openSettings'                       => __('Open Settings', 'repo-manager'),
                     'startTroubleshooting'               => __('Start Troubleshooting', 'repo-manager'),
                     'stop'                               => __('Stop', 'repo-manager'),
                     'reset'                              => __('Reset', 'repo-manager'),

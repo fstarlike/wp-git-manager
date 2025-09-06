@@ -68,6 +68,34 @@ class GitManager {
 
             // Start lightweight polling to keep UI live on slow hosts
             this.startLiveUpdates();
+
+            // Wire commands-disabled modal controls if present
+            setTimeout(() => {
+                const overlay = document.getElementById(
+                    "gm-commands-modal-overlay"
+                );
+                const closeBtn = document.getElementById(
+                    "gm-commands-close-btn"
+                );
+                const dismissBtn = document.getElementById(
+                    "gm-commands-dismiss-btn"
+                );
+                if (overlay) {
+                    const closeModal = () => overlay.remove();
+                    if (closeBtn) closeBtn.onclick = closeModal;
+                    if (dismissBtn) dismissBtn.onclick = closeModal;
+                    overlay.addEventListener("click", (e) => {
+                        if (e.target === overlay) closeModal();
+                    });
+                    window.addEventListener(
+                        "keydown",
+                        (e) => {
+                            if (e.key === "Escape") closeModal();
+                        },
+                        { once: true }
+                    );
+                }
+            }, 50);
         } catch (error) {}
     }
 
