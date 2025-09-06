@@ -149,6 +149,12 @@ class MultiRepoAjax
             wp_send_json_error('Invalid nonce');
         }
 
+        // Cache-first for fast navigation
+        $cachedRepos = get_transient('git_manager_cache_repo_list');
+        if (false !== $cachedRepos) {
+            wp_send_json_success($cachedRepos);
+        }
+
         $active = RepositoryManager::instance()->getActiveId();
         $repos  = [];
         foreach (RepositoryManager::instance()->all() as $r) {
@@ -223,7 +229,8 @@ class MultiRepoAjax
 
             $repos[] = $arr;
         }
-
+        // Cache the list briefly for snappy navigation
+        set_transient('git_manager_cache_repo_list', $repos, 20);
         wp_send_json_success($repos);
     }
 
@@ -245,6 +252,13 @@ class MultiRepoAjax
         $repo = RepositoryManager::instance()->get($id);
         if (!$repo instanceof Repository) {
             wp_send_json_error('Repository not found');
+        }
+
+        // Cache-first
+        $cacheKey = 'git_manager_cache_repo_details_' . $id;
+        $cached   = get_transient($cacheKey);
+        if (false !== $cached) {
+            wp_send_json_success($cached);
         }
 
         // Get current branch
@@ -423,6 +437,10 @@ class MultiRepoAjax
             'isValidGit'   => true,
         ];
 
+        // Cache details for fast navigation
+        set_transient($cacheKey, $details, 20);
+        // Also refresh list cache lazily by deleting (will be rebuilt on next request)
+        delete_transient('git_manager_cache_repo_list');
         wp_send_json_success($details);
     }
 
@@ -439,6 +457,13 @@ class MultiRepoAjax
         $repo = RepositoryManager::instance()->get($id);
         if (!$repo instanceof Repository) {
             wp_send_json_error('Repository not found');
+        }
+
+        // Cache-first
+        $cacheKey = 'git_manager_cache_repo_status_' . $id;
+        $cached   = get_transient($cacheKey);
+        if (false !== $cached) {
+            wp_send_json_success($cached);
         }
 
         // Get detailed status
@@ -496,6 +521,7 @@ class MultiRepoAjax
 
         // Add repository ID to the response
         $statusInfo['repoId'] = $id;
+        set_transient($cacheKey, $statusInfo, 15);
         wp_send_json_success($statusInfo);
     }
 
@@ -540,6 +566,9 @@ class MultiRepoAjax
             wp_send_json_error('Invalid path');
         }
 
+        // Check if this is an existing repository
+        $isExistingRepo = isset($_POST['existing_repo']) && '1' === $_POST['existing_repo'];
+
         // For new repositories, ensure the parent directory exists
         if (! $isExistingRepo) {
             $parentDir = dirname($absolutePath);
@@ -548,9 +577,6 @@ class MultiRepoAjax
             }
         }
 
-        // Check if this is an existing repository
-        $isExistingRepo = isset($_POST['existing_repo']) && '1' === $_POST['existing_repo'];
-
         if ($isExistingRepo) {
             // For existing repositories, validate that it's actually a Git repository
             if (! is_dir($absolutePath . '/.git')) {
@@ -558,6 +584,10 @@ class MultiRepoAjax
             }
 
             $data['path'] = realpath($absolutePath);
+            // If name not provided for existing repo, infer from path
+            if (empty($data['name'])) {
+                $data['name'] = basename($data['path']);
+            }
         } else {
             // For new repositories, we need to clone
             $remoteUrl = $data['remoteUrl'];
@@ -1192,8 +1222,8 @@ class MultiRepoAjax
         }
 
         $map = [
-            'fetch'    => 'fetch --all',
-            'pull'     => 'pull',
+            'fetch'    => 'fetch --all --prune',
+            'pull'     => 'pull --ff-only',
             'push'     => 'push',
             'status'   => 'status --short --branch',
             'branches' => 'branch -a',
@@ -1207,7 +1237,19 @@ class MultiRepoAjax
             wp_send_json_error('Unsupported operation');
         }
 
-        $res = GitCommandRunner::run($repo->path, $cmd);
+        $opts = [];
+        if (in_array($op, ['fetch', 'pull', 'push'], true)) {
+            $opts['low_priority'] = true;
+        }
+        $res = GitCommandRunner::run($repo->path, $cmd, $opts);
+
+        // Invalidate caches for mutating ops
+        if (in_array($op, ['fetch', 'pull', 'push'], true)) {
+            delete_transient('git_manager_cache_repo_list');
+            delete_transient('git_manager_cache_repo_status_' . $id);
+            delete_transient('git_manager_cache_repo_details_' . $id);
+            delete_transient('git_manager_cache_latest_commit_' . $id);
+        }
         wp_send_json_success($res);
     }
 
@@ -1270,6 +1312,12 @@ class MultiRepoAjax
         if ($currentBranch !== $branch) {
             wp_send_json_error('Checkout failed: Could not switch to branch ' . $branch . '. Current branch is: ' . $currentBranch);
         }
+
+        // Invalidate caches so other pages (dashboard) see the new branch immediately
+        delete_transient('git_manager_cache_repo_list');
+        delete_transient('git_manager_cache_repo_status_' . $id);
+        delete_transient('git_manager_cache_repo_details_' . $id);
+        delete_transient('git_manager_cache_latest_commit_' . $id);
 
         wp_send_json_success($res);
     }
@@ -1344,7 +1392,12 @@ class MultiRepoAjax
             $branch  = trim($current['output']);
         }
 
-        $res = GitCommandRunner::run($repo->path, 'push origin ' . escapeshellarg($branch));
+        $res = GitCommandRunner::run($repo->path, 'push origin ' . escapeshellarg($branch), ['low_priority' => true]);
+        // Invalidate caches for this repo
+        delete_transient('git_manager_cache_repo_list');
+        delete_transient('git_manager_cache_repo_status_' . $id);
+        delete_transient('git_manager_cache_repo_details_' . $id);
+        delete_transient('git_manager_cache_latest_commit_' . $id);
         wp_send_json_success($res);
     }
 
@@ -1898,6 +1951,13 @@ class MultiRepoAjax
             wp_send_json_error('Repository not found');
         }
 
+        // Cache-first
+        $cacheKey = 'git_manager_cache_latest_commit_' . $repoId;
+        $cached   = get_transient($cacheKey);
+        if (false !== $cached) {
+            wp_send_json_success($cached);
+        }
+
         // Get current branch first
         $branchResult = GitCommandRunner::run($repo->path, 'rev-parse --abbrev-ref HEAD');
         if (! $branchResult['success']) {
@@ -1953,6 +2013,7 @@ class MultiRepoAjax
             $data['remote_hash'] = trim($remoteResult['output']);
         }
 
+        set_transient($cacheKey, $data, 15);
         wp_send_json_success($data);
     }
 
@@ -1986,7 +2047,12 @@ class MultiRepoAjax
             wp_send_json_error('Repository not found');
         }
 
-        $result = GitCommandRunner::run($repo->path, 'fetch');
+        $result = GitCommandRunner::run($repo->path, 'fetch --all --prune', ['low_priority' => true]);
+        // Invalidate caches for this repo
+        delete_transient('git_manager_cache_repo_list');
+        delete_transient('git_manager_cache_repo_status_' . $repoId);
+        delete_transient('git_manager_cache_repo_details_' . $repoId);
+        delete_transient('git_manager_cache_latest_commit_' . $repoId);
         if ($result['success']) {
             wp_send_json_success(['message' => 'Repository fetched successfully']);
         } else {
@@ -2024,7 +2090,12 @@ class MultiRepoAjax
             wp_send_json_error('Repository not found');
         }
 
-        $result = GitCommandRunner::run($repo->path, 'pull');
+        $result = GitCommandRunner::run($repo->path, 'pull --ff-only', ['low_priority' => true]);
+        // Invalidate caches for this repo
+        delete_transient('git_manager_cache_repo_list');
+        delete_transient('git_manager_cache_repo_status_' . $repoId);
+        delete_transient('git_manager_cache_repo_details_' . $repoId);
+        delete_transient('git_manager_cache_latest_commit_' . $repoId);
         if ($result['success']) {
             wp_send_json_success(['message' => 'Repository pulled successfully']);
         } else {
@@ -2071,6 +2142,13 @@ class MultiRepoAjax
         // Check if .git directory exists
         if (! is_dir($repo->path . '/.git')) {
             wp_send_json_error('Not a valid Git repository: .git directory not found');
+        }
+
+        // Ensure we have the latest remote state (throttled)
+        $throttleKey = 'git_manager_last_fetch_' . $repoId;
+        if (false === get_transient($throttleKey)) {
+            GitCommandRunner::run($repo->path, 'fetch --all --prune', ['low_priority' => true]);
+            set_transient($throttleKey, time(), 60);
         }
 
         // Get branch information
@@ -2247,7 +2325,7 @@ class MultiRepoAjax
         }
 
         // 2. Fetch first to ensure we have the latest remote branches
-        GitCommandRunner::run($repo->path, 'fetch origin');
+        GitCommandRunner::run($repo->path, 'fetch origin', ['low_priority' => true]);
 
         // 3. Attempt to checkout the branch. Git will handle creating a local tracking branch if it exists on the remote.
         $res = GitCommandRunner::run($repo->path, 'checkout ' . escapeshellarg($branch));
@@ -2257,6 +2335,12 @@ class MultiRepoAjax
             $error = 'Failed to checkout ' . esc_html($branch) . '. Git reported: ' . esc_html($res['output'] ?: 'Unknown error');
             wp_send_json_error($error);
         }
+
+        // Invalidate caches for this repo after checkout
+        delete_transient('git_manager_cache_repo_list');
+        delete_transient('git_manager_cache_repo_status_' . $id);
+        delete_transient('git_manager_cache_repo_details_' . $id);
+        delete_transient('git_manager_cache_latest_commit_' . $id);
 
         wp_send_json_success($res);
     }

@@ -90,6 +90,7 @@ function git_manager_enqueue_global_checker($hook)
             wp_localize_script('repo-manager-floating-widget', 'WPGitManagerGlobal', [
                 'beepUrl'       => GIT_MANAGER_URL . 'src/Assets/audio/beep.mp3',
                 'ajaxurl'       => admin_url('admin-ajax.php'),
+                'nonce'         => wp_create_nonce('git_manager_action'),
                 'action_nonces' => [
                     'git_manager_latest_commit'     => wp_create_nonce('git_manager_latest_commit'),
                     'git_manager_fetch'             => wp_create_nonce('git_manager_fetch'),

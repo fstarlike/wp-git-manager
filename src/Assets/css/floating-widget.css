@@ -147,11 +147,15 @@
     position: absolute;
     bottom: 72px;
     right: 0;
-    width: 360px;
-    background: var(--gm-bg);
-    border-radius: var(--repo-manager-radius-lg);
-    box-shadow: var(--repo-manager-shadow-xl);
-    border: 1px solid var(--gm-border);
+    width: 420px;
+    background: linear-gradient(
+        180deg,
+        var(--gm-bg) 0%,
+        var(--gm-bg-secondary) 100%
+    );
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.16);
+    border: 1px solid rgba(148, 163, 184, 0.25);
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px) scale(0.95);
@@ -172,7 +176,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 24px;
+    padding: 18px 22px;
     background: linear-gradient(
         135deg,
         var(--repo-manager-primary) 0%,
@@ -233,12 +237,12 @@
 
 /* Panel Content */
 .repo-manager-panel-content {
-    padding: 20px 22px;
-    max-height: 460px;
+    padding: 18px 20px;
+    max-height: 520px;
     overflow-y: auto;
     background: var(--gm-bg);
     /* Subtle separator effect without heavy borders */
-    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.03);
+    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.04);
     scrollbar-width: thin;
 }
 
@@ -312,14 +316,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 16px;
-    padding: 16px;
-    background: var(--gm-bg-secondary);
-    border-radius: var(--repo-manager-radius);
-    border: 1px solid var(--gm-border);
+    margin-bottom: 14px;
+    padding: 14px;
+    background: rgba(148, 163, 184, 0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
     position: relative;
     overflow: hidden;
-    box-shadow: var(--repo-manager-shadow-sm);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .repo-manager-branch-header::before {
@@ -441,6 +445,40 @@
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
+}
+
+/* Branch switcher */
+.repo-manager-branch-switcher {
+    margin-top: 14px;
+}
+.repo-manager-branch-switcher-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+}
+
+/* Branch select refined */
+#repo-manager-branch-select {
+    background: var(--repo-manager-white);
+    border: 1.5px solid var(--repo-manager-gray-200);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--repo-manager-gray-900);
+    box-shadow: var(--repo-manager-shadow-sm);
+}
+#repo-manager-branch-select:focus {
+    outline: none;
+    border-color: var(--repo-manager-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+#repo-manager-branch-checkout-btn {
+    background: var(--repo-manager-primary);
+    color: #fff;
+}
+#repo-manager-branch-checkout-btn:hover {
+    background: var(--repo-manager-primary-hover);
 }
 
 .repo-manager-action-fetch {

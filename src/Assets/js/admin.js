@@ -31,6 +31,9 @@ class GitManager {
         this.currentRepo = null;
         this.detailsRequestSeq = 0;
         this.detailsAbortController = null;
+        this._repoListPoller = null;
+        this._repoDetailsPoller = null;
+        this._lastRepoListSignature = null;
         this.modals = new Map();
         this.notifications = [];
         this.directorySelectorTarget = "#add-repo-path";
@@ -62,6 +65,9 @@ class GitManager {
             setInterval(() => {
                 this.ensureButtonFunctionality();
             }, 5000); // Check every 5 seconds
+
+            // Start lightweight polling to keep UI live on slow hosts
+            this.startLiveUpdates();
         } catch (error) {}
     }
 
@@ -1061,7 +1067,7 @@ class GitManager {
             <div class="git-modal-content git-modal-large">
                 <div class="git-modal-header">
                     <h3><span class="dashicons dashicons-lock"></span> Personal Access Token Guide</h3>
-                    <button class="git-modal-close" onclick="GitManager.closeTokenHelp()">x</button>
+                    <button class="git-modal-close" onclick="closeTokenHelp()">x</button>
                 </div>
                 <div class="git-modal-body">
                     <div class="help-content">
@@ -1094,12 +1100,28 @@ class GitManager {
                     </div>
                 </div>
                 <div class="git-modal-footer">
-                    <button class="git-action-btn git-secondary-btn" onclick="GitManager.closeTokenHelp()">Close</button>
+                    <button class="git-action-btn git-secondary-btn" onclick="closeTokenHelp()">Close</button>
                 </div>
             </div>
         `;
 
         document.body.appendChild(modal);
+
+        // Click on overlay to close
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                this.closeTokenHelp();
+            }
+        });
+
+        // ESC to close
+        const escHandler = (e) => {
+            if (e.key === "Escape") {
+                this.closeTokenHelp();
+                window.removeEventListener("keydown", escHandler);
+            }
+        };
+        window.addEventListener("keydown", escHandler);
     }
 
     /**
@@ -1169,18 +1191,51 @@ class GitManager {
         if (existingRepoCheckbox) {
             existingRepoCheckbox.addEventListener("change", (e) => {
                 if (e.target.checked) {
-                    // Make URL field optional for existing repositories
+                    // Convert URL field into Name field and make it required
+                    const urlLabel = document.querySelector(
+                        'label[for="add-repo-url"]'
+                    );
+                    if (urlLabel)
+                        urlLabel.textContent =
+                            WPGitManagerGlobal?.translations?.repositoryName ||
+                            "Repository Name";
                     if (urlInput) {
-                        urlInput.removeAttribute("required");
-                        urlInput.placeholder =
-                            "Optional for existing repositories";
+                        urlInput.value = "";
+                        urlInput.setAttribute("required", "required");
+                        urlInput.placeholder = "my-repository-name";
+                    }
+                    // Update description/help under the field
+                    const urlHelp = document
+                        .querySelector("#add-repo-url")
+                        ?.parentElement?.querySelector(".form-help");
+                    if (urlHelp) {
+                        urlHelp.textContent =
+                            WPGitManagerGlobal?.translations
+                                ?.displayNameForRepository ||
+                            "Enter a display name for this repository";
                     }
                 } else {
                     // Make URL field required for new repositories
                     if (urlInput) {
+                        const urlLabel = document.querySelector(
+                            'label[for="add-repo-url"]'
+                        );
+                        if (urlLabel)
+                            urlLabel.textContent =
+                                WPGitManagerGlobal?.translations
+                                    ?.repositoryURL || "Repository URL";
                         urlInput.setAttribute("required", "required");
                         urlInput.placeholder =
                             "https://github.com/user/repo.git";
+                    }
+                    const urlHelp = document
+                        .querySelector("#add-repo-url")
+                        ?.parentElement?.querySelector(".form-help");
+                    if (urlHelp) {
+                        urlHelp.textContent =
+                            WPGitManagerGlobal?.translations
+                                ?.enterGitRepositoryURL ||
+                            "Enter the Git repository URL (HTTPS or SSH) - fields will auto-populate";
                     }
                 }
             });
@@ -1729,8 +1784,42 @@ class GitManager {
         submitBtn.disabled = true;
 
         try {
+            // If existing repo and user has not entered Name/Branch before choosing path,
+            // auto-fill them from the selected repo path
+            if (data.existing_repo === "on") {
+                const urlInput = document.getElementById("add-repo-url");
+                const branchInput = document.getElementById("add-repo-branch");
+                const pathInput = document.getElementById("add-repo-path");
+                const repoPathVal = (pathInput?.value || "").trim();
+                if (repoPathVal) {
+                    const inferredName =
+                        repoPathVal
+                            .split(/[\\\/]/)
+                            .filter(Boolean)
+                            .pop() || "";
+                    if (
+                        urlInput &&
+                        (!urlInput.value || !urlInput.value.trim())
+                    ) {
+                        urlInput.value = inferredName;
+                    }
+                    if (
+                        branchInput &&
+                        (!branchInput.value || !branchInput.value.trim())
+                    ) {
+                        branchInput.value = "main";
+                    }
+                }
+            }
             // Auto-convert SSH URL to HTTPS if HTTPS credentials are provided
             let repoUrl = data.repo_url;
+            const isExisting = data.existing_repo === "on";
+            let repoName = "";
+            if (isExisting) {
+                // When existing repo, the field holds the Name (required)
+                repoName = (data.repo_url || "").trim();
+                repoUrl = ""; // server will ignore url for existing
+            }
             if (
                 data.repo_url &&
                 data.repo_url.startsWith("git@") &&
@@ -1754,6 +1843,9 @@ class GitManager {
                 repo_branch: data.repo_branch || "",
                 existing_repo: data.existing_repo === "on" ? "1" : "0",
             };
+            if (isExisting) {
+                ajaxData.name = repoName;
+            }
 
             // Handle authentication for private repositories
             const isPrivateRepo = data.private_repo === "on";
@@ -2020,24 +2112,33 @@ class GitManager {
      * Repository Management
      */
     async loadRepositories() {
-        // Show repo list skeleton before starting fetch
-        if (typeof gitManagerSkeleton !== "undefined") {
-            gitManagerSkeleton.showRepoSkeleton();
-        }
-
+        // Using change-detection signature to avoid unnecessary DOM work
         try {
             const repos = await this.fetchRepositories();
+
+            const newSig = this._computeRepoListSignature(repos);
+            if (
+                this._lastRepoListSignature &&
+                newSig === this._lastRepoListSignature
+            ) {
+                // No changes → skip re-render and skeletons
+                return;
+            }
+
+            // Changes detected → show skeleton briefly then render
+            if (typeof gitManagerSkeleton !== "undefined") {
+                gitManagerSkeleton.showRepoSkeleton();
+            }
             this.renderRepositories(repos);
+            if (typeof gitManagerSkeleton !== "undefined") {
+                gitManagerSkeleton.hideRepoSkeleton();
+            }
+            this._lastRepoListSignature = newSig;
         } catch (error) {
             this.showNotification(
                 WPGitManagerGlobal.translations.failedToLoadRepositories,
                 "error"
             );
-        } finally {
-            // Always hide skeleton after we attempted to load
-            if (typeof gitManagerSkeleton !== "undefined") {
-                gitManagerSkeleton.hideRepoSkeleton();
-            }
         }
     }
 
@@ -2114,12 +2215,84 @@ class GitManager {
             return;
         }
 
-        repoList.innerHTML = repos
-            .map((repo) => this.createRepoCardHTML(repo))
-            .join("");
+        // If structure is same size and order by id, try incremental DOM update to reduce flicker
+        const existingCards = Array.from(
+            repoList.querySelectorAll(".git-repo-card")
+        );
+        const sameCount = existingCards.length === repos.length;
+        const sameOrder =
+            sameCount &&
+            existingCards.every(
+                (el, i) =>
+                    el.getAttribute("data-repo-id") == String(repos[i].id)
+            );
+
+        if (!sameOrder) {
+            repoList.innerHTML = repos
+                .map((repo) => this.createRepoCardHTML(repo))
+                .join("");
+        } else {
+            // Update only changed fields
+            repos.forEach((repo, i) =>
+                this.updateRepoCard(existingCards[i], repo)
+            );
+        }
 
         // Ensure buttons are functional after rendering
         this.ensureButtonFunctionality();
+    }
+
+    updateRepoCard(card, repo) {
+        if (!card) return;
+        // Name
+        const nameEl = card.querySelector(".git-repo-name");
+        if (nameEl && nameEl.textContent !== String(repo.name ?? "")) {
+            nameEl.textContent = String(repo.name ?? "");
+        }
+        // Path
+        const pathEl = card.querySelector(".git-repo-path");
+        if (pathEl && pathEl.textContent !== String(repo.path ?? "")) {
+            pathEl.textContent = String(repo.path ?? "");
+        }
+        // Branch
+        const branchEl = card.querySelector(".git-repo-branch");
+        if (
+            branchEl &&
+            branchEl.textContent !== String(repo.activeBranch ?? "")
+        ) {
+            branchEl.textContent = String(repo.activeBranch ?? "");
+        }
+        // Status class
+        const statusEl = card.querySelector(".repo-status");
+        if (statusEl) {
+            let statusClass = "clean";
+            const aheadCount = parseInt(repo.ahead ?? 0, 10) || 0;
+            const behindCount = parseInt(repo.behind ?? 0, 10) || 0;
+            if (repo.hasChanges) statusClass = "changes";
+            else if (aheadCount > 0 && behindCount > 0)
+                statusClass = "diverged";
+            else if (aheadCount > 0) statusClass = "ahead";
+            else if (behindCount > 0) statusClass = "behind";
+            const desired = `repo-status ${statusClass}`;
+            if (statusEl.className !== desired) {
+                statusEl.className = desired;
+                statusEl.setAttribute("data-repo-status", statusClass);
+                const dot = statusEl.querySelector(".status-dot");
+                if (!dot)
+                    statusEl.innerHTML = '<span class="status-dot"></span>';
+            }
+        }
+        // Badges
+        const pullBadge = card.querySelector(".pull-badge");
+        if (pullBadge) {
+            const val = String(repo.behind || 0);
+            if (pullBadge.textContent !== val) pullBadge.textContent = val;
+        }
+        const pushBadge = card.querySelector(".push-badge");
+        if (pushBadge) {
+            const val = String(repo.ahead || 0);
+            if (pushBadge.textContent !== val) pushBadge.textContent = val;
+        }
     }
 
     createRepoCardHTML(repo) {
@@ -2365,6 +2538,8 @@ class GitManager {
             detailsScreen.classList.add("active");
 
             this.loadRepositoryDetails(repoId);
+            // Reset signature so next list comparison includes active flag changes
+            this._lastRepoListSignature = null;
         } else {
         }
     }
@@ -2470,6 +2645,84 @@ class GitManager {
                     this.hideLoadingState();
                 }
             });
+    }
+
+    startLiveUpdates() {
+        // Refresh repository list every 20s
+        if (!this._repoListPoller) {
+            this._repoListPoller = setInterval(() => {
+                // Use silent refresh to avoid flicker when no changes
+                this.refreshRepositoriesSilently();
+            }, 20000);
+        }
+
+        // Refresh active repository details every 10s
+        if (!this._repoDetailsPoller) {
+            this._repoDetailsPoller = setInterval(() => {
+                if (this.currentRepo) {
+                    this.loadRepositoryDetails(this.currentRepo);
+                }
+            }, 10000);
+        }
+
+        // Update live badge
+        const badge = document.getElementById("git-live-badge");
+        if (badge) {
+            badge.classList.add("is-live");
+        }
+
+        // Cross-tab branch change sync from floating widget
+        window.addEventListener("storage", (e) => {
+            if (e && e.key === "git_manager_last_checkout") {
+                // Force full refresh to reflect new branch
+                this._lastRepoListSignature = null;
+                this.loadRepositories();
+                if (this.currentRepo) {
+                    this.loadRepositoryDetails(this.currentRepo);
+                }
+            }
+        });
+    }
+
+    async refreshRepositoriesSilently() {
+        try {
+            const repos = await this.fetchRepositories();
+            const newSig = this._computeRepoListSignature(repos);
+            if (
+                this._lastRepoListSignature &&
+                newSig === this._lastRepoListSignature
+            ) {
+                return; // no changes
+            }
+            // minimal update without forcing skeletons
+            this.renderRepositories(repos);
+            this._lastRepoListSignature = newSig;
+        } catch (e) {
+            // silent
+        }
+    }
+
+    _computeRepoListSignature(repos) {
+        try {
+            const projection = (r) => ({
+                id: String(r.id ?? ""),
+                name: r.name ?? "",
+                path: r.path ?? "",
+                activeBranch: r.activeBranch ?? "",
+                hasChanges: !!r.hasChanges,
+                ahead: Number(r.ahead ?? 0) || 0,
+                behind: Number(r.behind ?? 0) || 0,
+                folderExists: !!r.folderExists,
+                repoType: r.repoType ?? "",
+                active: !!r.active,
+            });
+            const compact = repos
+                .map(projection)
+                .sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+            return JSON.stringify(compact);
+        } catch (e) {
+            return "";
+        }
     }
 
     populateRepositoryDetails(repo) {
@@ -2631,7 +2884,9 @@ class GitManager {
                     `${operation} completed successfully`,
                     "success"
                 );
+                // Refresh both active details and list
                 this.loadRepositoryDetails(repoId);
+                this.loadRepositories();
             } else {
                 this.showNotification(`Error during ${operation}`, "error");
             }
@@ -2734,6 +2989,7 @@ class GitManager {
         if (modal) {
             modal.remove();
         }
+        // keep live state unchanged
     }
 
     /**
@@ -2838,6 +3094,12 @@ class GitManager {
                 } catch (e2) {}
             }
             this._progressToast = null;
+        }
+
+        // Mark UI as not live when no pollers are active
+        const badge = document.getElementById("git-live-badge");
+        if (badge && !this._repoListPoller && !this._repoDetailsPoller) {
+            badge.classList.remove("is-live");
         }
     }
 
@@ -3700,6 +3962,9 @@ class GitManager {
                 );
                 this.loadRepositories();
                 this.checkStatus(repoId);
+                if (this.currentRepo === repoId) {
+                    this.loadRepositoryDetails(repoId);
+                }
             } else {
                 throw new Error(result.data || "Failed to pull changes");
             }
@@ -3742,6 +4007,9 @@ class GitManager {
                 );
                 this.loadRepositories();
                 this.checkStatus(repoId);
+                if (this.currentRepo === repoId) {
+                    this.loadRepositoryDetails(repoId);
+                }
             } else {
                 throw new Error(result.data || "Failed to push changes");
             }
@@ -3785,6 +4053,9 @@ class GitManager {
                 );
                 this.loadRepositories();
                 this.checkStatus(repoId);
+                if (this.currentRepo === repoId) {
+                    this.loadRepositoryDetails(repoId);
+                }
             } else {
                 throw new Error(result.data || "Failed to fetch updates");
             }
@@ -3826,6 +4097,9 @@ class GitManager {
                     "success"
                 );
                 this.loadRepositories();
+                if (this.currentRepo === repoId) {
+                    this.loadRepositoryDetails(repoId);
+                }
             } else {
                 throw new Error(result.data || "Failed to check status");
             }

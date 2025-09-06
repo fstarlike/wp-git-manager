@@ -92,14 +92,12 @@
 .git-settings-logo {
     width: 48px;
     height: 48px;
-    background: rgba(255, 255, 255, 0.15);
     border-radius: var(--gm-radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .git-settings-title h1 {
@@ -785,6 +783,7 @@
     display: flex;
     align-items: center;
     gap: var(--gm-space-4);
+    position: relative;
 }
 
 .repo-manager-logo-icon {
@@ -808,6 +807,23 @@
 .repo-manager-logo-icon svg {
     width: 24px;
     height: 24px;
+}
+
+/* Live badge next to logo */
+.repo-manager-header .repo-live-badge {
+    display: inline-flex;
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    margin-left: 6px;
+    background: #9ca3af; /* gray default */
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+    position: absolute;
+    top: 1px;
+    left: 33px;
+}
+.repo-manager-header .repo-live-badge.is-live {
+    background: #10b981; /* emerald green */
 }
 
 .repo-manager-title h1 {
@@ -7275,6 +7291,7 @@ input#new-search-enhanced {
     margin-bottom: var(--gm-space-6);
     padding-bottom: var(--gm-space-4);
     border-bottom: 1px solid var(--gm-border-light);
+    color: var(--gm-text);
 }
 
 .help-section:last-child {
@@ -7703,7 +7720,6 @@ span#repo-name {
 .git-settings-logo {
     height: 40px;
     width: auto;
-    filter: brightness(0) invert(1);
 }
 
 .git-settings-title-group {
@@ -8245,51 +8261,6 @@ span#repo-name {
 
 [dir="rtl"] .git-settings-note {
     flex-direction: row-reverse;
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-    .git-settings-container {
-        background: var(--gm-gray-900);
-    }
-
-    .git-settings-content {
-        background: var(--gm-gray-800);
-        border-color: var(--gm-gray-700);
-    }
-
-    .git-settings-section {
-        background: var(--gm-gray-800);
-        border-color: var(--gm-gray-700);
-    }
-
-    .git-settings-checkbox {
-        background: var(--gm-gray-700);
-        border-color: var(--gm-gray-600);
-    }
-
-    .git-settings-checkbox:hover {
-        background: var(--gm-gray-600);
-        border-color: var(--gm-gray-500);
-    }
-
-    .git-settings-select {
-        background: var(--gm-gray-700);
-        border-color: var(--gm-gray-600);
-        color: var(--gm-gray-100);
-    }
-
-    .git-settings-input {
-        background: var(--gm-gray-700);
-        border-color: var(--gm-gray-600);
-        color: var(--gm-gray-100);
-    }
-
-    .git-settings-note {
-        background: var(--gm-gray-700);
-        border-color: var(--gm-gray-600);
-        color: var(--gm-gray-300);
-    }
 }
 
 /* Enhanced Troubleshooting Container */

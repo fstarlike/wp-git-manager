@@ -57,10 +57,17 @@ class GitCommandRunner
             }
         }
 
+        // Allow caller to request lower priority execution on slow hosts
+        // On *nix, we can use nice; on Windows, we keep synchronous execution to capture output
+        $nicePrefix = '';
+        if (! empty($opts['low_priority']) && 'WIN' !== strtoupper(substr(PHP_OS, 0, 3))) {
+            $nicePrefix = 'nice -n 10 ';
+        }
+
         if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
-            $cmd = 'set "HOME=' . $homeClean . '" && ' . $envPrefix . 'git -C "' . $pathClean . '" ' . $gitArgs . ' 2>&1';
+            $cmd = 'set "HOME=' . $homeClean . '" && ' . $envPrefix . $nicePrefix . 'git -C "' . $pathClean . '" ' . $gitArgs . ' 2>&1';
         } else {
-            $cmd = $envPrefix . 'HOME=' . escapeshellarg($home) . ' git -C ' . escapeshellarg($repoPath) . ' ' . $gitArgs . ' 2>&1';
+            $cmd = $envPrefix . 'HOME=' . escapeshellarg($home) . ' ' . $nicePrefix . 'git -C ' . escapeshellarg($repoPath) . ' ' . $gitArgs . ' 2>&1';
         }
 
         $out = shell_exec($cmd);

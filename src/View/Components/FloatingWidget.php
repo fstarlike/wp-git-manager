@@ -118,6 +118,22 @@ class FloatingWidget
                             </button>
                         </div>
 
+                        <!-- Branch Switcher -->
+                        <div class="repo-manager-branch-switcher">
+                            <label class="repo-manager-label" for="repo-manager-branch-select">
+                                <?php esc_html_e('Switch Branch', 'repo-manager'); ?>
+                            </label>
+                            <div class="repo-manager-branch-switcher-row">
+                                <select id="repo-manager-branch-select" class="repo-manager-select">
+                                    <option value=""><?php esc_html_e('Select Branch', 'repo-manager'); ?></option>
+                                </select>
+                                <button class="repo-manager-action-btn" id="repo-manager-branch-checkout-btn" title="<?php esc_attr_e('Checkout selected branch', 'repo-manager'); ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v18"/><path d="M13 8l-4-5-4 5"/><path d="M5 21h8"/></svg>
+                                    <span><?php esc_html_e('Checkout', 'repo-manager'); ?></span>
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- Dashboard Button -->
                         <div class="repo-manager-dashboard-section">
                             <a href="<?php echo esc_url(admin_url('admin.php?page=repo-manager')); ?>" class="repo-manager-dashboard-btn" title="<?php esc_attr_e('Open Repo Manager dashboard', 'repo-manager'); ?>">

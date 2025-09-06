@@ -13,6 +13,7 @@ class Header
             <div class="repo-manager-header-content">
                 <div class="repo-manager-logo">
                     <?php $this->renderLogo(); ?>
+                    <span class="repo-live-badge" id="git-live-badge" title="Live status"></span>
                     <div class="repo-manager-title">
                         <h1><?php echo esc_html__('Repo Manager for Git', 'repo-manager'); ?></h1>
                         <p><?php echo esc_html__('Professional Git repository management', 'repo-manager'); ?></p>

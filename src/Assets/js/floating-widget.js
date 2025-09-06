@@ -80,6 +80,12 @@
             const fetchBtn = document.getElementById("repo-manager-fetch-btn");
             const pullBtn = document.getElementById("repo-manager-pull-btn");
             const pushBtn = document.getElementById("repo-manager-push-btn");
+            const branchSelect = document.getElementById(
+                "repo-manager-branch-select"
+            );
+            const checkoutBtn = document.getElementById(
+                "repo-manager-branch-checkout-btn"
+            );
 
             if (fetchBtn) {
                 fetchBtn.addEventListener("click", () =>
@@ -93,6 +99,12 @@
 
             if (pushBtn) {
                 pushBtn.addEventListener("click", () => this.pushRepository());
+            }
+
+            if (checkoutBtn) {
+                checkoutBtn.addEventListener("click", () =>
+                    this.checkoutSelectedBranch()
+                );
             }
 
             // Close notification on click
@@ -296,16 +308,24 @@
             try {
                 this.showLoading();
 
-                // Get current branch
+                // Get branches and active branch
                 const branchResponse = await this.makeAjaxRequest(
                     "git_manager_get_branches",
-                    {
-                        id: repoId,
-                    }
+                    { id: repoId }
                 );
-
                 if (branchResponse.success && branchResponse.data) {
-                    this.currentBranch = branchResponse.data.activeBranch;
+                    const { branches = [], activeBranch = "" } =
+                        branchResponse.data;
+                    // Fallbacks if API returned empty arrays
+                    const normalizedBranches = Array.isArray(branches)
+                        ? branches.filter(Boolean)
+                        : [];
+                    this.currentBranch =
+                        activeBranch || normalizedBranches[0] || "";
+                    this.populateBranchDropdown(
+                        normalizedBranches,
+                        this.currentBranch
+                    );
                     this.updateBranchInfo();
                 }
 
@@ -314,6 +334,72 @@
             } catch (error) {
                 this.showError(
                     __("Failed to load repository information", "repo-manager")
+                );
+            } finally {
+                this.hideLoading();
+            }
+        }
+
+        populateBranchDropdown(branches, activeBranch) {
+            const select = document.getElementById(
+                "repo-manager-branch-select"
+            );
+            if (!select) return;
+            // reset options except placeholder
+            while (select.children.length > 1) {
+                select.removeChild(select.lastChild);
+            }
+            branches.forEach((b) => {
+                const opt = document.createElement("option");
+                opt.value = b;
+                opt.textContent = b;
+                if (b === activeBranch) opt.selected = true;
+                select.appendChild(opt);
+            });
+            // If nothing selected yet, and we have branches, select first
+            if (!select.value && branches.length > 0) {
+                select.value = branches[0];
+            }
+        }
+
+        async checkoutSelectedBranch() {
+            if (!this.currentRepo) return;
+            const select = document.getElementById(
+                "repo-manager-branch-select"
+            );
+            if (!select || !select.value) return;
+            const branch = select.value;
+            try {
+                this.showLoading();
+                const res = await this.makeAjaxRequest("git_manager_checkout", {
+                    id: this.currentRepo.id,
+                    branch,
+                });
+                if (res.success) {
+                    this.currentBranch = branch;
+                    this.updateBranchInfo();
+                    await this.updateRepositoryStatus();
+                    this.showSuccess(
+                        `${this.currentRepo.name || ""}: ${__(
+                            "Switched to",
+                            "repo-manager"
+                        )} ${branch}`
+                    );
+                    // Notify other tabs (dashboard) to refresh
+                    try {
+                        localStorage.setItem(
+                            "git_manager_last_checkout",
+                            String(Date.now())
+                        );
+                    } catch (e) {}
+                } else {
+                    this.showError(
+                        res.data || __("Checkout failed", "repo-manager")
+                    );
+                }
+            } catch (e) {
+                this.showError(
+                    e?.message || __("Checkout error", "repo-manager")
                 );
             } finally {
                 this.hideLoading();

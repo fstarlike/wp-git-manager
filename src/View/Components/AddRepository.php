@@ -28,9 +28,9 @@ class AddRepository
 
             <div class="add-repo-content">
                 <form id="add-repo-form" class="git-add-repo-form">
+                    <?php $this->renderRepositoryTypeSection(); ?>
                     <?php $this->renderRepositoryInfoSection(); ?>
                     <?php $this->renderAuthenticationSection(); ?>
-                    <?php $this->renderRepositoryTypeSection(); ?>
                     <?php $this->renderFormActions(); ?>
                 </form>
             </div>
@@ -43,20 +43,6 @@ class AddRepository
         ?>
         <div class="form-section">
             <h3><?php echo esc_html__('Repository Information', 'repo-manager'); ?></h3>
-
-            <div class="form-group">
-                <label for="add-repo-url"><?php echo esc_html__('Repository URL', 'repo-manager'); ?></label>
-                <input
-                    type="text"
-                    id="add-repo-url"
-                    name="repo_url"
-                    class="form-control"
-                    placeholder="<?php echo esc_attr__('https://github.com/user/repo.git', 'repo-manager'); ?>"
-                    required
-                    autocomplete="off"
-                >
-                <div class="form-help"><?php echo esc_html__('Enter the Git repository URL (HTTPS or SSH) - fields will auto-populate', 'repo-manager'); ?></div>
-            </div>
 
             <div class="form-group">
                 <label for="add-repo-path"><?php echo esc_html__('Local Path', 'repo-manager'); ?></label>
@@ -77,6 +63,20 @@ class AddRepository
                     </button>
                 </div>
                 <div class="form-help"><?php echo esc_html__('Select the parent directory where the repository will be cloned', 'repo-manager'); ?></div>
+            </div>
+
+            <div class="form-group">
+                <label for="add-repo-url"><?php echo esc_html__('Repository URL', 'repo-manager'); ?></label>
+                <input
+                    type="text"
+                    id="add-repo-url"
+                    name="repo_url"
+                    class="form-control"
+                    placeholder="<?php echo esc_attr__('https://github.com/user/repo.git', 'repo-manager'); ?>"
+                    required
+                    autocomplete="off"
+                >
+                <div class="form-help"><?php echo esc_html__('Enter the Git repository URL (HTTPS or SSH) - fields will auto-populate', 'repo-manager'); ?></div>
             </div>
 
             <div class="form-group">
@@ -294,11 +294,7 @@ class AddRepository
         ?>
         <div class="form-actions">
             <button type="button" class="git-action-btn git-secondary-btn" id="cancel-add-repo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m2 2 20 20"/>
-                    <path d="M8.35 2.69A10 10 0 0 1 21.3 15.65"/>
-                    <path d="M19.08 19.08A10 10 0 1 1 4.92 4.92"/>
-                </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                 <?php echo esc_html__('Cancel', 'repo-manager'); ?>
             </button>
             <button type="submit" class="git-action-btn" id="submit-add-repo">
